@@ -1,0 +1,23 @@
+{
+  "name": "llatan",
+  "version": "1.0.0",
+  "description": "Plataforma para la Gestion de Staff en Campamento.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "Start": "node app"
+  },
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "cors": "*",
+    "express": "*",
+    "jsonwebtoken": "*",
+    "mysql": "*",
+    "mysql2": "^1.5.1",
+    "passport": "*",
+    "passport-jwt": "*"
+  },
+  "author": "Santiago Lossada",
+  "license": "ISC"
+}
