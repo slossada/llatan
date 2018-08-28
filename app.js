@@ -4,9 +4,15 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
 const mysql = require('mysql');
+const connection = require('./config/database');
 
+// Sync changes in models
+connection.sync({ logging: false });
+
+// Create App
 const app = express();
 
+// Routes
 const users = require('./routes/users');
 
 // Port Number
@@ -20,6 +26,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Body Parser Middleware
 app.use(bodyParser.json());
+
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/users', users);
 
