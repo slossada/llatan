@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { Router } from '@angular/router';
+
+// HTTP Requests
+import { Http, Headers } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +22,9 @@ export class RegisterComponent implements OnInit {
   password: String;
 
   constructor(
-    private flashMessage: FlashMessagesService
+    private flashMessage: FlashMessagesService,
+    private http: Http,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -46,6 +53,22 @@ export class RegisterComponent implements OnInit {
       this.flashMessage.show('Por favor ingrese una dirección de correo válida.', { cssClass: 'alert-danger', timeout: 5000 });
       return false;
     }
+
+    // Register User
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    this.http.post('http://localhost:3000/users/register', user, { headers: headers })
+      .map(res => res.json())
+      .subscribe(data => {
+        if (data.success) {
+          this.flashMessage.show('Usted fue registrado exitosamente.', { cssClass: 'alert-success', timeout: 3000 });
+          this.router.navigate(['/login']);
+        } else {
+          this.flashMessage.show('Se produjo un error en su registro.', { cssClass: 'alert-danger', timeout: 3000 });
+          this.router.navigate(['/register']);
+        }
+      });
+
   }
 
 }

@@ -33,7 +33,14 @@ controller.registrar = function (data, callback) {
             newUser.Password = hash;
 
             // Persiste el objeto usuario con todos sus datos
-            newUser.save(callback);
+            newUser.save()
+                .then(callback)
+
+                // Imprime el error si se produjo alguno al agregar el usuario
+                .catch(err => {
+                    console.log('An error ocurred while running the addUser() method: ', err);
+                    callback(null, err);
+                });
         });
     });
 }

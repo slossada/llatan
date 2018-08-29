@@ -11,7 +11,6 @@ const con_User = require('../controllers/user');
 
 // Registra al usuario
 router.post('/register', (req, res, next) => {
-    console.log('1');
     con_User.registrar(req.body, (user, err) => {
         if (err)
             res.json({success: false, msg: 'Failed to register user'});
