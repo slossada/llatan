@@ -49,6 +49,17 @@ controller.getUserById = async function (id, callback) {
     }
 }
 
+// Metodo utilizado en el login para obtener los datos del usuario
+controller.getUserByUsername = async function (username, callback) {
+    try {
+        let user = await Usuario.findOne({ where: { username }});
+        callback(user.dataValues, null);
+    } catch (err) {
+        console.log('Se produjo un error en el login: ', err);
+        callback(null, err);
+    }
+}
+
 // Genera la clave a partir del hash y la compara con la clave ingresada
 controller.comparePassword = function (candidatePassword, hash, callback) {
     bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
