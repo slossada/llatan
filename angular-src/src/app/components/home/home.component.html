@@ -1,3 +1,55 @@
-<p>
-  home works!
-</p>
+<!-- Main -->
+
+<!-- Parallax de Intro-->
+<div class="parallax mx-0 bg-intro d-flex flex-column justify-content-center">
+  <p class="display-4 text-light text-center mx-4 mb-4 pb-4">¡Bienvenido a La Llanada!</p>
+  <div class="card wrapper-intro text-center text-dark mx-auto p-0">
+    <div class="card-header">
+      <h4 class="pt-2">Unete al Staff Llanada!</h4>
+    </div>
+    <div class="card-body d-flex flex-column align-items-center">
+      <p class="lead">Si tienes más de 16 años y ganas de gozar puedes aplicar.</p>
+      <a [routerLink]="['/register']" class="btn btn-primary">Aplica Ya!</a>
+      <a [routerLink]="['/login']" class="btn btn-link btn-sm mt-1">¿Ya eres parte del Staff? Ingresa Aquí</a>
+    </div>
+  </div>
+</div>
+
+<!-- Divisor -->
+<div class="container-fluid">
+    <div class="row">
+      <div class="col h-100 my-5 py-5 p-4 p-lg-5 mx-lg-5">
+        <p class="h3 text-center mx-3">¡Plataforma del Staff La Llanada!</p>
+        <p class="lead text-center mt-3">
+          Nuestro campamento se especializa por tener un Staff unido. No te enteres por terceros se el primero en enterarte de los Eventos y Noticias.
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Parallax de Contact Form -->
+  <div class="parallax bg-contactform d-flex flex-column justify-content-center">
+    <div class="card wrapper-contact text-center text-dark mx-auto p-0">
+      <div class="card-header">
+        <h4 class="pt-2">Contáctanos</h4>
+      </div>
+      <div class="card-body p-4 bg-light">
+        <p class="lead">¿Tienes alguna pregunta? Nos encantaría escucharla. Escríbenos un mensaje y te responderemos lo antes posible.</p>
+        <form>
+          <div class="form-group text-left">
+            <label for="nombre">Nombre y Apellido</label>
+            <input type="text" class="form-control" id="nombre">
+          </div>
+          <div class="form-group text-left">
+            <label for="email">Correo Electrónico</label>
+            <input type="email" class="form-control" id="email">
+          </div>
+          <div class="form-group text-left">
+            <label for="mensaje">Mensaje</label>
+            <textarea class="form-control" name="mensaje" id="mensaje" rows="5"></textarea>
+          </div>
+          <a href="#" class="btn btn-primary text-center">Enviar</a>
+        </form>
+      </div>
+    </div>
+  </div>
