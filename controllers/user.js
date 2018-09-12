@@ -51,6 +51,8 @@ controller.getUserById = async function (id, callback) {
         let response = await Usuario.findById(id);
         let usuario = response.dataValues;
 
+        callback(null, usuario);
+        
     } catch (err) {
         console.log('Se produjo un error en getUserById(): ', err);
     }

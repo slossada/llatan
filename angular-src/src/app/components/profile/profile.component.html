@@ -1,9 +1,9 @@
 
-<div>
-  <!-- <h2 class="page-header">{{user.nombre}} {{user.seg_nombre}} {{user.apellido}}</h2>
+<div *ngIf="user">
+  <h2 class="page-header">{{user.Nombre}} {{user.Snombre}} {{user.Apellido}}</h2>
   <ul class="list-group"> 
-    <li class="list-group-item"> Cedula: {{user.cedula}} </li>
-    <li class="list-group-item"> Usuario: {{user.username}} </li>
-    <li class="list-group-item"> Correo: {{user.email}} </li>
-  </ul> -->
+    <li class="list-group-item"> Cedula: {{user.Cedula}} </li>
+    <li class="list-group-item"> Usuario: {{user.Username}} </li>
+    <li class="list-group-item"> Correo: {{user.Email}} </li>
+  </ul>
 </div>

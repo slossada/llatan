@@ -64,7 +64,6 @@ router.post('/authenticate', (req, res, next) => {
 // Profile
 // Autentica al usuario y retorna un objeto de usuario con todos sus datos corriendo la funcion de passport e insertando los datos en req.user.
 router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    console.log("El usuario es: ", req.user);
     res.json({ user: req.user });
 });
 
