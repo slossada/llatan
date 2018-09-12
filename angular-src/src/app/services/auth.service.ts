@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-//import { tokenNotExpired } from 'angular2-jwt';
+import { tokenNotExpired } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
 
 
@@ -11,6 +11,6 @@ export class AuthService {
 
   // Valida el token del usuario
   loggedIn() {
-    //return tokenNotExpired('id_token');
+    return tokenNotExpired('id_token');
   }
 }
