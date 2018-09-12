@@ -11,14 +11,21 @@ module.exports = function(passport) {
 
     // @ts-ignore
 passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
+    console.log("El id del jwt_payload es: ", jwt_payload.id);
         User.getUserById(jwt_payload.id, (err, user) => {
-            if (err)
+            if (err){
+                console.log("Error en el passport");
                 return done(err, false);
+            }
             
-            if (user)
+            if (user){
+                console.log("Hay usuario en el passport");
                 return done(null, user);
-            else
+            }
+            else{
+                console.log("Paso el ELSE en el passport");
                 return done(null, false);
+            }
         });
     }));
 }
