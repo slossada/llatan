@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 
 // Modelos Utilizados
 const Usuario = require('../models/user');
+const Guia = require('../models/guia');
 
 const controller = {};
 
@@ -34,6 +35,9 @@ controller.registrar = function (data, callback) {
 
             // Persiste el objeto usuario con todos sus datos
             newUser.save()
+                .then(() => {
+                    Guia.create({ id: newUser.id });
+                })
                 .then(callback)
 
                 // Imprime el error si se produjo alguno al agregar el usuario
@@ -50,7 +54,19 @@ controller.getUserById = async function (id, callback) {
     try {
         let response = await Usuario.findById(id);
         let usuario = response.dataValues;
+        let guia = await Guia.findById(id);
 
+        if (guia){//Chequea si es un Guia
+            //Agrega la informacion adicional al objeto retornado
+            usuario.fechaNacimiento = guia.dataValues.FechaNacimiento;
+            usuario.sexo = guia.dataValues.Sexo;
+            usuario.sobreNombre = guia.dataValues.SobreNombre;
+            usuario.anoIngreso = guia.dataValues.AnoIngreso;
+            usuario.rol = guia.dataValues.Rol;
+            console.log('Este es un guia: ', usuario);
+        }
+        
+        // Retornar el objeto
         callback(null, usuario);
         
     } catch (err) {

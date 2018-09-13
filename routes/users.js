@@ -8,6 +8,7 @@ const User = require('../models/user');
 
 // Controllers
 const con_User = require('../controllers/user');
+const con_Guia = require('../controllers/guia');
 
 // Registra al usuario
 router.post('/register', (req, res, next) => {
@@ -65,6 +66,17 @@ router.post('/authenticate', (req, res, next) => {
 // Autentica al usuario y retorna un objeto de usuario con todos sus datos corriendo la funcion de passport e insertando los datos en req.user.
 router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res, next) => {
     res.json({ user: req.user });
+});
+
+/* PETICIONES POST */
+// Actualiza los datos de un guia
+router.post('/datos-guia', (req, res, next) => {
+    con_Guia.actualizarDatos(req.body, (err) => {
+        if (err) 
+            res.json({ success: false, msg: 'Se produjo un error al actualizar sus datos.' });
+        else 
+            res.json({ success: true, msg: 'Se actualizaron sus datos exitosamente.' });
+    });
 });
 
 module.exports = router;

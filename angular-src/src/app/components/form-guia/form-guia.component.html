@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col-8 col-md-8 col-lg-6 mx-auto my-auto mt-5">
+      <!-- Title -->
+      <h2 class="mt-4 pt-5 pb-4">Mis Datos</h2>
+  
+      <!-- Form -->
+      <form (submit)="agregarDatos()" class="wrapper">
+  
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+              <label>Sexo
+                <span class="required">*</span>
+              </label>
+              <select class="form-control" [(ngModel)]="sexo" name="sexo" id="sexo">
+                <option>Masculino</option>
+                <option>Femenino</option>
+                <option>Otro</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+              <label>Sobrenombre</label>
+              <input type="text" [(ngModel)]="sobreNombre" name="sobreNombre" class="form-control">
+            </div>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+              <label>
+                Fecha de Nacimiento
+                  <span class="required">*</span>
+              </label>
+              <input type="date" class="form-control" [(ngModel)]="fechaNacimiento" name="fechaNacimiento">
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+              <label>
+                Año de Ingreso al Staff
+                  <span class="required">*</span>
+              </label>
+              <input type="text" [(ngModel)]="anoIngreso" name="anoIngreso" class="form-control">
+            </div>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+              <label>
+                Rol
+                  <span class="required">*</span>
+              </label>
+              <select class="form-control" [(ngModel)]="rol" name="rol" id="rol">
+                <option>Senior</option>
+                <option>Guía</option>
+                <option>Baquiano</option>
+                <option>Coordi</option>
+              </select>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Submit Button -->
+        <!-- 
+          
+El boton se queda muy pegado al footer
+        
+          CHEQUEAR
+
+        -->
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div class="d-flex justify-content-center mt-3">
+                <input type="submit" class="btn btn-primary" value="Completar">
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
