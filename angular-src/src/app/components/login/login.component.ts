@@ -42,10 +42,10 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('user', JSON.stringify(data.user));
           
           // Flash Message
-          this.flashMessage.show(`¡Bienvenido, ${data.user.nombre}!`, { cssClass: 'alert-success', timeout: 6000 });
+          this.flashMessage.show(`¡Bienvenido, ${data.user.nombre}!`, { cssClass: 'custom-success', timeout: 6000 });
           this.router.navigate(['dashboard']);
         } else {
-          this.flashMessage.show(data.msg, { cssClass: 'alert-danger', timeout: 3000 });
+          this.flashMessage.show(data.msg, { cssClass: 'custom-danger', timeout: 3000 });
           this.router.navigate(['login']);
         }
       });

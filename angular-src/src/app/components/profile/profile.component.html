@@ -1,9 +1,211 @@
+<!-- Main -->
 
-<div *ngIf="user">
-  <h2 class="page-header">{{user.Nombre}} {{user.Snombre}} {{user.Apellido}}</h2>
-  <ul class="list-group"> 
-    <li class="list-group-item"> Cedula: {{user.Cedula}} </li>
-    <li class="list-group-item"> Usuario: {{user.Username}} </li>
-    <li class="list-group-item"> Correo: {{user.Email}} </li>
-  </ul>
+<div class="main">
+  <div class="row">
+    <div class="col-11 col-md-10 col-lg-9 mx-auto mb-5 mt-3 py-5 px-5 bg-white border rounded">
+        <!-- Nombre del Guia -->
+        <h2 class="page-header pb-3">{{user.Nombre}} {{user.Snombre}} {{user.Apellido}}</h2>
+
+        <!-- Tabs -->
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
+              aria-selected="true"><i class="fas fa-car pr-1"></i> Datos Personales</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile"
+              aria-selected="false"><i class="fas fa-file-alt pr-1"></i> Actividades</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact"
+              aria-selected="false"><i class="fas fa-user-circle pr-1"></i> Historial</a>
+          </li>
+        </ul>
+
+        <!-- Contenido -->
+        <div class="tab-content" id="pills-tabContent">
+          <!-- Info del Guia -->
+          <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div class="container">
+              <div class="row">
+                <div class="col-3 d-flex align-items-center">
+                  <img class="img-responsive rounded mx-auto mt-4 mb-2" src="Timmy.png" alt="Foto Guia" width="250" height="280">
+                </div>
+                <div class="col-9">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Cedula: </span>
+                      <p class="lead m-0">{{user.Cedula}}</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Sobrenombre: </span>
+                      <p class="lead m-0"></p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                          <span class="lead">Usuario: </span>
+                          <p class="lead m-0">{{user.Username}}</p>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                          <span class="lead">Correo: </span>
+                          <p class="lead m-0">{{user.Email}}</p>
+                      </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Cargo: </span>
+                      <p class="lead m-0"></p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Año de Ingreso: </span>
+                      <p class="lead m-0"></p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Temporadas Coordinadas: </span>
+                      <p class="lead m-0"></p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Fecha de Nacimiento: </span>
+                      <p class="lead m-0"></p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Edad: </span>
+                      <p class="lead m-0"></p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Sexo: </span>
+                      <p class="lead m-0"></p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">¿Tiene evaluaciones pendientes? </span>
+                      <span href="#" class="badge badge-pill badge-danger text-white lead m-0">Si</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actividades -->
+          <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <div class="container">
+                
+                  <!-- Table -->
+                  <div class="container">
+                      <div class="table-responsive">
+                          <table class="table table-hover bg-light">
+                              <thead class="thead-light">
+                                  <tr>
+                                      <th scope="col">Tipo de Evento
+                                          <span class="oi oi-chevron-bottom arrow" title="chevron bottom" aria-hidden="true"></span>
+                                      </th>
+                                      <th scope="col">Detalle
+                                          <span class="oi oi-chevron-bottom arrow" title="chevron bottom" aria-hidden="true"></span>
+                                      </th>
+                                      <th scope="col">Fecha
+                                          <span class="oi oi-chevron-bottom arrow" title="chevron bottom" aria-hidden="true"></span>
+                                      </th>
+                                      <th scope="col">Estado
+                                          <span class="oi oi-chevron-bottom arrow" title="chevron bottom" aria-hidden="true"></span>
+                                      </th>
+                                      <th scope="col">Acciones
+                                          <span class="oi oi-chevron-bottom arrow" title="chevron bottom" aria-hidden="true"></span>
+                                      </th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <th scope="row">Fiesta Infantil</th>
+                                      <td><a href="#" class="btn btn-sm btn-primary">Ver Detalle</a></td>
+                                      <td>25/05/18</td>
+                                      <td>
+                                          <span class="badge badge-pill badge-primary">Evaluado</span>
+                                      </td>
+                                      <td><a href="#" class="btn btn-sm btn-secondary">Ver Evaluación</a></td>
+                                  </tr>
+                                  <tr>
+                                      <th scope="row">Fiesta Infantil</th>
+                                      <td><a href="#" class="btn btn-sm btn-primary">Ver Detalle</a></td>
+                                      <td>25/05/18</td>
+                                      <td>
+                                          <span class="badge badge-pill badge-warning font-light">Por Evaluar</span>
+                                      </td>
+                                      <td><a href="#" class="btn btn-sm btn-secondary">Evaluar Coordinador</a></td>
+                                  </tr>
+                                  <tr>
+                                      <th scope="row">Evento Corporativo EcoAventura</th>
+                                      <td><a href="#" class="btn btn-sm btn-primary">Ver Detalle</a></td>
+                                      <td>01/06/18-03/06/18</td>
+                                      <td>
+                                          <span class="badge badge-pill badge-success font-light">Asignado</span>
+                                      </td>
+                                      <td><a href="#" class="btn btn-sm btn-secondary">Cancelar Disponibilidad</a></td>
+                                  </tr>
+                                  <tr>
+                                      <th scope="row">Voluntariado Yoga en los Barrios</th>
+                                      <td><a href="#" class="btn btn-sm btn-primary">Ver Detalle</a></td>
+                                      <td>03/06/18</td>
+                                      <td>
+                                          <span class="badge badge-pill badge-info font-light">Coordinador</span>
+                                      </td>
+                                      <td><a href="#" class="btn btn-sm btn-secondary">Evaluar Staff</a></td>
+                                  </tr>
+                                  <tr>
+                                      <th scope="row">Segunda Temporada 2018</th>
+                                      <td><a href="#" class="btn btn-sm btn-primary">Ver Detalle</a></td>
+                                      <td>22/07/18-11/08/18</td>
+                                      <td>
+                                          <span class="badge badge-pill badge-info">Coordinador</span>
+                                      </td>
+                                      <td><a href="#" class="btn btn-sm btn-secondary">Asignar Staff</a></td>
+                                  </tr>
+                                  <tr>
+                                      <th scope="row">Temporada Social Fe y Alegría</th>
+                                      <td><a href="#" class="btn btn-sm btn-primary">Ver Detalle</a></td>
+                                      <td>16/12/18-22/12/18</td>
+                                      <td>
+                                          <span class="badge badge-pill badge-secondary">Sin Asignar</span>
+                                      </td>
+                                      <td><a href="#" class="btn btn-sm btn-secondary">Cancelar Disponibilidad</a></td>
+                                  </tr>
+                                  
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+
+                </div>
+              </div>
+
+          <!-- Historial -->
+          <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+            <div class="container">
+              <div class="row">
+                  <div class="col-3">
+                      
+                  </div>
+                  <div class="col-9">
+                      <ul class="list-group list-group-flush">
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                          <span class="lead">Puntaje: </span>
+                          <p class="lead m-0">80 pts.</p>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                          <span class="lead">Última Evaluación: </span>
+                          <a href="#" class="btn btn-sm btn-primary lead m-0">Ver Evaluación</a>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                          <span class="lead">Tags: </span>
+                          <span class="badge badge-pill badge-success">Destacado</span>
+                      </li>
+                      </ul>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="row mt-2 mb-5">
+    <div class="col d-flex justify-content-center">
+      <a class="btn btn-primary font-light">Modificar Datos Personales</a>
+    </div>
+  </div>
 </div>

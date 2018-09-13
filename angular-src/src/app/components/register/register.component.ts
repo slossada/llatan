@@ -43,14 +43,14 @@ export class RegisterComponent implements OnInit {
 
     // Require all fields
     if (user.nombre == undefined || user.apellido == undefined || user.cedula == undefined || user.email == undefined || user.username == undefined || user.password == undefined) {
-      this.flashMessage.show('Por favor llene todas las casillas.', { cssClass: 'alert-danger', timeout: 3000 });
+      this.flashMessage.show('Por favor llene todas las casillas.', { cssClass: 'custom-danger', timeout: 3000 });
       return false;
     }
 
     // Validate Email
     const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!regex.test(user.email.toLowerCase())) {
-      this.flashMessage.show('Por favor ingrese una dirección de correo válida.', { cssClass: 'alert-danger', timeout: 5000 });
+      this.flashMessage.show('Por favor ingrese una dirección de correo válida.', { cssClass: 'custom-danger', timeout: 5000 });
       return false;
     }
 
@@ -61,10 +61,10 @@ export class RegisterComponent implements OnInit {
       .map(res => res.json())
       .subscribe(data => {
         if (data.success) {
-          this.flashMessage.show('Usted fue registrado exitosamente.', { cssClass: 'alert-success', timeout: 3000 });
+          this.flashMessage.show('Usted fue registrado exitosamente.', { cssClass: 'custom-success', timeout: 3000 });
           this.router.navigate(['/login']);
         } else {
-          this.flashMessage.show('Se produjo un error en su registro.', { cssClass: 'alert-danger', timeout: 3000 });
+          this.flashMessage.show('Se produjo un error en su registro.', { cssClass: 'custom-danger', timeout: 3000 });
           this.router.navigate(['/register']);
         }
       });
