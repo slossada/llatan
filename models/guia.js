@@ -23,7 +23,7 @@ const Guia = connection.define('Guia',
         defaultValue: null,
 
         validate: {
-            min: 2000,
+            min: 1994,
             notEmpty: true
         }
     },
