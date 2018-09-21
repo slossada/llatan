@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit {
           this.flashMessage.show('Usted fue registrado exitosamente.', { cssClass: 'custom-success', timeout: 3000 });
           this.router.navigate(['/login']);
         } else {
-          this.flashMessage.show('Se produjo un error en su registro.', { cssClass: 'custom-danger', timeout: 3000 });
+          this.flashMessage.show('Se produjo un error en su registro. Verifique sus datos y su cedula de identidad.', { cssClass: 'custom-danger', timeout: 3000 });
           this.router.navigate(['/register']);
         }
       });

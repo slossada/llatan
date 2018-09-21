@@ -1,0 +1,138 @@
+<div class="row main p-4 p-md-3">
+  <!-- Form de Registro para Eventos -->          
+  <div class="container py-5 mt-3 mb-5">
+      <h2 class="mb-3">Registro de Eventos</h2>
+      <form (submit)="registrarEvento()">
+        <div class="form-row"> 
+          <div class="form-group">
+            <label>Encargado del Evento</label>
+            <div class="input-group">
+              <input disabled type="text" class="form-control" placeholder="Ej: Luis Rivero" aria-label="Recipient's username" aria-describedby="basic-addon2" [(ngModel)]="nombreEncargado" name="nombreEncargado">
+              <div class="input-group-append">
+                <button (click)="asignarEncargado()" class="btn btn-outline-secondary" type="button">Asignar Encargado</button>
+              </div>
+            </div> 
+          </div>  
+        </div>
+
+        <!-- Table -->
+        <div class="container" *ngIf="this.mostrar_lista">
+            <div class="table-responsive">
+              <table class="table table-hover bg-light text-dark">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Sobre Nombre</th>
+                    <th scope="col">Cargo</th>
+                    <th scope="col">Año de Ingreso</th>
+                    <th scope="col">Sexo</th>
+                    <th scope="col">Fecha de Nacimiento</th>
+                    <th scope="col">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let guia of guias; let i=index">
+                    <td scope="row">{{guia.Nombre}} {{guia.Apellido}}</td>
+                    <td>
+                      <span *ngIf="guia.SobreNombre == undefined">N/A</span>
+                      <span *ngIf="guia.SobreNombre != undefined">{{guia.SobreNombre}}</span>
+                    </td>
+                    <!-- Cargo -->
+                    <td>
+                      <span *ngIf="guia.Rol == undefined" class="badge badge-pill badge-danger text-white">Sin Cargo</span>
+                      <span *ngIf="guia.Rol == 'Senior'" class="badge badge-secondary text-white">{{guia.Rol}}</span>
+                      <span *ngIf="guia.Rol == 'Guia'" class="badge badge-pill badge-secondary text-white">{{guia.Rol}}</span>
+                      <span *ngIf="guia.Rol == 'Baquiano'" class="badge badge-pill badge-warning text-white">{{guia.Rol}}</span>
+                      <span *ngIf="guia.Rol == 'Coordi'" class="badge badge-pill badge-success text-white">{{guia.Rol}}</span>
+                      <span *ngIf="guia.Rol == 'Director'" class="badge badge-pill badge-dark text-white">{{guia.Rol}}</span>  
+                    </td>
+                    <!-- Ano Ingreso -->
+                    <td>
+                      <span *ngIf="guia.AnoIngreso != undefined">{{guia.AnoIngreso}}</span>
+                      <span *ngIf="guia.AnoIngreso == undefined">N/A</span>
+                    </td>
+                    <!-- Sexo -->
+                    <td>
+                      <span *ngIf="guia.Sexo != undefined">{{guia.Sexo}}</span>
+                      <span *ngIf="guia.Sexo == undefined">N/A</span>
+                    </td>
+                    <!-- Fecha Nacimiento -->
+                    <td>
+                      <span *ngIf="guia.FechaNacimiento != undefined">{{guia.FechaNacimiento | date:'d/M/yy'}}</span>
+                      <span *ngIf="guia.FechaNacimiento == undefined">N/A</span>
+                    </td>
+                    <!-- Acciones -->
+                    <td class="d-flex justify-content-center">
+                      <button (click)="asignar(i)" class="btn btn-outline-success" type="button">Asignar</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Fin de la Tabla -->
+
+        <!-- Division que sectoriza y garantiza que haya un encargado -->
+        <div *ngIf="this.hay_encargado">
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="tipo">Tipo de Evento
+                  <span class="required">*</span>
+                </label>
+                <select id="tipo" class="form-control" [(ngModel)]="tipo" name="tipo">
+                  <option>Temporada Privada</option>
+                  <option>Temporada Corporativa</option>
+                  <option>Temporada Social</option>
+                  <option>Fiesta Infantil</option>
+                  <option>Evento Corporativo</option>
+                  <option>Evento Familiar</option>
+                  <option>Voluntariado</option>
+                  <option>Otro</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="nombre">Nombre del Evento
+                  <span class="required">*</span>
+                </label>
+                <input type="text" class="form-control" id="nombre" placeholder="Ej: Segunda Temporada 2018" [(ngModel)]="nombre" name="nombre">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="cupos">Cupos Disponibles
+                  <span class="required">*</span>
+                </label>
+                <input type="int" class="form-control" id="cupos" placeholder="Ej: 10" [(ngModel)]="cupos" name="cupos">
+              </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-5">
+              <label>Fecha de Inicio del Evento
+                  <span class="required">*</span>
+              </label>
+              <input type="date" class="form-control" [(ngModel)]="fechaInicio" name="fechaInicio">
+            </div>
+            <div class="form-group col-md-5">
+              <label>Fecha de Finalizacion del Evento
+                  <span class="required">*</span>
+              </label>
+              <input type="date" class="form-control" [(ngModel)]="fechaFin" name="fechaFin">
+            </div>
+          </div>  
+          <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="detalle">Detalle
+                  <span class="required">*</span>
+                </label>
+                <textarea class="form-control" name="detalle" id="detalle" [(ngModel)]="detalle" rows="3" placeholder="Agregue cualquier información adicional que considere pertinente. Detalle el lugar y la hora del evento!"></textarea>
+              </div>
+          </div>
+
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary mt-4">Crear Evento</button>
+          </div>
+
+        </div>
+
+      </form>
+  </div>
+</div>

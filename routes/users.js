@@ -9,6 +9,7 @@ const User = require('../models/user');
 // Controllers
 const con_User = require('../controllers/user');
 const con_Guia = require('../controllers/guia');
+const con_Evento = require('../controllers/evento');
 
 // Registra al usuario
 router.post('/register', (req, res, next) => {
@@ -76,6 +77,43 @@ router.post('/datos-guia', (req, res, next) => {
             res.json({ success: false, msg: 'Se produjo un error al actualizar sus datos.' });
         else 
             res.json({ success: true, msg: 'Se actualizaron sus datos exitosamente.' });
+    });
+});
+// Registra un evento nuevo
+router.post('/crear-evento', (req, res, next) => {
+    con_Evento.registrar(req.body, (err) => {
+        if (err)
+            res.json({ success: false, msg: 'Se produjo un error al registrar un nuevo evento.' });
+        else
+            res.json({ success: true, msg: 'Se registro el evento exitosamente.' });
+    });
+});
+
+/* PETICIONES GET */
+// Obtiene todos los coordis y baquianos
+router.get('/coordis-y-baquianos', (req, res, next) => {
+    con_Guia.getCoordisyBaquianos((data, err) => {
+        if (err) throw err;
+
+        if (data) {
+            res.json({
+                guias: data.guias,
+            });
+        }
+    });
+});
+
+// Obtiene todos los eventos
+router.get('/eventos', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Evento.getEventos(req.user.id, (data, err) => {
+        if (err) throw err;
+        
+        if (data) {
+            res.json({
+                userid: req.user.id,
+                eventos: data.eventos,
+            });
+        }
     });
 });
 

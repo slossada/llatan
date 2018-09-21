@@ -29,4 +29,42 @@ controller.actualizarDatos = async function (data, callback) {
     }
 }
 
+// Metodo que retorna un arreglo de coordis y baquianos
+controller.getCoordisyBaquianos = async function (callback) {
+    try {
+        let response = await Guia.findAll({ 
+            where: 
+                Sequelize.or({Rol: 'Coordi'}, {Rol: 'Baquiano'})
+        });
+
+        // Construye un arreglo unicamente con los datos necesarios
+        let guias = response.map(resultado => resultado.dataValues);
+
+        // Agrega los datos basicos del guia
+        for (let i = 0; i < guias.length; i++) {
+            let response = await Usuario.findOne({
+                where: {
+                    id: guias[i].id
+                }
+            });
+
+            if (response) {
+                guias[i].Nombre = response.dataValues.Nombre;
+                guias[i].Snombre = response.dataValues.Snombre;
+                guias[i].Apellido = response.dataValues.Apellido;
+                guias[i].Cedula = response.dataValues.Cedula;
+                guias[i].Email = response.dataValues.Email;
+                guias[i].Username = response.dataValues.Username;
+            }
+        }
+
+        guias = guias.filter(guia => guia.Rol);
+
+        // Retorna el arreglo
+        callback({guias}, null);
+    } catch (err) {
+        callback(null, err);
+    }
+};
+
 module.exports = controller;
