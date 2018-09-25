@@ -27,12 +27,13 @@ router.post('/authenticate', (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    con_User.getUserByUsername(username, (user, err) => {
-        if (err) throw err;
+    con_User.getUserByUsername(username, (user, err) => { 
 
         if (!user)
             return res.json({success: false, msg: 'Usuario no registrado.'});
 
+        if (err) throw err;
+        
         // If there is a user
         con_User.comparePassword(password, user.Password, (err, isMatch) => {
             if (err) throw err;
