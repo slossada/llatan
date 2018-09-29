@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 // Modelos Utilizados
 const Usuario = require('../models/user');
 const Guia = require('../models/guia');
+const Rol = require('../models/rol');
 
 const controller = {};
 
@@ -29,12 +30,27 @@ controller.actualizarDatos = async function (data, callback) {
     }
 }
 
+// Metodo que retorna un arreglo de todos los roles
+controller.getRoles = async function (callback) {
+    try {
+        let response = await Rol.findAll();
+
+        // Construye un arreglo unicamente con los datos necesarios
+        let roles = response.map(response => response.dataValues);
+
+        // Retorna el arreglo
+        callback({roles}, null);
+    } catch (err) {
+        callback(null, err);
+    }
+};
+
 // Metodo que retorna un arreglo de coordis y baquianos
 controller.getCoordisyBaquianos = async function (callback) {
     try {
         let response = await Guia.findAll({ 
             where: 
-                Sequelize.or({Rol: 'Coordi'}, {Rol: 'Baquiano'})
+                Sequelize.or({Rol: 6}, {Rol: 4}, {Rol: 3})
         });
 
         // Construye un arreglo unicamente con los datos necesarios

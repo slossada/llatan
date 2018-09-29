@@ -49,9 +49,6 @@ export class ListaEventosComponent implements OnInit {
         });
 
         this.eventos = data.eventos;
-        // Muestra los guias en la consola
-        // Borrar!
-        console.log('eventos: ', this.eventos);
 
         localStorage.setItem('eventos', JSON.stringify(data.eventos));
       }, err => {

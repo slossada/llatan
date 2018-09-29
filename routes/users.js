@@ -5,6 +5,11 @@ const jwt = require('jsonwebtoken');
 
 // Models
 const User = require('../models/user');
+const Evento = require('../models/evento');
+const Guia = require('../models/guia');
+const Disponibilidad = require('../models/disponibilidad');
+const Rol = require('../models/rol');
+const Administrador = require('../models/administrador');
 
 // Controllers
 const con_User = require('../controllers/user');
@@ -91,6 +96,19 @@ router.post('/crear-evento', (req, res, next) => {
 });
 
 /* PETICIONES GET */
+// Obtiene todos los roles
+router.get('/roles', (req, res, next) => {
+    con_Guia.getRoles((data, err) => {
+        if (err) throw err;
+
+        if (data) {
+            res.json({
+                roles: data.roles,
+            });
+        }
+    });
+});
+
 // Obtiene todos los coordis y baquianos
 router.get('/coordis-y-baquianos', (req, res, next) => {
     con_Guia.getCoordisyBaquianos((data, err) => {

@@ -26,6 +26,7 @@ export class FormEventosComponent implements OnInit {
   hay_encargado: boolean;
   mostrar_lista: boolean;
   guias: any;
+  roles: any;
 
   constructor(
     private http: Http,
@@ -36,6 +37,10 @@ export class FormEventosComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.roles = JSON.parse(localStorage.getItem('roles'));
+
+    console.log(this.roles);
 
     let headers = new Headers();
 
@@ -57,9 +62,6 @@ export class FormEventosComponent implements OnInit {
         });
 
         this.guias = data.guias;
-        // Muestra los guias en la consola
-        // Borrar!
-        console.log('guias: ', this.guias);
 
         localStorage.setItem('guias', JSON.stringify(data.guias));
       }, err => {

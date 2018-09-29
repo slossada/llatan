@@ -63,7 +63,6 @@ controller.getUserById = async function (id, callback) {
             usuario.sobreNombre = guia.dataValues.SobreNombre;
             usuario.anoIngreso = guia.dataValues.AnoIngreso;
             usuario.rol = guia.dataValues.Rol;
-            console.log('Este es un guia: ', usuario);
         }
         
         // Retornar el objeto
