@@ -17,6 +17,8 @@ export class ListaEventosComponent implements OnInit {
 
   mostrar_lista: boolean;
   eventos: any;
+  estados: any;
+  id_Guia: any;
 
   constructor(
     private http: Http,
@@ -28,13 +30,13 @@ export class ListaEventosComponent implements OnInit {
 
   ngOnInit() {
 
+    this.id_Guia = JSON.parse(localStorage.getItem('user')).id;
+    this.estados = JSON.parse(localStorage.getItem('estados'));
+
     let headers = new Headers();
 
-    // Busca el token del usuario que esta ingresado en el sistema actualmente
-    const token = localStorage.getItem('id_token');
-
     // Settear los encabezados para la petición al API
-    headers.append('Authorization', token);
+    headers.append('Authorization', localStorage.getItem('id_token'));
     headers.append('Content-Type', 'application/json');
 
     this.http.get('http://localhost:3000/users/eventos', { headers })
@@ -56,6 +58,44 @@ export class ListaEventosComponent implements OnInit {
         return false;
       });
 
+  }
+
+  marcarDisponibilidad(i,tipo) {
+    let id_Evento = this.eventos[i].id;
+    let aux = false;
+    let id_Estado = 1;
+
+    if (tipo == 1) {
+      aux = true;
+    }
+    if (tipo == 3) {
+      id_Estado = 0;
+    }
+
+    let data = {
+      new: aux,
+      id_Evento: id_Evento,
+      id_Guia: this.id_Guia,
+      id_Estado: id_Estado
+    };
+
+    let headers = new Headers();
+
+    // Settear los encabezados para la petición al API
+    headers.append('Authorization', localStorage.getItem('id_token'));
+    headers.append('Content-Type', 'application/json');
+
+    // Hacer la petición, se retorna una promesa
+    this.http.post('http://localhost:3000/users/marcar-disponibilidad', data, { headers })
+      .map(res => res.json())
+      .subscribe(response => {
+        if (response.success) {
+          this.flashMessage.show(response.msg, { cssClass: 'custom-success', timeout: 3000 });
+        } else {
+          this.flashMessage.show(response.msg, { cssClass: 'custom-danger', timeout: 3000 });
+        }
+        document.location.reload();
+    });
   }
 
 }

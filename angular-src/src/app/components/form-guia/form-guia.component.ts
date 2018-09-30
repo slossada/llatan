@@ -53,10 +53,10 @@ export class FormGuiaComponent implements OnInit {
       sobreNombre: this.sobreNombre
     };
 
-    console.log('Datos: ', data);
+    let headers = new Headers();
 
     // Settear los encabezados para la petición al API
-    let headers = new Headers();
+    headers.append('Authorization', localStorage.getItem('id_token'));
     headers.append('Content-Type', 'application/json');
 
     // Hacer la petición, se retorna una promesa

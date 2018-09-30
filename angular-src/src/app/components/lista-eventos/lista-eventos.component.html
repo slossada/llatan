@@ -22,9 +22,7 @@
               <td scope="row">{{evento.Nombre}}</td>
               <td scope="row">{{evento.Tipo}}</td>
               <td class="d-flex justify-content-center">
-                <button class="detalle">
-                  <i class="fas fa-search"></i>
-                </button>
+                  <button (click)="funcion(i)" class="btn btn-outline-secondary" type="button">Detalle</button>
               </td>
               <td>
                   <span *ngIf="evento.FechaInicio == evento.FechaFin" scope="row">{{evento.FechaInicio}}</span>
@@ -34,15 +32,18 @@
               <!-- Estado -->
               <td>
                 <span *ngIf="evento.Estado == undefined" class="badge badge-pill badge-warning text-white">Esperando Disponibilidad</span>
-                <span *ngIf="evento.Estado == 1" class="badge badge-pill badge-primary text-white">Disponible</span>
-                <span *ngIf="evento.Estado == 2" class="badge badge-pill secondary text-white">No Disponible</span>
-                <span *ngIf="evento.Estado == 3" class="badge badge-pill badge-success text-white">Asignado</span>
-                <span *ngIf="evento.Estado == 4" class="badge badge-pill badge-danger text-white">Sin Asginar</span>
-                <span *ngIf="evento.Estado == 5" class="badge badge-pill badge-dark text-white">Coordinador</span>  
+                <span *ngIf="evento.Estado == 0" class="badge badge-pill badge-secondary text-white">{{estados[0].Tipo}}</span>
+                <span *ngIf="evento.Estado == 1" class="badge badge-pill badge-primary text-white">{{estados[1].Tipo}}</span>
+                <span *ngIf="evento.Estado == 2" class="badge badge-pill badge-success text-white">{{estados[2].Tipo}}</span>
+                <span *ngIf="evento.Estado == 3" class="badge badge-pill badge-danger text-white">{{estados[3].Tipo}}</span>
+                <span *ngIf="evento.Estado == 4" class="badge badge-pill badge-dark text-white">{{estados[4].Tipo}}</span>  
               </td>
               <!-- Acciones -->
               <td class="d-flex justify-content-center">
-                <button (click)="funcion(i)" class="btn btn-outline-success" type="button">Disponibilidad</button>
+                <button *ngIf="evento.Estado == undefined" (click)="marcarDisponibilidad(i,1)" class="btn btn-outline-success" type="button">Disponible</button>
+                <button *ngIf="evento.Estado == 0" (click)="marcarDisponibilidad(i,2)" class="btn btn-outline-success" type="button">Cambiar a Disponible</button>
+                <button *ngIf="evento.Estado == 1 || evento.Estado == 2 || evento.Estado == 3" (click)="marcarDisponibilidad(i,3)" class="btn btn-outline-danger" type="button">Quitar Disponibilidad</button>
+                <button *ngIf="evento.Estado == 4" (click)="funcion(i)" class="btn btn-outline-success" type="button">Staff</button>
               </td>
             </tr>
           </tbody>

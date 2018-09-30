@@ -10,6 +10,7 @@ const Guia = require('../models/guia');
 const Disponibilidad = require('../models/disponibilidad');
 const Rol = require('../models/rol');
 const Administrador = require('../models/administrador');
+const EstadoDisp = require('../models/estado-disp');
 
 // Controllers
 const con_User = require('../controllers/user');
@@ -77,7 +78,7 @@ router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res
 
 /* PETICIONES POST */
 // Actualiza los datos de un guia
-router.post('/datos-guia', (req, res, next) => {
+router.post('/datos-guia', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     con_Guia.actualizarDatos(req.body, (err) => {
         if (err) 
             res.json({ success: false, msg: 'Se produjo un error al actualizar sus datos.' });
@@ -85,8 +86,9 @@ router.post('/datos-guia', (req, res, next) => {
             res.json({ success: true, msg: 'Se actualizaron sus datos exitosamente.' });
     });
 });
+
 // Registra un evento nuevo
-router.post('/crear-evento', (req, res, next) => {
+router.post('/crear-evento', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     con_Evento.registrar(req.body, (err) => {
         if (err)
             res.json({ success: false, msg: 'Se produjo un error al registrar un nuevo evento.' });
@@ -94,10 +96,19 @@ router.post('/crear-evento', (req, res, next) => {
             res.json({ success: true, msg: 'Se registro el evento exitosamente.' });
     });
 });
+// Marca la disponibilidad de un evento
+router.post('/marcar-disponibilidad', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Evento.actualizarDisp(req.body, (err) => {
+        if (err) 
+            res.json({ success: false, msg: 'Se produjo un error al actualizar su disponibilidad.' });
+        else 
+            res.json({ success: true, msg: 'Se actualizó su disponibilidad exitosamente.' });
+    });
+});
 
 /* PETICIONES GET */
 // Obtiene todos los roles
-router.get('/roles', (req, res, next) => {
+router.get('/roles', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     con_Guia.getRoles((data, err) => {
         if (err) throw err;
 
@@ -109,8 +120,21 @@ router.get('/roles', (req, res, next) => {
     });
 });
 
+// Obtiene todos los Estados de Disponibilidad
+router.get('/estados',passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Evento.getEstadosDisponibilidad((data, err) => {
+        if (err) throw err;
+
+        if (data) {
+            res.json({
+                estados: data.estados,
+            });
+        }
+    });
+});
+
 // Obtiene todos los coordis y baquianos
-router.get('/coordis-y-baquianos', (req, res, next) => {
+router.get('/coordis-y-baquianos',passport.authenticate('jwt', { session: false }), (req, res, next) => {
     con_Guia.getCoordisyBaquianos((data, err) => {
         if (err) throw err;
 

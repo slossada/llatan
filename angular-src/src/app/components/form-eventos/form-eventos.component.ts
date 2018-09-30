@@ -44,11 +44,8 @@ export class FormEventosComponent implements OnInit {
 
     let headers = new Headers();
 
-    // Busca el token del usuario que esta ingresado en el sistema actualmente
-    const token = localStorage.getItem('id_token');
-
     // Settear los encabezados para la petición al API
-    headers.append('Authorization', token);
+    headers.append('Authorization', localStorage.getItem('id_token'));
     headers.append('Content-Type', 'application/json');
 
     this.http.get('http://localhost:3000/users/coordis-y-baquianos', { headers })
@@ -63,7 +60,7 @@ export class FormEventosComponent implements OnInit {
 
         this.guias = data.guias;
 
-        localStorage.setItem('guias', JSON.stringify(data.guias));
+        //localStorage.setItem('guias', JSON.stringify(data.guias));
       }, err => {
         console.log('Error al pedir los guias: ', err);
         return false;
