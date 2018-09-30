@@ -15,17 +15,10 @@ import 'rxjs/add/operator/map';
 })
 export class ProfileComponent implements OnInit {
 
-  user: object;
-  sexo: string;
-  fechaNacimiento: string;
-  anoIngreso: string;
-  sobreNombre: string;
-  rol: string;
+  user: any;
   mis_eventos: any;
   estados: any;
   roles: any;
-  edad: any;
-  cargo: any;
 
   constructor(
     private http: Http,
@@ -39,66 +32,32 @@ export class ProfileComponent implements OnInit {
 
     this.estados = JSON.parse(localStorage.getItem('estados'));
     this.roles = JSON.parse(localStorage.getItem('roles'));
+    this.user = JSON.parse(localStorage.getItem('user'));
 
     let headers = new Headers();
 
     // Fetches the token of the currently logged in user from localStorage
-    
     headers.append('Authorization', localStorage.getItem('id_token'));
     headers.append('Content-Type', 'application/json');
 
-    this.http.get('http://localhost:3000/users/profile', { headers })
-      .map(res => res.json())
-      .subscribe(profile => {
-        this.user = profile.user;
-
-        if (profile.user.sexo != undefined && profile.user.fechaNacimiento != undefined && profile.user.sobreNombre != undefined && profile.user.anoIngreso != undefined && profile.user.rol != undefined) {
-
-          this.edad = this.datePipe.transform(profile.user.fechaNacimiento);
-
-          // Corrige error en el formato de la fecha
-          let fecha = profile.user.fechaNacimiento;
-          let day = Number(fecha.slice(8, 10)) + 1;
-          let dayString = day.toString();
-
-          if (day < 10) {
-            dayString = '0' + day;
-          }
-
+    this.http.get('http://localhost:3000/users/mis-eventos', { headers })
+    .map(res => res.json())
+    .subscribe(data => {
+      data.eventos.map(evento => {
+        if (evento.FechaInicio || evento.FechaFin) {
           // Guarda la fecha formateada
-          this.fechaNacimiento = this.datePipe.transform(fecha.slice(0, 8) + dayString + fecha.slice(10));
-
-          this.sexo = profile.user.sexo;
-          this.sobreNombre = profile.user.sobreNombre;
-          this.anoIngreso = profile.user.anoIngreso;
-          this.rol = profile.user.rol;
-          this.cargo = this.roles[parseInt(this.rol)].Tipo;
-
+          evento.FechaInicio = this.datePipe.transform(evento.FechaInicio);
+          evento.FechaFin = this.datePipe.transform(evento.FechaFin);
         }
-
-      }, err => {
-        console.log('Error while getting the profile in ProfileComponent: ', err);
-        return false;
       });
 
-      this.http.get('http://localhost:3000/users/mis-eventos', { headers })
-      .map(res => res.json())
-      .subscribe(data => {
-        data.eventos.map(evento => {
-          if (evento.FechaInicio || evento.FechaFin) {
-            // Guarda la fecha formateada
-            evento.FechaInicio = this.datePipe.transform(evento.FechaInicio);
-            evento.FechaFin = this.datePipe.transform(evento.FechaFin);
-          }
-        });
+      this.mis_eventos = data.eventos;
 
-        this.mis_eventos = data.eventos;
-
-        localStorage.setItem('mis-eventos', JSON.stringify(data.eventos));
-      }, err => {
-        console.log('Error al pedir los eventos: ', err);
-        return false;
-      });
+      localStorage.setItem('mis-eventos', JSON.stringify(data.eventos));
+    }, err => {
+      console.log('Error al pedir los eventos: ', err);
+      return false;
+    });
 
   }
 
@@ -141,6 +100,6 @@ export class ProfileComponent implements OnInit {
   }
 
   completoFormulario() {
-    return this.fechaNacimiento && this.sexo && this.anoIngreso && this.rol;
+    return this.user.fechaNacimiento && this.user.sexo && this.user.anoIngreso && this.user.rol;
   }
 }

@@ -36,43 +36,43 @@
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Cedula: </span>
-                      <p class="lead m-0">{{user.Cedula}}</p>
+                      <p class="lead m-0">{{user.cedula}}</p>
                     </li>
-                    <li *ngIf="this.sobreNombre != null" class="list-group-item d-flex justify-content-between align-items-center">
+                    <li *ngIf="user.sobreNombre != null" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Sobrenombre: </span>
-                      <p class="lead m-0">{{this.sobreNombre}}</p>
+                      <p class="lead m-0">{{user.sobreNombre}}</p>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                           <span class="lead">Usuario: </span>
-                          <p class="lead m-0">{{user.Username}}</p>
+                          <p class="lead m-0">{{user.username}}</p>
                       </li>
                       <li class="list-group-item d-flex justify-content-between align-items-center">
                           <span class="lead">Correo: </span>
-                          <p class="lead m-0">{{user.Email}}</p>
+                          <p class="lead m-0">{{user.email}}</p>
                       </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <li *ngIf="user.rol != null" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Cargo: </span>
-                      <p class="lead m-0">{{this.cargo}}</p>
+                      <p class="lead m-0">{{user.cargo}}</p>
                     </li>
-                    <li *ngIf="this.anoIngreso != null" class="list-group-item d-flex justify-content-between align-items-center">
+                    <li *ngIf="user.anoIngreso != null" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Año de Ingreso: </span>
-                      <p class="lead m-0">{{this.anoIngreso}}</p>
+                      <p class="lead m-0">{{user.anoIngreso}}</p>
                     </li>
-                    <li *ngIf="this.rol == 'Coordi'" class="list-group-item d-flex justify-content-between align-items-center">
+                    <li *ngIf="user.rol == 4" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Temporadas Coordinadas: </span>
                       <p class="lead m-0"></p>
                     </li>
-                    <li *ngIf="this.fechaNacimiento != null" class="list-group-item d-flex justify-content-between align-items-center">
+                    <li *ngIf="user.fechaNacimiento != null" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Fecha de Nacimiento: </span>
-                      <p class="lead m-0">{{this.fechaNacimiento}}</p>
+                      <p class="lead m-0">{{user.fechaNacimiento}}</p>
                     </li>
-                    <li *ngIf="this.fechaNacimiento != null" class="list-group-item d-flex justify-content-between align-items-center">
+                    <li *ngIf="user.fechaNacimiento != null" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Edad: </span>
-                      <p class="lead m-0">{{this.edad | date: 'yyyy'}}</p>
+                      <p class="lead m-0">{{user.edad | date: 'yyyy'}}</p>
                     </li>
-                    <li *ngIf="this.sexo != null" class="list-group-item d-flex justify-content-between align-items-center">
+                    <li *ngIf="user.sexo != null" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Sexo: </span>
-                      <p class="lead m-0">{{this.sexo}}</p>
+                      <p class="lead m-0">{{user.sexo}}</p>
                     </li>
                     <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">¿Tiene evaluaciones pendientes? </span>

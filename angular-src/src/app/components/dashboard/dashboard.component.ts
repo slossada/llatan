@@ -15,6 +15,7 @@ import 'rxjs/add/operator/map';
 })
 export class DashboardComponent implements OnInit {
 
+  user: any;
   roles: any;
 
   constructor(
@@ -26,6 +27,9 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.roles = JSON.parse(localStorage.getItem('roles'));
+    this.user = JSON.parse(localStorage.getItem('user')); 
+
   }
 
 }
