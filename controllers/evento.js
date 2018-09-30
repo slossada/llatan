@@ -98,6 +98,45 @@ controller.getEventos = async function (idGuia, callback) {
     }
 };
 
+// Metodo que retorna un arreglo de mis eventos
+controller.getMisEventos = async function (idGuia, callback) {
+    try {
+        let response = await Disponibilidad.findAll({ 
+            where: 
+                {Guia: idGuia}
+        });
+
+        // Construye un arreglo unicamente con los datos necesarios
+        let disponibilidades = response.map(resultado => resultado.dataValues);
+
+        // Agrega la disponibilidad, en caso de tenerla
+        for (let i = 0; i < disponibilidades.length; i++) {
+            let respuesta = await Evento.findAll({
+                where: {
+                    id: disponibilidades[i].Evento,
+                    Activa: true
+                }
+            });
+            let eventos = respuesta.map(respuesta => respuesta.dataValues);
+            if (eventos) {
+                disponibilidades[i].Tipo = eventos[0].Tipo;
+                disponibilidades[i].Nombre = eventos[0].Nombre;
+                disponibilidades[i].Detalle = eventos[0].Detalle;
+                disponibilidades[i].FechaInicio = eventos[0].FechaInicio;
+                disponibilidades[i].FechaFin = eventos[0].FechaFin;
+                disponibilidades[i].Cupos = eventos[0].Cupos;
+            }
+        }
+
+        eventos = disponibilidades.filter(disponibilidad => disponibilidad.FechaInicio);
+
+        // Retorna el arreglo
+        callback({eventos}, null);
+    } catch (err) {
+        callback(null, err);
+    }
+};
+
 // Metodo que retorna un arreglo de todos los roles
 controller.getEstadosDisponibilidad = async function (callback) {
     try {

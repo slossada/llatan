@@ -160,4 +160,18 @@ router.get('/eventos', passport.authenticate('jwt', { session: false }), (req, r
     });
 });
 
+// Obtiene todos mis eventos
+router.get('/mis-eventos', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Evento.getMisEventos(req.user.id, (data, err) => {
+        if (err) throw err;
+        
+        if (data) {
+            res.json({
+                userid: req.user.id,
+                eventos: data.eventos,
+            });
+        }
+    });
+});
+
 module.exports = router;

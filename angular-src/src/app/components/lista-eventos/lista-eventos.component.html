@@ -22,7 +22,7 @@
               <td scope="row">{{evento.Nombre}}</td>
               <td scope="row">{{evento.Tipo}}</td>
               <td class="d-flex justify-content-center">
-                  <button (click)="funcion(i)" class="btn btn-outline-secondary" type="button">Detalle</button>
+                  <button (click)="funcion(i)" class="btn btn-sm btn-outline-secondary" type="button">Detalle</button>
               </td>
               <td>
                   <span *ngIf="evento.FechaInicio == evento.FechaFin" scope="row">{{evento.FechaInicio}}</span>
@@ -40,10 +40,10 @@
               </td>
               <!-- Acciones -->
               <td class="d-flex justify-content-center">
-                <button *ngIf="evento.Estado == undefined" (click)="marcarDisponibilidad(i,1)" class="btn btn-outline-success" type="button">Disponible</button>
-                <button *ngIf="evento.Estado == 0" (click)="marcarDisponibilidad(i,2)" class="btn btn-outline-success" type="button">Cambiar a Disponible</button>
-                <button *ngIf="evento.Estado == 1 || evento.Estado == 2 || evento.Estado == 3" (click)="marcarDisponibilidad(i,3)" class="btn btn-outline-danger" type="button">Quitar Disponibilidad</button>
-                <button *ngIf="evento.Estado == 4" (click)="funcion(i)" class="btn btn-outline-success" type="button">Staff</button>
+                <button *ngIf="evento.Estado == undefined" (click)="marcarDisponibilidad(i,1)" class="btn btn-sm btn-outline-success" type="button">Disponible</button>
+                <button *ngIf="evento.Estado == 0" (click)="marcarDisponibilidad(i,2)" class="btn btn-sm btn-outline-success" type="button">Cambiar a Disponible</button>
+                <button *ngIf="evento.Estado == 1 || evento.Estado == 2 || evento.Estado == 3" (click)="marcarDisponibilidad(i,3)" class="btn btn-sm btn-outline-danger" type="button">Quitar Disponibilidad</button>
+                <button *ngIf="evento.Estado == 4" (click)="funcion(i)" class="btn btn-sm btn-outline-success" type="button">Staff</button>
               </td>
             </tr>
           </tbody>
