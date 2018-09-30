@@ -24,6 +24,8 @@ export class ProfileComponent implements OnInit {
   mis_eventos: any;
   estados: any;
   roles: any;
+  edad: any;
+  cargo: any;
 
   constructor(
     private http: Http,
@@ -52,6 +54,8 @@ export class ProfileComponent implements OnInit {
 
         if (profile.user.sexo != undefined && profile.user.fechaNacimiento != undefined && profile.user.sobreNombre != undefined && profile.user.anoIngreso != undefined && profile.user.rol != undefined) {
 
+          this.edad = this.datePipe.transform(profile.user.fechaNacimiento);
+
           // Corrige error en el formato de la fecha
           let fecha = profile.user.fechaNacimiento;
           let day = Number(fecha.slice(8, 10)) + 1;
@@ -68,6 +72,8 @@ export class ProfileComponent implements OnInit {
           this.sobreNombre = profile.user.sobreNombre;
           this.anoIngreso = profile.user.anoIngreso;
           this.rol = profile.user.rol;
+          this.cargo = this.roles[parseInt(this.rol)].Tipo;
+
         }
 
       }, err => {
@@ -93,7 +99,7 @@ export class ProfileComponent implements OnInit {
         console.log('Error al pedir los eventos: ', err);
         return false;
       });
-      
+
   }
 
   marcarDisponibilidad(i,tipo) {
