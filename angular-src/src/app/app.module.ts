@@ -16,6 +16,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormGuiaComponent } from './components/form-guia/form-guia.component';
+import { ListaEventosComponent } from './components/lista-eventos/lista-eventos.component';
+import { FormEventosComponent } from './components/form-eventos/form-eventos.component';
+import { ConfigEventosComponent } from './components/config-eventos/config-eventos.component';
 
 // Servicios
 import { AuthService } from './services/auth.service';
@@ -36,6 +39,11 @@ const appRoutes: Routes = [
 
   // Guia
   {path: 'form-guia', component: FormGuiaComponent, canActivate: [AuthGuard]},
+
+  // Eventos (Falta autentificar solo encargados o administrador)
+  {path: 'form-eventos', component: FormEventosComponent, canActivate: [AuthGuard]},
+  {path: 'config-eventos', component: ConfigEventosComponent, canActivate: [AuthGuard]},
+  {path: 'lista-eventos', component: ListaEventosComponent, canActivate: [AuthGuard]}
 ]
 
 @NgModule({
@@ -48,7 +56,10 @@ const appRoutes: Routes = [
     DashboardComponent,
     ProfileComponent,
     FooterComponent,
-    FormGuiaComponent
+    FormGuiaComponent,
+    ListaEventosComponent,
+    FormEventosComponent,
+    ConfigEventosComponent
   ],
   imports: [
     BrowserModule,

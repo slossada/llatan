@@ -18,7 +18,7 @@ export class FormGuiaComponent implements OnInit {
   fechaNacimiento: string;
   anoIngreso: string;
   sobreNombre: string;
-  rol: string;
+  rol: any;
 
   constructor(
     private http: Http,
@@ -44,6 +44,23 @@ export class FormGuiaComponent implements OnInit {
       return false;
     }
 
+    switch(this.rol) {
+      case 'Senior':
+        this.rol=1;
+        break;
+      case 'Guia':
+        this.rol=2;
+        break;
+      case 'Baquiano':
+        this.rol=3;
+        break;
+      case 'Coordinador':
+        this.rol=4;
+        break;
+      default:
+          true;
+    }
+
     let data = {
       id: JSON.parse(localStorage.getItem('user')).id,
       sexo: this.sexo,
@@ -53,10 +70,10 @@ export class FormGuiaComponent implements OnInit {
       sobreNombre: this.sobreNombre
     };
 
-    console.log('Datos: ', data);
+    let headers = new Headers();
 
     // Settear los encabezados para la petición al API
-    let headers = new Headers();
+    headers.append('Authorization', localStorage.getItem('id_token'));
     headers.append('Content-Type', 'application/json');
 
     // Hacer la petición, se retorna una promesa

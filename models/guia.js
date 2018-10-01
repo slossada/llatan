@@ -36,11 +36,11 @@ const Guia = connection.define('Guia',
         }
     },
     Rol: {
-        type: Sequelize.STRING,
-        defaultValue: null,
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
         validate: {
-            isAlpha: true,
-            isIn: [['Senior', 'Guia', 'Baquiano', 'Coordi']]
+            isAlphanumeric: true,
+            notEmpty: true
         }
     }
 },
