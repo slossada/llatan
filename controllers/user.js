@@ -5,6 +5,9 @@ const bcrypt = require('bcryptjs');
 // Modelos Utilizados
 const Usuario = require('../models/user');
 const Guia = require('../models/guia');
+const EstadoDisp = require('../models/estado-disp');
+const Rol = require('../models/rol');
+
 
 const controller = {};
 
@@ -91,5 +94,35 @@ controller.comparePassword = function (candidatePassword, hash, callback) {
         callback(null, isMatch);
     });
 }
+
+// Metodo que retorna un arreglo toda la informacion para el login
+controller.getLogin = async function (idGuia, callback) {
+    try {
+        let aux1 = await Rol.findAll();
+
+        // Construye un arreglo unicamente con los datos necesarios
+        let roles = aux1.map(aux1 => aux1.dataValues);
+
+        let aux2 = await EstadoDisp.findAll();
+
+        // Construye un arreglo unicamente con los datos necesarios
+        let estados = aux2.map(aux2 => aux2.dataValues);
+
+        let aux3 = await Guia.findById(idGuia);
+
+        let guia = undefined;
+
+        // Chequea si es un Guia y agrega la informacion necesaria
+        if (aux3.dataValues) { 
+            guia = aux3.dataValues;
+        }
+
+        callback({roles, estados, guia}, null);
+
+
+    } catch (err) {
+        callback(null, err);
+    }
+};
 
 module.exports = controller;

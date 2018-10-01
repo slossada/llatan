@@ -107,6 +107,21 @@ router.post('/marcar-disponibilidad', passport.authenticate('jwt', { session: fa
 });
 
 /* PETICIONES GET */
+// Obtiene todos los datos necesarios para el login
+router.get('/login', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_User.getLogin(req.user.id, (data, err) => {
+        if (err) throw err;
+        
+        if (data) {
+            res.json({
+                roles: data.roles,
+                estados: data.estados,
+                guia: data.guia
+            });
+        }
+    });
+});
+
 // Obtiene todos los roles
 router.get('/roles', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     con_Guia.getRoles((data, err) => {

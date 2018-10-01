@@ -18,7 +18,7 @@ export class FormGuiaComponent implements OnInit {
   fechaNacimiento: string;
   anoIngreso: string;
   sobreNombre: string;
-  rol: string;
+  rol: any;
 
   constructor(
     private http: Http,
@@ -42,6 +42,23 @@ export class FormGuiaComponent implements OnInit {
     if (new Date(this.fechaNacimiento) > new Date()) {
       this.flashMessage.show('La fecha ingresada es invalida.', { cssClass: 'custom-danger', timeout: 5000 });
       return false;
+    }
+
+    switch(this.rol) {
+      case 'Senior':
+        this.rol=1;
+        break;
+      case 'Guia':
+        this.rol=2;
+        break;
+      case 'Baquiano':
+        this.rol=3;
+        break;
+      case 'Coordinador':
+        this.rol=4;
+        break;
+      default:
+          true;
     }
 
     let data = {

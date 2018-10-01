@@ -40,6 +40,40 @@ export class ProfileComponent implements OnInit {
     headers.append('Authorization', localStorage.getItem('id_token'));
     headers.append('Content-Type', 'application/json');
 
+    // Metodo que se jala la información del guia
+    this.http.get('http://localhost:3000/users/profile', { headers })
+    .map(res => res.json())
+    .subscribe(profile => {
+      let user = JSON.parse(localStorage.getItem('user'));
+
+      if (profile.user.sexo != undefined && profile.user.fechaNacimiento != undefined && profile.user.sobreNombre != undefined && profile.user.anoIngreso != undefined && profile.user.rol != undefined) {
+
+        user.edad = this.datePipe.transform(profile.user.fechaNacimiento);
+
+        // Corrige error en el formato de la fecha
+        let fecha = profile.user.fechaNacimiento;
+        let day = Number(fecha.slice(8, 10)) + 1;
+        let dayString = day.toString();
+
+        if (day < 10) {
+          dayString = '0' + day;
+        }
+
+        user.fechaNacimiento = this.datePipe.transform(fecha.slice(0, 8) + dayString + fecha.slice(10));
+        user.sexo = profile.user.sexo;
+        user.sobreNombre = profile.user.sobreNombre;
+        user.anoIngreso = profile.user.anoIngreso;
+        user.rol = profile.user.rol;
+        user.cargo = this.roles[parseInt(profile.user.rol)].Tipo;
+
+        localStorage.setItem('user', JSON.stringify(user));
+      }
+
+    }, err => {
+      console.log('Error while getting the profile in ProfileComponent: ', err);
+      return false;
+    });
+
     this.http.get('http://localhost:3000/users/mis-eventos', { headers })
     .map(res => res.json())
     .subscribe(data => {

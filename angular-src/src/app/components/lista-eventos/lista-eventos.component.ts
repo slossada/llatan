@@ -33,30 +33,35 @@ export class ListaEventosComponent implements OnInit {
     this.id_Guia = JSON.parse(localStorage.getItem('user')).id;
     this.estados = JSON.parse(localStorage.getItem('estados'));
 
-    let headers = new Headers();
+    if (localStorage.getItem('eventos')) {
+      this.eventos = JSON.parse(localStorage.getItem('eventos'));
+    }
+    else {
+      let headers = new Headers();
 
-    // Settear los encabezados para la petición al API
-    headers.append('Authorization', localStorage.getItem('id_token'));
-    headers.append('Content-Type', 'application/json');
+      // Settear los encabezados para la petición al API
+      headers.append('Authorization', localStorage.getItem('id_token'));
+      headers.append('Content-Type', 'application/json');
 
-    this.http.get('http://localhost:3000/users/eventos', { headers })
-      .map(res => res.json())
-      .subscribe(data => {
-        data.eventos.map(evento => {
-          if (evento.FechaInicio || evento.FechaFin) {
-            // Guarda la fecha formateada
-            evento.FechaInicio = this.datePipe.transform(evento.FechaInicio);
-            evento.FechaFin = this.datePipe.transform(evento.FechaFin);
-          }
+      this.http.get('http://localhost:3000/users/eventos', { headers })
+        .map(res => res.json())
+        .subscribe(data => {
+          data.eventos.map(evento => {
+            if (evento.FechaInicio || evento.FechaFin) {
+              // Guarda la fecha formateada
+              evento.FechaInicio = this.datePipe.transform(evento.FechaInicio);
+              evento.FechaFin = this.datePipe.transform(evento.FechaFin);
+            }
+          });
+
+          this.eventos = data.eventos;
+
+          localStorage.setItem('eventos', JSON.stringify(data.eventos));
+        }, err => {
+          console.log('Error al pedir los eventos: ', err);
+          return false;
         });
-
-        this.eventos = data.eventos;
-
-        localStorage.setItem('eventos', JSON.stringify(data.eventos));
-      }, err => {
-        console.log('Error al pedir los eventos: ', err);
-        return false;
-      });
+    }
 
   }
 

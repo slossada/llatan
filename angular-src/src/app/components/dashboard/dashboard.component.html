@@ -7,8 +7,8 @@
   <div class="col d-flex justify-content-center">
 
       <!-- Card Deck del Cliente -->
-        <div *ngIf="user.rol != 1" class="card-deck">
-          <div class="card text-center" style="max-width: 18rem; max-height: 24rem;">
+        <div class="card-deck">
+          <div *ngIf="user.rol != 0 && this.rol != undefined" class="card text-center" style="max-width: 18rem; max-height: 24rem;">
               <img class="img-responsive mx-auto mt-4 mb-2" src="assets/dashboard/calendar.png" alt="Imagen Eventos" width="130" height="140">
               <div class="card-body px-sm-1 px-md-2 px-lg-3 px-xl-3 mt-3">
                   <h5 class="card-title">Eventos</h5>
@@ -16,7 +16,7 @@
                   <a [routerLink]="['/lista-eventos']" class="btn btn-outline-primary mx-0 mx-sm-0 mx-md-0">Ver Eventos</a>
               </div>
           </div>
-          <div *ngIf="user.rol == 4 || user.rol == 6" class="card text-center" style="max-width: 18rem; max-height: 24rem;">
+          <div *ngIf="user.rol == 4 || user.rol == 5" class="card text-center" style="max-width: 18rem; max-height: 24rem;">
             <img class="img-responsive mx-auto mt-4 mb-2" src="assets/dashboard/new-calendar.png" alt="Imagen Nuevo Evento" width="130" height="140">
             <div class="card-body px-sm-1 px-md-2 px-lg-3 px-xl-3 mt-3">
                 <h5 class="card-title">Nuevo Evento</h5>
@@ -24,7 +24,7 @@
                 <a [routerLink]="['/form-eventos']" class="btn btn-outline-primary mx-0 mx-sm-0 mx-md-0">Crear Evento</a>
             </div>
           </div>
-          <div *ngIf="user.rol == 4 || user.rol == 6" class="card text-center" style="max-width: 18rem; max-height: 24rem;">
+          <div *ngIf="user.rol == 4 || user.rol == 5" class="card text-center" style="max-width: 18rem; max-height: 24rem;">
             <img class="img-responsive mx-auto mt-4 mb-2" src="assets/dashboard/config-calendar.png" alt="Imagen Nuevo Evento" width="130" height="140">
             <div class="card-body px-sm-1 px-md-2 px-lg-3 px-xl-3 mt-3">
                 <h5 class="card-title">Administrar Evento</h5>
@@ -32,7 +32,7 @@
                 <a [routerLink]="['/config-eventos']" class="btn btn-outline-primary mx-0 mx-sm-0 mx-md-0">Administrar</a>
             </div>
           </div>
-          <div class="card text-center" style="max-width: 18rem; max-height: 24rem;">
+          <div *ngIf="user.rol != 0 && this.rol != undefined" class="card text-center" style="max-width: 18rem; max-height: 24rem;">
               <img class="img-responsive mx-auto mt-4 mb-2" src="assets/dashboard/text-lines.png" alt="Imagen Noticias" width="130" height="140">
               <div class="card-body px-sm-1 px-md-2 px-lg-3 px-xl-3">
                   <h5 class="card-title">Noticias</h5>

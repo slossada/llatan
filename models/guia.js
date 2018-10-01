@@ -37,7 +37,7 @@ const Guia = connection.define('Guia',
     },
     Rol: {
         type: Sequelize.INTEGER,
-        defaultValue: null,
+        defaultValue: 0,
         validate: {
             isAlphanumeric: true,
             notEmpty: true
