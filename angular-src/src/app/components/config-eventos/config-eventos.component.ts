@@ -58,4 +58,11 @@ export class ConfigEventosComponent implements OnInit {
 
   }
 
+  verDetalle(i) {
+    let evento = this.eventos[i];
+    localStorage.setItem('detalle-evento', JSON.stringify(evento));
+    localStorage.setItem('regresar', 'config-eventos');
+    this.router.navigate(['detalle-evento']);
+  }
+
 }

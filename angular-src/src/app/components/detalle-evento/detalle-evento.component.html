@@ -1,0 +1,241 @@
+<!-- Main -->
+
+<!-- Chequea si ya cargo el Evento -->
+<div *ngIf="this.evento != undefined" class="main">
+  <div class="row">
+    <div class="col-11 col-md-10 col-lg-9 mx-auto mb-5 mt-3 py-5 px-5 bg-white border rounded">
+        
+        <button (click)="regresar()" class="btn btn-sm btn-outline-secondary" type="button">Regresar</button>
+        
+        <!-- Nombre del Guia -->
+        <h2 class="page-header pb-3">{{this.evento.Nombre}}</h2>
+
+        <!-- Tabs -->
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
+              aria-selected="true"><i class="fas fa-compass pr-1"></i> Datos del Evento</a>
+          </li>
+          <li class="nav-item mx-2" *ngIf = "this.user.rol == 5 || this.evento.Encargado == user.id">
+            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile"
+              aria-selected="false"><i class="fas fa-wrench"></i> Editar</a>
+          </li>
+          <li class="nav-item" *ngIf = "this.user.rol == 5 || this.evento.Encargado == user.id">
+            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact"
+              aria-selected="false"><i class="fas fa-user-circle pr-1"></i> Staff</a>
+          </li>
+        </ul>
+
+        <!-- Contenido -->
+        <div class="tab-content" id="pills-tabContent">
+          <!-- Info del Evento -->
+          <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Tipo de Evento: </span>
+                      <p class="lead m-0">{{this.evento.Tipo}}</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Detalle: </span>
+                      <p class="lead m-0">{{this.evento.Detalle}}</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                          <span class="lead">Fecha: </span>
+                          <p *ngIf="evento.FechaInicio == evento.FechaFin" class="lead m-0">{{this.evento.FechaInicio}}</p>
+                          <p *ngIf="evento.FechaInicio != evento.FechaFin" class="lead m-0">{{this.evento.FechaInicio}} - {{this.evento.FechaFin}}</p>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                          <span class="lead">Cupos Disponibles: </span>
+                          <p class="lead m-0">{{this.evento.Cupos}}</p>
+                      </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Encargado del Evento: </span>
+                      <p class="lead m-0">{{this.evento.Encargado}}</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Evaluaciones: </span>
+                      <p class="lead m-0">{{this.evento.Evaluacion}}</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Mi Estado: </span>
+                      <p *ngIf="this.evento.Estado == undefined" class="badge badge-pill badge-warning text-white">Esperando Disponibilidad</p>
+                      <p *ngIf="this.evento.Estado == 0" class="badge badge-pill badge-secondary text-white">{{estados[0].Tipo}}</p>
+                      <p *ngIf="this.evento.Estado == 1" class="badge badge-pill badge-primary text-white">{{estados[1].Tipo}}</p>
+                      <p *ngIf="this.evento.Estado == 2" class="badge badge-pill badge-success text-white">{{estados[2].Tipo}}</p>
+                      <p *ngIf="this.evento.Estado == 3" class="badge badge-pill badge-danger text-white">{{estados[3].Tipo}}</p>
+                      <p *ngIf="this.evento.Estado == 4" class="badge badge-pill badge-dark text-white">{{estados[4].Tipo}}</p>  
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Acciones: </span>
+                      <button *ngIf="evento.Estado == undefined" (click)="marcarDisponibilidad(i,1)" class="btn btn-sm btn-outline-success" type="button">Disponible</button>
+                      <button *ngIf="evento.Estado == 0" (click)="marcarDisponibilidad(i,2)" class="btn btn-sm btn-outline-success" type="button">Cambiar a Disponible</button>
+                      <button *ngIf="evento.Estado == 1 || evento.Estado == 2 || evento.Estado == 3" (click)="marcarDisponibilidad(i,3)" class="btn btn-sm btn-outline-danger" type="button">Quitar Disponibilidad</button>
+                      <button *ngIf="evento.Estado == 4" (click)="funcion(i)" class="btn btn-sm btn-outline-success" type="button">Staff</button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Editar -->
+          <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <div class="container">
+                 
+                  <!-- Form de Registro para Eventos -->          
+                      <form (submit)="actualizarEvento()">
+                        <div class="form-row"> 
+                          <div class="form-group">
+                            <label>Encargado del Evento</label>
+                            <div class="input-group">
+                              <input disabled type="text" class="form-control" placeholder="Ej: Luis Rivero" aria-label="Recipient's username" aria-describedby="basic-addon2" [(ngModel)]="nombreEncargado" name="nombreEncargado">
+                              <div class="input-group-append">
+                                <button (click)="asignarEncargado()" class="btn btn-outline-secondary" type="button">Asignar Encargado</button>
+                              </div>
+                            </div> 
+                          </div>  
+                        </div>
+                
+                        <!-- Table -->
+                        <div class="container" *ngIf="this.mostrar_lista">
+                            <div class="table-responsive">
+                              <table class="table table-hover bg-light text-dark">
+                                <thead class="thead-light">
+                                  <tr>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Sobre Nombre</th>
+                                    <th scope="col">Cargo</th>
+                                    <th scope="col">Año de Ingreso</th>
+                                    <th scope="col">Acciones</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let guia of guias; let i=index">
+                                    <td scope="row">{{guia.Nombre}} {{guia.Apellido}}</td>
+                                    <td>
+                                      <span *ngIf="guia.SobreNombre == undefined">N/A</span>
+                                      <span *ngIf="guia.SobreNombre != undefined">{{guia.SobreNombre}}</span>
+                                    </td>
+                                    <!-- Cargo -->
+                                    <td>
+                                      <span *ngIf="guia.Rol == undefined" class="badge badge-pill badge-danger text-white">Sin Cargo</span>
+                                      <span *ngIf="guia.Rol == 1" class="badge badge-secondary text-white">{{roles[1].Tipo}}</span>
+                                      <span *ngIf="guia.Rol == 2" class="badge badge-pill badge-secondary text-white">{{roles[2].Tipo}}</span>
+                                      <span *ngIf="guia.Rol == 3" class="badge badge-pill badge-warning text-white">{{roles[3].Tipo}}</span>
+                                      <span *ngIf="guia.Rol == 4" class="badge badge-pill badge-success text-white">{{roles[4].Tipo}}</span>
+                                      <span *ngIf="guia.Rol == 6" class="badge badge-pill badge-dark text-white">{{roles[6].Tipo}}</span>  
+                                    </td>
+                                    <!-- Ano Ingreso -->
+                                    <td>
+                                      <span *ngIf="guia.AnoIngreso != undefined">{{guia.AnoIngreso}}</span>
+                                      <span *ngIf="guia.AnoIngreso == undefined">N/A</span>
+                                    </td>
+                                    <!-- Acciones -->
+                                    <td class="d-flex justify-content-center">
+                                      <button (click)="asignar(i)" class="btn btn-outline-success" type="button">Asignar</button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <!-- Fin del Form -->
+                
+                        <!-- Division que sectoriza y garantiza que haya un encargado -->
+                
+                          <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="tipo">Tipo de Evento
+                                  <span class="required">*</span>
+                                </label>
+                                <select id="tipo" class="form-control" [(ngModel)]="tipo" name="tipo">
+                                  <option>Temporada Privada</option>
+                                  <option>Temporada Corporativa</option>
+                                  <option>Temporada Social</option>
+                                  <option>Fiesta Infantil</option>
+                                  <option>Evento Corporativo</option>
+                                  <option>Evento Familiar</option>
+                                  <option>Voluntariado</option>
+                                  <option>Otro</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="nombre">Nombre del Evento
+                                  <span class="required">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="nombre" placeholder="Ej: Segunda Temporada 2018" [(ngModel)]="nombre" name="nombre">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="cupos">Cupos Disponibles
+                                  <span class="required">*</span>
+                                </label>
+                                <input type="int" class="form-control" id="cupos" placeholder="Ej: 10" [(ngModel)]="cupos" name="cupos">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-md-5">
+                              <label>Fecha de Inicio del Evento
+                                  <span class="required">*</span>
+                              </label>
+                              <input type="date" id="fechaInicio" class="form-control" [(ngModel)]="fechaInicio" name="fechaInicio">
+                            </div>
+                            <div class="form-group col-md-5">
+                              <label>Fecha de Finalizacion del Evento
+                                  <span class="required">*</span>
+                              </label>
+                              <input type="date" id="fechaFin" class="form-control" [(ngModel)]="fechaFin" name="fechaFin">
+                            </div>
+                          </div>  
+                          <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="detalle">Detalle
+                                  <span class="required">*</span>
+                                </label>
+                                <textarea class="form-control" name="detalle" id="detalle" [(ngModel)]="detalle" rows="3" placeholder="Agregue cualquier información adicional que considere pertinente. Detalle el lugar y la hora del evento!"></textarea>
+                              </div>
+                          </div>
+                
+                          <div class="d-flex justify-content-center">
+                            <button (click)="actualizarEvento(i)" class="btn btn-primary mt-4">Actualizar Evento</button>
+                          </div> 
+                
+                      </form>
+                  </div>
+                <!-- Fin de la Tabla -->
+
+          </div>
+
+          <!-- Historial -->
+          <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+            <div class="container">
+              <div class="row">
+                  <div class="col-3">
+                      
+                  </div>
+                  <div class="col-9">
+                      <ul class="list-group list-group-flush">
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                          <span class="lead">Puntaje: </span>
+                          <p class="lead m-0">80 pts.</p>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                          <span class="lead">Última Evaluación: </span>
+                          <a href="#" class="btn btn-sm btn-primary lead m-0">Ver Evaluación</a>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                          <span class="lead">Tags: </span>
+                          <span class="badge badge-pill badge-success">Destacado</span>
+                      </li>
+                      </ul>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+    
+</div>

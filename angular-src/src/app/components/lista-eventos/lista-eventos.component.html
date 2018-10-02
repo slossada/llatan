@@ -22,7 +22,7 @@
               <td scope="row">{{evento.Nombre}}</td>
               <td scope="row">{{evento.Tipo}}</td>
               <td scope="row">
-                  <button (click)="funcion(i)" class="btn btn-sm btn-outline-secondary" type="button">Ver</button>
+                  <button (click)="verDetalle(i)" class="btn btn-sm btn-outline-secondary" type="button">Ver</button>
               </td>
               <td scope="row">
                   <span *ngIf="evento.FechaInicio == evento.FechaFin" scope="row">{{evento.FechaInicio}}</span>

@@ -35,6 +35,27 @@ controller.registrar = async function (data, callback) {
     }
 };
 
+// Metodo que actualiza un evento
+controller.actualizarEvento = async function (data, callback) {
+    try {
+        Evento.update({
+            Tipo: data.Tipo,
+            Nombre: data.Nombre,
+            Detalle: data.Detalle,
+            FechaInicio: data.FechaInicio,
+            FechaFin: data.FechaFin,
+            Encargado: data.Encargado,
+            Cupos: data.Cupos,
+        }, 
+        { where: {id: data.id} } );
+
+        callback(null);
+    } catch (err) {
+        console.log('Se produjo un error en el controlador del evento: ', err);
+        callback(err);
+    }
+};
+
 // Metodo que actuliza la disponibilidad
 controller.actualizarDisp = async function (data, callback) {
     try {
@@ -102,10 +123,17 @@ controller.getEventos = async function (idGuia, callback) {
 controller.getMisEventos = async function (idGuia, callback) {
     try {
         let response = await Disponibilidad.findAll({ 
-            where: 
-                {Guia: idGuia}
+            where: Sequelize.and(
+                {Guia: idGuia},
+                Sequelize.or(
+                    { Estado: 1},
+                    { Estado: 2},
+                    { Estado: 3},
+                    { Estado: 4}
+                )
+            )
         });
-
+        
         // Construye un arreglo unicamente con los datos necesarios
         let disponibilidades = response.map(resultado => resultado.dataValues);
 
@@ -125,6 +153,9 @@ controller.getMisEventos = async function (idGuia, callback) {
                 disponibilidades[i].FechaInicio = eventos[0].FechaInicio;
                 disponibilidades[i].FechaFin = eventos[0].FechaFin;
                 disponibilidades[i].Cupos = eventos[0].Cupos;
+                disponibilidades[i].Encargado = eventos[0].Encargado;
+                disponibilidades[i].Evaluacion = eventos[0].Evaluacion;
+                disponibilidades[i].FechaCreacion = eventos[0].FechaCreacion;
             }
         }
 

@@ -96,6 +96,17 @@ router.post('/crear-evento', passport.authenticate('jwt', { session: false }), (
             res.json({ success: true, msg: 'Se registro el evento exitosamente.' });
     });
 });
+
+// Actualiza un evento
+router.post('/actualizar-evento', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Evento.actualizarEvento(req.body, (err) => {
+        if (err)
+            res.json({ success: false, msg: 'Se produjo un error al actualizar el evento.' });
+        else
+            res.json({ success: true, msg: 'Se actualizo el evento exitosamente.' });
+    });
+});
+
 // Marca la disponibilidad de un evento
 router.post('/marcar-disponibilidad', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     con_Evento.actualizarDisp(req.body, (err) => {
