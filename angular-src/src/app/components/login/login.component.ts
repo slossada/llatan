@@ -75,10 +75,10 @@ export class LoginComponent implements OnInit {
                 this.user.rol = this.guia.Rol;
                 this.user.cargo = this.roles[parseInt(this.guia.Rol)].Tipo;
 
-                if (this.guia.sexo != undefined && this.guia.fechaNacimiento != undefined && this.guia.sobreNombre != undefined && this.guia.anoIngreso != undefined && this.guia.rol != undefined) {
+                if (this.guia.Sexo != undefined && this.guia.FechaNacimiento != undefined && this.guia.SobreNombre != undefined && this.guia.AnoIngreso != undefined) {
                   
                   this.user.edad = this.datePipe.transform(this.guia.FechaNacimiento);
-
+ 
                   // Corrige error en el formato de la fecha
                   let fecha = this.guia.FechaNacimiento;
                   let day = Number(fecha.slice(8, 10)) + 1;

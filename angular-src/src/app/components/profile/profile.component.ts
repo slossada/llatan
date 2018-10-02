@@ -92,7 +92,6 @@ export class ProfileComponent implements OnInit {
       console.log('Error al pedir los eventos: ', err);
       return false;
     });
-
   }
 
   marcarDisponibilidad(i,tipo) {
