@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   estados: any;
   guia: any;
   user: any;
+  tipos: any;
 
   constructor(
     private http: Http,
@@ -63,9 +64,11 @@ export class LoginComponent implements OnInit {
         
                 this.roles = data.roles;
                 this.estados = data.estados;
+                this.tipos = data.tipos;
 
                 localStorage.setItem('roles', JSON.stringify(data.roles));
                 localStorage.setItem('estados', JSON.stringify(data.estados));
+                localStorage.setItem('tipos', JSON.stringify(data.tipos));
 
                 this.guia = data.guia;
 

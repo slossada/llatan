@@ -116,14 +116,12 @@
                             <span *ngIf="evento.Estado == 1" class="badge badge-pill badge-primary text-white">{{estados[1].Tipo}}</span>
                             <span *ngIf="evento.Estado == 2" class="badge badge-pill badge-success text-white">{{estados[2].Tipo}}</span>
                             <span *ngIf="evento.Estado == 3" class="badge badge-pill badge-danger text-white">{{estados[3].Tipo}}</span>
-                            <span *ngIf="evento.Estado == 4" class="badge badge-pill badge-dark text-white">{{estados[4].Tipo}}</span>  
                           </td>
                           <!-- Acciones -->
                           <td class="d-flex justify-content-center">
                             <button *ngIf="evento.Estado == undefined" (click)="marcarDisponibilidad(i,1)" class="btn btn-sm btn-outline-success" type="button">Disponible</button>
                             <button *ngIf="evento.Estado == 0" (click)="marcarDisponibilidad(i,2)" class="btn btn-sm btn-outline-success" type="button">Cambiar a Disponible</button>
                             <button *ngIf="evento.Estado == 1 || evento.Estado == 2 || evento.Estado == 3" (click)="marcarDisponibilidad(i,3)" class="btn btn-sm btn-outline-danger" type="button">Quitar Disponibilidad</button>
-                            <button *ngIf="evento.Estado == 4" (click)="funcion(i)" class="btn btn-sm btn-outline-success" type="button">Staff</button>
                           </td>
                         </tr>
                       </tbody>

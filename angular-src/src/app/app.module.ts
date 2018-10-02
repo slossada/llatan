@@ -20,6 +20,7 @@ import { ListaEventosComponent } from './components/lista-eventos/lista-eventos.
 import { FormEventosComponent } from './components/form-eventos/form-eventos.component';
 import { ConfigEventosComponent } from './components/config-eventos/config-eventos.component';
 import { DetalleEventoComponent } from './components/detalle-evento/detalle-evento.component';
+import { AsignarCoordisComponent } from './components/asignar-coordis/asignar-coordis.component';
 
 // Servicios
 import { AuthService } from './services/auth.service';
@@ -45,7 +46,10 @@ const appRoutes: Routes = [
   {path: 'form-eventos', component: FormEventosComponent, canActivate: [AuthGuard]},
   {path: 'config-eventos', component: ConfigEventosComponent, canActivate: [AuthGuard]},
   {path: 'lista-eventos', component: ListaEventosComponent, canActivate: [AuthGuard]},
-  {path: 'detalle-evento', component: DetalleEventoComponent, canActivate: [AuthGuard]}
+  {path: 'detalle-evento', component: DetalleEventoComponent, canActivate: [AuthGuard]},
+
+  // Asignacion
+  {path: 'asignar-coordis', component: AsignarCoordisComponent, canActivate: [AuthGuard]},
 ]
 
 @NgModule({
@@ -62,7 +66,8 @@ const appRoutes: Routes = [
     ListaEventosComponent,
     FormEventosComponent,
     ConfigEventosComponent,
-    DetalleEventoComponent
+    DetalleEventoComponent,
+    AsignarCoordisComponent
   ],
   imports: [
     BrowserModule,

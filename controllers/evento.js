@@ -9,6 +9,9 @@ const Disponibilidad = require('../models/disponibilidad')
 const EstadoDisp = require('../models/estado-disp')
 const Usuario = require('../models/user');
 const Guia = require('../models/guia');
+const Indice = require('../models/indice');
+const TipoCoordinacion = require('../models/tipo-coordinacion');
+const Coordinacion = require('../models/coordinacion');
 
 const controller = {};
 
@@ -98,15 +101,15 @@ controller.getEventos = async function (idGuia, callback) {
 
         // Agrega la disponibilidad, en caso de tenerla
         for (let i = 0; i < eventos.length; i++) {
-            let respuesta = await Disponibilidad.findAll({
+            let respuesta = await Disponibilidad.findOne({
                 where: {
                     Evento: eventos[i].id,
                     Guia: idGuia
                 }
             });
-            let estados = respuesta.map(respuesta => respuesta.dataValues);
-            if (estados) {
-                eventos[i].Estado = estados[0].Estado;
+
+            if (respuesta) {
+                eventos[i].Estado = respuesta.dataValues.Estado;
             }
         }
 
@@ -128,8 +131,7 @@ controller.getMisEventos = async function (idGuia, callback) {
                 Sequelize.or(
                     { Estado: 1},
                     { Estado: 2},
-                    { Estado: 3},
-                    { Estado: 4}
+                    { Estado: 3}
                 )
             )
         });
@@ -180,6 +182,38 @@ controller.getEstadosDisponibilidad = async function (callback) {
         callback({estados}, null);
     } catch (err) {
         callback(null, err);
+    }
+};
+
+// Metodo que guarda los coordis de un evento
+controller.guardarCoordis = async function (data, callback) {
+    try {
+        let response = await Coordinacion.findOne({
+          where: {
+            Guia: data.Guia,
+            Evento: data.Evento
+            } 
+        });
+        if (response) {
+            Coordinacion.update({
+                Tipo: data.Tipo,
+            },
+            {where: {
+                Guia: data.Guia,
+                Evento: data.Evento
+            } } );
+        }
+        else {
+            Coordinacion.create({
+                Tipo: data.Tipo,
+                Guia: data.Guia,
+                Evento: data.Evento
+            });
+        }
+        callback(null);
+    } catch (err) {
+        console.log('Se produjo un error en el controlador del evento: ', err);
+        callback(err);
     }
 };
 

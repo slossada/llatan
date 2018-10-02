@@ -117,6 +117,16 @@ router.post('/marcar-disponibilidad', passport.authenticate('jwt', { session: fa
     });
 });
 
+// Actualiza un los coordis de un evento
+router.post('/guardar-coordis', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Evento.guardarCoordis(req.body, (err) => {
+        if (err)
+            res.json({ success: false, msg: 'Se produjo un error al guardar los Coordinadores.' });
+        else
+            res.json({ success: true, msg: 'Se guardo la información exitosamente.' });
+    });
+});
+
 /* PETICIONES GET */
 // Obtiene todos los datos necesarios para el login
 router.get('/login', passport.authenticate('jwt', { session: false }), (req, res, next) => {
@@ -127,7 +137,8 @@ router.get('/login', passport.authenticate('jwt', { session: false }), (req, res
             res.json({
                 roles: data.roles,
                 estados: data.estados,
-                guia: data.guia
+                guia: data.guia,
+                tipos: data.tipos
             });
         }
     });
@@ -167,6 +178,19 @@ router.get('/coordis-y-baquianos',passport.authenticate('jwt', { session: false 
         if (data) {
             res.json({
                 guias: data.guias,
+            });
+        }
+    });
+});
+
+// Obtiene todos los coordis y si coordinan ese evento
+router.post('/coordis',passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Guia.getCoordis(req.body, (data, err) => {
+        if (err) throw err;
+
+        if (data) {
+            res.json({
+                coordis: data.coordis,
             });
         }
     });

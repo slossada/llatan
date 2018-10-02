@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-11 col-md-10 col-lg-9 mx-auto mb-5 mt-3 py-5 px-5 bg-white border rounded">
         
-        <button (click)="regresar()" class="btn btn-sm btn-outline-secondary" type="button">Regresar</button>
+        <button (click)="botonRegresar()" class="btn btn-sm btn-outline-secondary" type="button">Regresar</button>
         
         <!-- Nombre del Guia -->
         <h2 class="page-header pb-3">{{this.evento.Nombre}}</h2>
@@ -66,7 +66,6 @@
                       <p *ngIf="this.evento.Estado == 1" class="badge badge-pill badge-primary text-white">{{estados[1].Tipo}}</p>
                       <p *ngIf="this.evento.Estado == 2" class="badge badge-pill badge-success text-white">{{estados[2].Tipo}}</p>
                       <p *ngIf="this.evento.Estado == 3" class="badge badge-pill badge-danger text-white">{{estados[3].Tipo}}</p>
-                      <p *ngIf="this.evento.Estado == 4" class="badge badge-pill badge-dark text-white">{{estados[4].Tipo}}</p>  
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Acciones: </span>
@@ -208,29 +207,30 @@
 
           </div>
 
-          <!-- Historial -->
+          <!-- Staff -->
           <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
             <div class="container">
               <div class="row">
-                  <div class="col-3">
-                      
-                  </div>
-                  <div class="col-9">
-                      <ul class="list-group list-group-flush">
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                          <span class="lead">Puntaje: </span>
-                          <p class="lead m-0">80 pts.</p>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                          <span class="lead">Última Evaluación: </span>
-                          <a href="#" class="btn btn-sm btn-primary lead m-0">Ver Evaluación</a>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                          <span class="lead">Tags: </span>
-                          <span class="badge badge-pill badge-success">Destacado</span>
-                      </li>
-                      </ul>
-                  </div>
+                <div class="col-12">
+                  <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Coordinadores: </span>
+                      <button (click)="asignarCoordis()" class="btn btn-sm btn-outline-info" type="button">Asignar Coordinadores</button>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Disponibilidad de Staff: </span>
+                      <button (click)="asignarStaff()" class="btn btn-sm btn-outline-success" type="button">Asignar Staff</button>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Evaluaciones: </span>
+                      <button (click)="verEvaluaciones()" class="btn btn-sm btn-outline-primary" type="button">Ver Evaluaciones</button>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Destacados: </span>
+                      <button (click)="asignarDestacados()" class="btn btn-sm btn-outline-secondary" type="button">Asignar Destacados</button>
+                  </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

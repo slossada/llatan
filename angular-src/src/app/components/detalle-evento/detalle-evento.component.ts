@@ -29,6 +29,8 @@ export class DetalleEventoComponent implements OnInit {
   cupos: any;
   mostrar_lista: boolean;
   guias: any;
+  tipos: any;
+  coordis: any;
 
   constructor(
     private http: Http,
@@ -44,6 +46,7 @@ export class DetalleEventoComponent implements OnInit {
     this.evento = JSON.parse(localStorage.getItem('detalle-evento'));
     this.estados = JSON.parse(localStorage.getItem('estados'));
     this.roles = JSON.parse(localStorage.getItem('roles'));
+    this.tipos = JSON.parse(localStorage.getItem('tipos'));
     this.tipo = this.evento.Tipo;
     this.nombre = this.evento.Nombre;
     this.detalle = this.evento.Detalle;
@@ -51,6 +54,30 @@ export class DetalleEventoComponent implements OnInit {
     this.fechaFin = this.evento.FechaFin;
     this.encargado = this.evento.Encargado;
     this.cupos = this.evento.Cupos;
+
+    let data = {
+      evento: JSON.parse(localStorage.getItem('detalle-evento')).id,
+    };
+
+    let headers = new Headers();
+
+    // Settear los encabezados para la petición al API
+    headers.append('Authorization', localStorage.getItem('id_token'));
+    headers.append('Content-Type', 'application/json');
+
+    // Hacer la petición, se retorna una promesa
+    this.http.post('http://localhost:3000/users/coordis', data, { headers })
+      .map(res => res.json())
+      .subscribe(data => {
+
+        this.coordis = data.coordis;
+        localStorage.setItem('coordis' ,JSON.stringify(data.coordis));
+
+      }, err => {
+        console.log('Error al pedir los coordis: ', err);
+        return false;
+      });
+
 
   }
 
@@ -198,9 +225,14 @@ export class DetalleEventoComponent implements OnInit {
     );
   }
 
-  regresar() {
+  botonRegresar() {
     localStorage.removeItem('detalle-evento');
     this.router.navigate([localStorage.getItem('regresar')]);
+    localStorage.removeItem('regresar');
+  }
+
+  asignarCoordis() {
+    this.router.navigate(['asignar-coordis']);
   }
 
 }

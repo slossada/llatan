@@ -1,0 +1,90 @@
+<div class="row main p-4 p-md-3">
+  <!-- Coordinadores -->          
+  <div class="container py-5 mt-3 mb-5">
+    <h2 class="mb-3">Coordinadores Asignados</h2>
+    <!-- Table -->
+    <div class="container">
+      <div class="table-responsive">
+        <table class="table table-hover bg-light text-dark">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Sobre Nombre</th>
+              <th scope="col">Coordinadas</th>
+              <th scope="col">Coordina</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let coordi of coordis; let i=index">
+              <td scope="row" *ngIf = "coordi.Coordina != 0">{{coordi.Nombre}} {{coordi.Apellido}}</td>
+              <td scope="row" *ngIf = "coordi.Coordina != 0">{{coordi.SobreNombre}}</td>
+              <td scope="row" *ngIf = "coordi.Coordina != 0">{{coordi.Coordinadas}} Temporadas</td>
+              <td scope="row" *ngIf = "coordi.Coordina != 0">{{coordi.Area}}</td>
+              <td scope="row" *ngIf = "coordi.Coordina != 0">
+                <button (click)="quitar(i)" class="btn btn-sm btn-outline-danger" type="button">Quitar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Fin de la Tabla -->
+
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="d-flex justify-content-center mt-3">
+            <button (click)="regresar()" class="btn btn-lg btn-outline-secondary" type="button">Regresar</button>
+            <button (click)="guardar()" class="btn btn-lg btn-outline-success" type="button">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="row main p-4 p-md-3">
+    <!-- Lista de Coordinadores -->          
+    <div class="container py-5 mt-3 mb-5">
+      <h2 class="mb-3">Lista de Coordinadores</h2>
+      <!-- Table -->
+      <div class="container">
+        <div class="table-responsive">
+          <table class="table table-hover bg-light text-dark">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Sobre Nombre</th>
+                <th scope="col">Coordinadas</th>
+                <th scope="col">Bosque</th>
+                <th scope="col">Sabana</th>
+                <th scope="col">Aventura</th>
+                <th scope="col">CIT</th>
+                <th scope="col">Otro</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let coordi of coordis; let i=index">
+                <td scope="row" *ngIf = "coordi.Coordina == 0">{{coordi.Nombre}} {{coordi.Apellido}}</td>
+                <td scope="row" *ngIf = "coordi.Coordina == 0">{{coordi.SobreNombre}}</td>
+                <td scope="row" *ngIf = "coordi.Coordina == 0">{{coordi.Coordinadas}} Temporadas</td>
+                <td scope="row" *ngIf = "coordi.Coordina == 0">
+                  <button (click)="asignar(i,1)" class="btn btn-sm btn-outline-primary" type="button">Asignar</button>
+                </td>
+                <td scope="row" *ngIf = "coordi.Coordina == 0">
+                  <button (click)="asignar(i,2)" class="btn btn-sm btn-outline-primary" type="button">Asignar</button>
+                </td>
+                <td scope="row" *ngIf = "coordi.Coordina == 0">
+                  <button (click)="asignar(i,3)" class="btn btn-sm btn-outline-info" type="button">Asignar</button>
+                </td>
+                <td scope="row" *ngIf = "coordi.Coordina == 0">
+                  <button (click)="asignar(i,4)" class="btn btn-sm btn-outline-info" type="button">Asignar</button>
+                </td>
+                <td scope="row" *ngIf = "coordi.Coordina == 0">
+                  <button (click)="asignar(i,5)" class="btn btn-sm btn-outline-dark" type="button">Asignar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Fin de la Tabla -->
