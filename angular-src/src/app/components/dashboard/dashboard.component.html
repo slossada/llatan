@@ -16,20 +16,12 @@
                   <a [routerLink]="['/lista-eventos']" class="btn btn-outline-primary mx-0 mx-sm-0 mx-md-0">Ver Eventos</a>
               </div>
           </div>
-          <div *ngIf="user.rol == 4 || user.rol == 5" class="card text-center" style="max-width: 18rem; max-height: 24rem;">
+          <div *ngIf="user.esAdministrador" class="card text-center" style="max-width: 18rem; max-height: 24rem;">
             <img class="img-responsive mx-auto mt-4 mb-2" src="assets/dashboard/new-calendar.png" alt="Imagen Nuevo Evento" width="130" height="140">
             <div class="card-body px-sm-1 px-md-2 px-lg-3 px-xl-3 mt-3">
                 <h5 class="card-title">Nuevo Evento</h5>
                 <p class="card-text">Completa la informacion necesaria para crear un evento!</p>
                 <a [routerLink]="['/form-eventos']" class="btn btn-outline-primary mx-0 mx-sm-0 mx-md-0">Crear Evento</a>
-            </div>
-          </div>
-          <div *ngIf="user.rol == 4 || user.rol == 5" class="card text-center" style="max-width: 18rem; max-height: 24rem;">
-            <img class="img-responsive mx-auto mt-4 mb-2" src="assets/dashboard/config-calendar.png" alt="Imagen Nuevo Evento" width="130" height="140">
-            <div class="card-body px-sm-1 px-md-2 px-lg-3 px-xl-3 mt-3">
-                <h5 class="card-title">Administrar Evento</h5>
-                <p class="card-text">Configura y edita toda la información de los Eventos!</p>
-                <a [routerLink]="['/config-eventos']" class="btn btn-outline-primary mx-0 mx-sm-0 mx-md-0">Administrar</a>
             </div>
           </div>
           <div *ngIf="user.rol != 0 && this.rol != undefined" class="card text-center" style="max-width: 18rem; max-height: 24rem;">

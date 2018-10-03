@@ -111,6 +111,15 @@ controller.getEventos = async function (idGuia, callback) {
             if (respuesta) {
                 eventos[i].Estado = respuesta.dataValues.Estado;
             }
+            let respuesta2 = await Usuario.findOne({
+                where: {id: eventos[i].Encargado}
+            });
+
+            if (respuesta2) {
+                eventos[i].NombreEncargado = respuesta2.dataValues.Nombre;
+                eventos[i].SnombreEncargado = respuesta2.dataValues.Snombre;
+                eventos[i].ApellidoEncargado = respuesta2.dataValues.Apellido;
+            }
         }
 
         eventos = eventos.filter(evento => evento.FechaInicio);

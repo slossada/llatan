@@ -15,10 +15,10 @@ import 'rxjs/add/operator/map';
 })
 export class ListaEventosComponent implements OnInit {
 
+  user: any;
   mostrar_lista: boolean;
   eventos: any;
   estados: any;
-  id_Guia: any;
 
   constructor(
     private http: Http,
@@ -30,7 +30,7 @@ export class ListaEventosComponent implements OnInit {
 
   ngOnInit() {
 
-    this.id_Guia = JSON.parse(localStorage.getItem('user')).id;
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.estados = JSON.parse(localStorage.getItem('estados'));
 
     let headers = new Headers();
@@ -74,7 +74,7 @@ export class ListaEventosComponent implements OnInit {
     let data = {
       new: aux,
       id_Evento: id_Evento,
-      id_Guia: this.id_Guia,
+      id_Guia: this.user.id,
       id_Estado: id_Estado
     };
 

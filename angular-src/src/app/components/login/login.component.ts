@@ -71,11 +71,15 @@ export class LoginComponent implements OnInit {
                 localStorage.setItem('tipos', JSON.stringify(data.tipos));
 
                 this.guia = data.guia;
+                if (this.guia.esAdministrador)
+                {
+                  this.user.esAdministrador = true;
+                }
 
                 this.user.rol = this.guia.Rol;
                 this.user.cargo = this.roles[parseInt(this.guia.Rol)].Tipo;
 
-                if (this.guia.Sexo != undefined && this.guia.FechaNacimiento != undefined && this.guia.SobreNombre != undefined && this.guia.AnoIngreso != undefined) {
+                if (this.guia) {
                   
                   this.user.edad = this.datePipe.transform(this.guia.FechaNacimiento);
  

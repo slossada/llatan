@@ -10,6 +10,7 @@ const Rol = require('../models/rol');
 const Indice = require('../models/indice');
 const TipoCoordinacion = require('../models/tipo-coordinacion');
 const Coordinacion = require('../models/coordinacion');
+const Administrador = require('../models/administrador');
 
 
 const controller = {};
@@ -117,8 +118,16 @@ controller.getLogin = async function (idGuia, callback) {
 
         // Chequea si es un Guia y agrega la informacion necesaria
         if (aux3.dataValues) { 
-            guia = aux3.dataValues;
+            guia = aux3.dataValues; 
         }
+
+        let aux4 = await Administrador.findById(idGuia);
+
+        // Chequea si es un Guia y agrega la informacion necesaria
+        if (aux4.dataValues) { 
+            guia.esAdministrador = true; 
+        }
+
 
         // Retorna un arreglo con todos los tipos de coordinacion
         let temp = await TipoCoordinacion.findAll();
