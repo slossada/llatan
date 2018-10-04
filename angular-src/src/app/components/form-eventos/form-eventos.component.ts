@@ -40,8 +40,6 @@ export class FormEventosComponent implements OnInit {
 
     this.roles = JSON.parse(localStorage.getItem('roles'));
 
-    console.log(this.roles);
-
     let headers = new Headers();
 
     // Settear los encabezados para la petición al API
@@ -60,7 +58,6 @@ export class FormEventosComponent implements OnInit {
 
         this.guias = data.guias;
 
-        //localStorage.setItem('guias', JSON.stringify(data.guias));
       }, err => {
         console.log('Error al pedir los guias: ', err);
         return false;
@@ -88,8 +85,10 @@ export class FormEventosComponent implements OnInit {
       Cupos: cupos,
     }
 
-    // Settear los encabezados para la petición al API
     let headers = new Headers();
+
+    // Settear los encabezados para la petición al API
+    headers.append('Authorization', localStorage.getItem('id_token'));
     headers.append('Content-Type', 'application/json');
 
     // Hacer la petición, se retorna una promesa

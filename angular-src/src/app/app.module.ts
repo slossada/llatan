@@ -18,7 +18,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { FormGuiaComponent } from './components/form-guia/form-guia.component';
 import { ListaEventosComponent } from './components/lista-eventos/lista-eventos.component';
 import { FormEventosComponent } from './components/form-eventos/form-eventos.component';
-import { ConfigEventosComponent } from './components/config-eventos/config-eventos.component';
+import { DetalleEventoComponent } from './components/detalle-evento/detalle-evento.component';
+import { AsignarCoordisComponent } from './components/asignar-coordis/asignar-coordis.component';
+import { AsignarDirectoresComponent } from './components/asignar-directores/asignar-directores.component';
 
 // Servicios
 import { AuthService } from './services/auth.service';
@@ -42,8 +44,12 @@ const appRoutes: Routes = [
 
   // Eventos (Falta autentificar solo encargados o administrador)
   {path: 'form-eventos', component: FormEventosComponent, canActivate: [AuthGuard]},
-  {path: 'config-eventos', component: ConfigEventosComponent, canActivate: [AuthGuard]},
-  {path: 'lista-eventos', component: ListaEventosComponent, canActivate: [AuthGuard]}
+  {path: 'lista-eventos', component: ListaEventosComponent, canActivate: [AuthGuard]},
+  {path: 'detalle-evento', component: DetalleEventoComponent, canActivate: [AuthGuard]},
+
+  // Asignacion
+  {path: 'asignar-coordis', component: AsignarCoordisComponent, canActivate: [AuthGuard]},
+  {path: 'asignar-directores', component: AsignarDirectoresComponent, canActivate: [AuthGuard]},
 ]
 
 @NgModule({
@@ -59,7 +65,9 @@ const appRoutes: Routes = [
     FormGuiaComponent,
     ListaEventosComponent,
     FormEventosComponent,
-    ConfigEventosComponent
+    DetalleEventoComponent,
+    AsignarCoordisComponent,
+    AsignarDirectoresComponent
   ],
   imports: [
     BrowserModule,

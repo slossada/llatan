@@ -1,0 +1,68 @@
+<div class="row main p-4 p-md-3">
+    <!-- Directores -->          
+    <div class="container py-5 mt-3 mb-5">
+      <h2 class="mb-3">Directores Asignados</h2>
+      <!-- Table -->
+      <div class="container">
+        <div class="table-responsive">
+          <table class="table table-hover bg-light text-dark">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Sobre Nombre</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let director of directores; let i=index">
+                <td scope="row" *ngIf = "director.Direcciona">{{director.Nombre}} {{director.Apellido}}</td>
+                <td scope="row" *ngIf = "director.Direcciona">{{director.SobreNombre}}</td>
+                <td scope="row" *ngIf = "director.Direcciona">
+                  <button (click)="quitarDirector(i)" class="btn btn-sm btn-outline-danger" type="button">Quitar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Fin de la Tabla -->
+  
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="d-flex justify-content-center mt-3 btn-group" >
+              <button (click)="regresar()" class="btn btn-lg btn-outline-secondary" type="button">Regresar</button>
+              <button (click)="guardar()" class="btn btn-lg btn-outline-success" type="button">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  <div class="row main p-4 p-md-3">
+      <!-- Lista de Directores -->          
+      <div class="container py-5 mt-3 mb-5">
+        <h2 class="mb-3">Lista de Directores</h2>
+        <!-- Table -->
+        <div class="container">
+          <div class="table-responsive">
+            <table class="table table-hover bg-light text-dark">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Sobre Nombre</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody> 
+                <tr *ngFor="let director of directores; let i=index">
+                  <td scope="row" *ngIf = "!director.Direcciona">{{director.Nombre}} {{director.Apellido}}</td>
+                  <td scope="row" *ngIf = "!director.Direcciona">{{director.SobreNombre}}</td>
+                  <td scope="row" *ngIf = "!director.Direcciona">
+                    <button (click)="asignarDirector(i)" class="btn btn-sm btn-outline-dark" type="button">Asignar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Fin de la Tabla -->

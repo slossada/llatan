@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   estados: any;
   guia: any;
   user: any;
+  tipos: any;
 
   constructor(
     private http: Http,
@@ -63,19 +64,25 @@ export class LoginComponent implements OnInit {
         
                 this.roles = data.roles;
                 this.estados = data.estados;
+                this.tipos = data.tipos;
 
                 localStorage.setItem('roles', JSON.stringify(data.roles));
                 localStorage.setItem('estados', JSON.stringify(data.estados));
+                localStorage.setItem('tipos', JSON.stringify(data.tipos));
 
                 this.guia = data.guia;
+                if (this.guia.esAdministrador)
+                {
+                  this.user.esAdministrador = true;
+                }
 
                 this.user.rol = this.guia.Rol;
                 this.user.cargo = this.roles[parseInt(this.guia.Rol)].Tipo;
 
-                if (this.guia.sexo != undefined && this.guia.fechaNacimiento != undefined && this.guia.sobreNombre != undefined && this.guia.anoIngreso != undefined && this.guia.rol != undefined) {
+                if (this.guia.FechaNacimiento != undefined) {
                   
                   this.user.edad = this.datePipe.transform(this.guia.FechaNacimiento);
-
+ 
                   // Corrige error en el formato de la fecha
                   let fecha = this.guia.FechaNacimiento;
                   let day = Number(fecha.slice(8, 10)) + 1;

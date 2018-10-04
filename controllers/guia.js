@@ -6,6 +6,10 @@ const bcrypt = require('bcryptjs');
 const Usuario = require('../models/user');
 const Guia = require('../models/guia');
 const Rol = require('../models/rol');
+const Disponibilidad = require('../models/disponibilidad');
+const Indice = require('../models/indice');
+const TipoCoordinacion = require('../models/tipo-coordinacion');
+const Coordinacion = require('../models/coordinacion');
 
 const controller = {};
 
@@ -50,7 +54,7 @@ controller.getCoordisyBaquianos = async function (callback) {
     try {
         let response = await Guia.findAll({ 
             where: 
-                Sequelize.or({Rol: 6}, {Rol: 4}, {Rol: 3})
+                Sequelize.or({Rol: 5}, {Rol: 4}, {Rol: 3})
         });
 
         // Construye un arreglo unicamente con los datos necesarios

@@ -7,6 +7,10 @@ const Usuario = require('../models/user');
 const Guia = require('../models/guia');
 const EstadoDisp = require('../models/estado-disp');
 const Rol = require('../models/rol');
+const Indice = require('../models/indice');
+const TipoCoordinacion = require('../models/tipo-coordinacion');
+const Coordinacion = require('../models/coordinacion');
+const Administrador = require('../models/administrador');
 
 
 const controller = {};
@@ -113,11 +117,25 @@ controller.getLogin = async function (idGuia, callback) {
         let guia = undefined;
 
         // Chequea si es un Guia y agrega la informacion necesaria
-        if (aux3.dataValues) { 
-            guia = aux3.dataValues;
+        if (aux3) { 
+            guia = aux3.dataValues; 
         }
 
-        callback({roles, estados, guia}, null);
+        let aux4 = await Administrador.findById(idGuia);
+
+        // Chequea si es un Guia y agrega la informacion necesaria
+        if (aux4) { 
+            guia.esAdministrador = true; 
+        }
+
+
+        // Retorna un arreglo con todos los tipos de coordinacion
+        let temp = await TipoCoordinacion.findAll();
+
+        // Construye un arreglo unicamente con los datos necesarios
+        let tipos = temp.map(response => response.dataValues);
+
+        callback({roles, estados, guia, tipos}, null);
 
 
     } catch (err) {

@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-11 col-md-10 col-lg-9 mx-auto mb-5 mt-3 py-5 px-5 bg-white border rounded">
         <!-- Nombre del Guia -->
-        <h2 class="page-header pb-3">{{user.Nombre}} {{user.Snombre}} {{user.Apellido}}</h2>
+        <h2 class="page-header pb-3">{{user.nombre}} {{user.seg_nombre}} {{user.apellido}}</h2>
 
         <!-- Tabs -->
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -98,8 +98,6 @@
                           <th scope="col">Nombre</th>
                           <th scope="col">Tipo de Evento</th>
                           <th scope="col">Detalle</th>
-                          <th scope="col">Fecha</th>
-                          <th scope="col">Cupos</th>
                           <th scope="col">Estado</th>
                           <th scope="col">Acciones</th>
                         </tr>
@@ -109,13 +107,8 @@
                           <td scope="row">{{evento.Nombre}}</td>
                           <td scope="row">{{evento.Tipo}}</td>
                           <td class="d-flex justify-content-center">
-                              <button (click)="funcion(i)" class="btn btn-sm btn-outline-secondary" type="button">Detalle</button>
+                              <button (click)="verDetalle(i)" class="btn btn-sm btn-outline-secondary" type="button">Ver</button>
                           </td>
-                          <td>
-                              <span *ngIf="evento.FechaInicio == evento.FechaFin" scope="row">{{evento.FechaInicio}}</span>
-                              <span *ngIf="evento.FechaInicio != evento.FechaFin" scope="row">{{evento.FechaInicio}} - {{evento.FechaFin}}</span>
-                          </td>
-                          <td scope="row">{{evento.Cupos}}</td>
                           <!-- Estado -->
                           <td>
                             <span *ngIf="evento.Estado == undefined" class="badge badge-pill badge-warning text-white">Esperando Disponibilidad</span>
@@ -123,14 +116,12 @@
                             <span *ngIf="evento.Estado == 1" class="badge badge-pill badge-primary text-white">{{estados[1].Tipo}}</span>
                             <span *ngIf="evento.Estado == 2" class="badge badge-pill badge-success text-white">{{estados[2].Tipo}}</span>
                             <span *ngIf="evento.Estado == 3" class="badge badge-pill badge-danger text-white">{{estados[3].Tipo}}</span>
-                            <span *ngIf="evento.Estado == 4" class="badge badge-pill badge-dark text-white">{{estados[4].Tipo}}</span>  
                           </td>
                           <!-- Acciones -->
                           <td class="d-flex justify-content-center">
                             <button *ngIf="evento.Estado == undefined" (click)="marcarDisponibilidad(i,1)" class="btn btn-sm btn-outline-success" type="button">Disponible</button>
                             <button *ngIf="evento.Estado == 0" (click)="marcarDisponibilidad(i,2)" class="btn btn-sm btn-outline-success" type="button">Cambiar a Disponible</button>
                             <button *ngIf="evento.Estado == 1 || evento.Estado == 2 || evento.Estado == 3" (click)="marcarDisponibilidad(i,3)" class="btn btn-sm btn-outline-danger" type="button">Quitar Disponibilidad</button>
-                            <button *ngIf="evento.Estado == 4" (click)="funcion(i)" class="btn btn-sm btn-outline-success" type="button">Staff</button>
                           </td>
                         </tr>
                       </tbody>
@@ -170,22 +161,23 @@
         </div>
     </div>
   </div>
+
+  <div class="container justify-content-center">
+      <div class="col-11 col-md-6 col-lg-4 mx-auto my-auto">
+        <!-- Tarjeta -->
+        <div class="card text-center">
+          <div class="card-header">
+            <h5 *ngIf="completoFormulario()" class="pt-3">Actualiza tus Datos</h5>
+            <h5 *ngIf="!completoFormulario()" class="pt-3">Complete el formulario</h5>
+          </div>
+          <div class="card-body">
+            <p *ngIf="completoFormulario()">Si quieres hacer alguna modificación a sus datos personales puede hacerlo aquí.</p>
+            <p *ngIf="!completoFormulario()">Nos faltan algunos de sus datos personales. Por favor, tómese un momento para llenarlos.</p>
+            <a class="btn btn-primary" [routerLink]="['/form-guia']">Ir al formulario</a>
+          </div>
+        </div>
+      </div>
+    </div>
     
 </div>
 
-<div class="container justify-content-center">
-  <div class="col-11 col-md-6 col-lg-4 mx-auto my-auto">
-    <!-- Tarjeta -->
-    <div class="card text-center">
-      <div class="card-header">
-        <h5 *ngIf="completoFormulario()" class="pt-3">Actualiza tus Datos</h5>
-        <h5 *ngIf="!completoFormulario()" class="pt-3">Complete el formulario</h5>
-      </div>
-      <div class="card-body">
-        <p *ngIf="completoFormulario()">Si quieres hacer alguna modificación a sus datos personales puede hacerlo aquí.</p>
-        <p *ngIf="!completoFormulario()">Nos faltan algunos de sus datos personales. Por favor, tómese un momento para llenarlos.</p>
-        <a class="btn btn-primary" [routerLink]="['/form-guia']">Ir al formulario</a>
-      </div>
-    </div>
-  </div>
-</div>

@@ -11,6 +11,11 @@ const Disponibilidad = require('../models/disponibilidad');
 const Rol = require('../models/rol');
 const Administrador = require('../models/administrador');
 const EstadoDisp = require('../models/estado-disp');
+const Direccion = require('../models/direccion');
+const Indice = require('../models/indice');
+const TipoCoordinacion = require('../models/tipo-coordinacion');
+const Coordinacion = require('../models/coordinacion');
+
 
 // Controllers
 const con_User = require('../controllers/user');
@@ -96,6 +101,17 @@ router.post('/crear-evento', passport.authenticate('jwt', { session: false }), (
             res.json({ success: true, msg: 'Se registro el evento exitosamente.' });
     });
 });
+
+// Actualiza un evento
+router.post('/actualizar-evento', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Evento.actualizarEvento(req.body, (err) => {
+        if (err)
+            res.json({ success: false, msg: 'Se produjo un error al actualizar el evento.' });
+        else
+            res.json({ success: true, msg: 'Se actualizo el evento exitosamente.' });
+    });
+});
+
 // Marca la disponibilidad de un evento
 router.post('/marcar-disponibilidad', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     con_Evento.actualizarDisp(req.body, (err) => {
@@ -103,6 +119,26 @@ router.post('/marcar-disponibilidad', passport.authenticate('jwt', { session: fa
             res.json({ success: false, msg: 'Se produjo un error al actualizar su disponibilidad.' });
         else 
             res.json({ success: true, msg: 'Se actualizó su disponibilidad exitosamente.' });
+    });
+});
+
+// Actualiza los coordis de un evento
+router.post('/guardar-coordis', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Evento.guardarCoordis(req.body, (err) => {
+        if (err)
+            res.json({ success: false, msg: 'Se produjo un error al guardar los Coordinadores.' });
+        else
+            res.json({ success: true, msg: 'Se guardo la información exitosamente.' });
+    });
+});
+
+// Actualiza los directores de un evento
+router.post('/guardar-directores', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Evento.guardarDirectores(req.body, (err) => {
+        if (err)
+            res.json({ success: false, msg: 'Se produjo un error al guardar los Directores.' });
+        else
+            res.json({ success: true, msg: 'Se guardo la información exitosamente.' });
     });
 });
 
@@ -116,7 +152,8 @@ router.get('/login', passport.authenticate('jwt', { session: false }), (req, res
             res.json({
                 roles: data.roles,
                 estados: data.estados,
-                guia: data.guia
+                guia: data.guia,
+                tipos: data.tipos
             });
         }
     });
@@ -156,6 +193,22 @@ router.get('/coordis-y-baquianos',passport.authenticate('jwt', { session: false 
         if (data) {
             res.json({
                 guias: data.guias,
+            });
+        }
+    });
+});
+
+// Obtiene todos el staff de un evento
+router.post('/staff',passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Evento.getStaffEvento(req.body, (data, err) => {
+        if (err) throw err;
+
+        if (data) {
+            res.json({
+                staff: data.staff,
+                coordis: data.coordis,
+                directores: data.directores,
+                guias: data.guias
             });
         }
     });

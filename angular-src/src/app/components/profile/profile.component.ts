@@ -7,7 +7,7 @@ import { DatePipe } from '@angular/common';
 // Http Requests
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
-
+ 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -92,7 +92,6 @@ export class ProfileComponent implements OnInit {
       console.log('Error al pedir los eventos: ', err);
       return false;
     });
-
   }
 
   marcarDisponibilidad(i,tipo) {
@@ -114,6 +113,9 @@ export class ProfileComponent implements OnInit {
       id_Estado: id_Estado
     };
 
+    this.mis_eventos[i].Estado = id_Estado;
+    localStorage.setItem('mis-eventos', JSON.stringify(this.mis_eventos));
+
     let headers = new Headers();
 
     // Settear los encabezados para la petición al API
@@ -131,6 +133,13 @@ export class ProfileComponent implements OnInit {
         }
         document.location.reload();
     });
+  }
+
+  verDetalle(i) {
+    let evento = this.mis_eventos[i];
+    localStorage.setItem('detalle-evento', JSON.stringify(evento));
+    localStorage.setItem('regresar', 'profile');
+    this.router.navigate(['detalle-evento']);
   }
 
   completoFormulario() {

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfigEventosComponent } from './config-eventos.component';
+import { AsignarCoordisComponent } from './asignar-coordis.component';
 
-describe('ConfigEventosComponent', () => {
-  let component: ConfigEventosComponent;
-  let fixture: ComponentFixture<ConfigEventosComponent>;
+describe('AsignarCoordisComponent', () => {
+  let component: AsignarCoordisComponent;
+  let fixture: ComponentFixture<AsignarCoordisComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfigEventosComponent ]
+      declarations: [ AsignarCoordisComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigEventosComponent);
+    fixture = TestBed.createComponent(AsignarCoordisComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
