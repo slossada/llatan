@@ -117,14 +117,14 @@ controller.getLogin = async function (idGuia, callback) {
         let guia = undefined;
 
         // Chequea si es un Guia y agrega la informacion necesaria
-        if (aux3.dataValues) { 
+        if (aux3) { 
             guia = aux3.dataValues; 
         }
 
         let aux4 = await Administrador.findById(idGuia);
 
         // Chequea si es un Guia y agrega la informacion necesaria
-        if (aux4.dataValues) { 
+        if (aux4) { 
             guia.esAdministrador = true; 
         }
 

@@ -62,7 +62,7 @@
                 <th scope="col">Otro</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody> 
               <tr *ngFor="let coordi of coordis; let i=index">
                 <td scope="row" *ngIf = "coordi.Coordina == 0">{{coordi.Nombre}} {{coordi.Apellido}}</td>
                 <td scope="row" *ngIf = "coordi.Coordina == 0">{{coordi.SobreNombre}}</td>

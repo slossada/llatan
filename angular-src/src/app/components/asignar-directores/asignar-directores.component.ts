@@ -9,16 +9,14 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 @Component({
-  selector: 'app-asignar-coordis',
-  templateUrl: './asignar-coordis.component.html',
-  styleUrls: ['./asignar-coordis.component.css']
+  selector: 'app-asignar-directores',
+  templateUrl: './asignar-directores.component.html',
+  styleUrls: ['./asignar-directores.component.css']
 })
-export class AsignarCoordisComponent implements OnInit {
+export class AsignarDirectoresComponent implements OnInit {
 
-  coordis: any;
-  area: any;
+  directores: any;
   evento: any;
-  tipos: any; 
 
   constructor(
     private http: Http,
@@ -30,22 +28,18 @@ export class AsignarCoordisComponent implements OnInit {
 
   ngOnInit() {
 
-    this.tipos = JSON.parse(localStorage.getItem('tipos'));
-    this.coordis = JSON.parse(localStorage.getItem('coordis'));
+    this.directores = JSON.parse(localStorage.getItem('directores'));
 
   }
 
-  asignar(i, coordina) {
-    this.coordis[i].Coordina = coordina;
-    this.coordis[i].Area = this.tipos[coordina].Area;
-    this.coordis[i].Coordinadas = this.coordis[i].Coordinadas+1;
-    localStorage.setItem('coordis',JSON.stringify(this.coordis));
+  asignarDirector(i) {
+    this.directores[i].Direcciona = true;
+    localStorage.setItem('directores',JSON.stringify(this.directores));
   }
 
-  quitar(i) {
-    this.coordis[i].Coordina = 0;
-    this.coordis[i].Coordinadas = this.coordis[i].Coordinadas-1;
-    localStorage.setItem('coordis',JSON.stringify(this.coordis));
+  quitarDirector(i) {
+    this.directores[i].Direcciona = false;
+    localStorage.setItem('directores',JSON.stringify(this.directores));
   }
 
   regresar() {
@@ -53,22 +47,22 @@ export class AsignarCoordisComponent implements OnInit {
   }
 
   guardar() {
-    localStorage.setItem('coordis',JSON.stringify(this.coordis));
+    localStorage.setItem('directores',JSON.stringify(this.directores));
     let headers = new Headers();
 
     // Settear los encabezados para la petición al API
     headers.append('Authorization', localStorage.getItem('id_token'));
     headers.append('Content-Type', 'application/json');
 
-    for (let i = 0; i < this.coordis.length; i++) {
+    for (let i = 0; i < this.directores.length; i++) {
 
         let data = {
           Evento: JSON.parse(localStorage.getItem('detalle-evento')).id,
-          Guia: this.coordis[i].id,
-          Tipo: this.coordis[i].Coordina
+          Guia: this.directores[i].id,
+          Tipo: this.directores[i].Direcciona
         }
         // Hacer la petición, se retorna una promesa
-        this.http.post('http://localhost:3000/users/guardar-coordis', data, { headers })
+        this.http.post('http://localhost:3000/users/guardar-directores', data, { headers })
         .map(res => res.json())
         .subscribe(response => {
           if (response.success) {
@@ -83,3 +77,4 @@ export class AsignarCoordisComponent implements OnInit {
   }
 
 }
+ 

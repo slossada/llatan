@@ -16,11 +16,11 @@
             <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
               aria-selected="true"><i class="fas fa-compass pr-1"></i> Datos del Evento</a>
           </li>
-          <li class="nav-item mx-2" *ngIf = "this.user.rol == 5 || this.evento.Encargado == user.id">
+          <li class="nav-item mx-2" *ngIf = "user.esAdministrador || this.evento.Encargado == user.id">
             <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile"
               aria-selected="false"><i class="fas fa-wrench"></i> Editar</a>
           </li>
-          <li class="nav-item" *ngIf = "this.user.rol == 5 || this.evento.Encargado == user.id">
+          <li class="nav-item" *ngIf = "user.esAdministrador || this.evento.esCoordinador || this.evento.Encargado == user.id">
             <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact"
               aria-selected="false"><i class="fas fa-user-circle pr-1"></i> Staff</a>
           </li>
@@ -47,19 +47,19 @@
                           <p *ngIf="evento.FechaInicio == evento.FechaFin" class="lead m-0">{{this.evento.FechaInicio}}</p>
                           <p *ngIf="evento.FechaInicio != evento.FechaFin" class="lead m-0">{{this.evento.FechaInicio}} - {{this.evento.FechaFin}}</p>
                       </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <li *ngIf="!evento.esCoordi && !user.esAdministrador && !user.id == evento.Encargado" class="list-group-item d-flex justify-content-between align-items-center">
                           <span class="lead">Cupos Disponibles: </span>
                           <p class="lead m-0">{{this.evento.Cupos}}</p>
                       </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Encargado del Evento: </span>
-                      <p class="lead m-0">{{this.evento.Encargado}}</p>
+                      <p class="lead m-0">{{this.evento.NombreEncargado}} {{this.evento.SnombreEncargado}} {{this.evento.ApellidoEncargado}}</p>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Evaluaciones: </span>
                       <p class="lead m-0">{{this.evento.Evaluacion}}</p>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <li *ngIf="!evento.esCoordi && !user.esAdministrador && !user.id == evento.Encargado" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Mi Estado: </span>
                       <p *ngIf="this.evento.Estado == undefined" class="badge badge-pill badge-warning text-white">Esperando Disponibilidad</p>
                       <p *ngIf="this.evento.Estado == 0" class="badge badge-pill badge-secondary text-white">{{estados[0].Tipo}}</p>
@@ -67,7 +67,7 @@
                       <p *ngIf="this.evento.Estado == 2" class="badge badge-pill badge-success text-white">{{estados[2].Tipo}}</p>
                       <p *ngIf="this.evento.Estado == 3" class="badge badge-pill badge-danger text-white">{{estados[3].Tipo}}</p>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <li *ngIf="!evento.esCoordi && !user.esAdministrador && !user.id == evento.Encargado" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Acciones: </span>
                       <button *ngIf="evento.Estado == undefined" (click)="marcarDisponibilidad(i,1)" class="btn btn-sm btn-outline-success" type="button">Disponible</button>
                       <button *ngIf="evento.Estado == 0" (click)="marcarDisponibilidad(i,2)" class="btn btn-sm btn-outline-success" type="button">Cambiar a Disponible</button>
@@ -92,7 +92,7 @@
                             <div class="input-group">
                               <input disabled type="text" class="form-control" placeholder="Ej: Luis Rivero" aria-label="Recipient's username" aria-describedby="basic-addon2" [(ngModel)]="nombreEncargado" name="nombreEncargado">
                               <div class="input-group-append">
-                                <button (click)="asignarEncargado()" class="btn btn-outline-secondary" type="button">Asignar Encargado</button>
+                                <button (click)="getBaquianosyCoordis()" class="btn btn-outline-secondary" type="button">Asignar Encargado</button>
                               </div>
                             </div> 
                           </div>  
@@ -112,7 +112,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr *ngFor="let guia of guias; let i=index">
+                                  <tr *ngFor="let guia of baquianos_coordis; let i=index">
                                     <td scope="row">{{guia.Nombre}} {{guia.Apellido}}</td>
                                     <td>
                                       <span *ngIf="guia.SobreNombre == undefined">N/A</span>
@@ -125,7 +125,7 @@
                                       <span *ngIf="guia.Rol == 2" class="badge badge-pill badge-secondary text-white">{{roles[2].Tipo}}</span>
                                       <span *ngIf="guia.Rol == 3" class="badge badge-pill badge-warning text-white">{{roles[3].Tipo}}</span>
                                       <span *ngIf="guia.Rol == 4" class="badge badge-pill badge-success text-white">{{roles[4].Tipo}}</span>
-                                      <span *ngIf="guia.Rol == 6" class="badge badge-pill badge-dark text-white">{{roles[6].Tipo}}</span>  
+                                      <span *ngIf="guia.Rol == 5" class="badge badge-pill badge-dark text-white">{{roles[5].Tipo}}</span>  
                                     </td>
                                     <!-- Ano Ingreso -->
                                     <td>
@@ -134,7 +134,7 @@
                                     </td>
                                     <!-- Acciones -->
                                     <td class="d-flex justify-content-center">
-                                      <button (click)="asignar(i)" class="btn btn-outline-success" type="button">Asignar</button>
+                                      <button (click)="asignarEncargado(i)" class="btn btn-outline-success" type="button">Asignar</button>
                                     </td>
                                   </tr>
                                 </tbody>
@@ -214,27 +214,34 @@
                 <div class="col-12">
                   <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Directores: </span>
+                      <tr *ngFor="let director of directores; let i=index">
+                        <td *ngIf="director.Direcciona" scope="row" class="lead m-0">{{director.Nombre}} {{director.Apellido}} ({{director.SobreNombre}})</td>
+                      </tr>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Coordinadores: </span>
-                      
+                      <tr *ngFor="let coordi of coordis; let i=index">
+                        <td *ngIf="coordi.Coordina != 0" scope="row" class="lead m-0">{{coordi.Nombre}} {{coordi.Apellido}} ({{coordi.SobreNombre}}) - <b>{{coordi.Area}}</b></td>
+                      </tr>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                      <span class="lead">Disponibilidad de Staff: </span>
-                      
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                      <span class="lead">Evaluaciones: </span>
-                      
+                      <span class="lead">Guias: </span>
+                      <tr *ngFor="let guia of guias; let i=index">
+                        <td *ngIf="guia.Estado == 2" scope="row" class="lead m-0">{{guia.Nombre}} {{guia.Apellido}} ({{guia.SobreNombre}}) - <i *ngIf="guia.Rol == 1">{{roles[1].Tipo}}</i><i *ngIf="guia.Rol == 2">{{roles[2].Tipo}}</i><i *ngIf="guia.Rol == 3">{{roles[3].Tipo}}</i><i *ngIf="guia.Rol == 4">{{roles[4].Tipo}}</i></td>
+                      </tr>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Destacados: </span>
-                      
+                      <p *ngIf="evento.Destacado == undefined" class="badge badge-pill badge-info text-white">Por Asignar</p>
                   </li>
                   <li class="list-group-item d-flex justify-content-center align-items-center">
                       <div class="btn-group">
-                          <button (click)="asignarCoordis()" class="btn btn-sm btn-outline-info" type="button">Asignar Coordinadores</button>
-                          <button (click)="asignarStaff()" class="btn btn-sm btn-outline-success" type="button">Asignar Staff</button>
-                          <button (click)="verEvaluaciones()" class="btn btn-sm btn-outline-primary" type="button">Ver Evaluaciones</button>
-                          <button (click)="asignarDestacados()" class="btn btn-sm btn-outline-secondary" type="button">Asignar Destacados</button>
+                          <button *ngIf = "user.esAdministrador || this.evento.Encargado == user.id" (click)="asignarDirectores()" class="btn btn-sm btn-outline-dark" type="button">Asignar Directores</button>
+                          <button *ngIf = "user.esAdministrador || this.evento.Encargado == user.id" (click)="asignarCoordis()" class="btn btn-sm btn-outline-info" type="button">Asignar Coordinadores</button>
+                          <button *ngIf = "user.esAdministrador || this.evento.Encargado == user.id || this.evento.esCoordi" (click)="asignarStaff()" class="btn btn-sm btn-outline-success" type="button">Asignar Staff</button>
+                          <button *ngIf = "user.esAdministrador || this.evento.Encargado == user.id || this.evento.esCoordi" (click)="verEvaluaciones()" class="btn btn-sm btn-outline-primary" type="button">Ver Evaluaciones</button>
+                          <button *ngIf = "user.esAdministrador || this.evento.Encargado == user.id || this.evento.esCoordi" (click)="asignarDestacados()" class="btn btn-sm btn-outline-secondary" type="button">Asignar Destacados</button>
                       </div>
                   </li>
                   </ul>

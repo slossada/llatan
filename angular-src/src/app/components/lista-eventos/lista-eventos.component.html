@@ -40,6 +40,8 @@
                 <span *ngIf="evento.Estado == 1" class="badge badge-pill badge-primary text-white">{{estados[1].Tipo}}</span>
                 <span *ngIf="evento.Estado == 2" class="badge badge-pill badge-success text-white">{{estados[2].Tipo}}</span>
                 <span *ngIf="evento.Estado == 3" class="badge badge-pill badge-danger text-white">{{estados[3].Tipo}}</span>
+                <span *ngIf="evento.esCoordinador" class="badge badge-pill badge-info text-white">Coordinador</span>
+                <span *ngIf="evento.Encargado == user.id" class="badge badge-pill badge-secondary text-white">Encargado</span>
               </td>
               <td *ngIf="user.esAdministrador" scope="row">
                 <span *ngIf="evento.Evaluacion != undefined" class="badge badge-pill badge-info text-white">{{evento.Evaluacion}}</span>

@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
                 this.user.rol = this.guia.Rol;
                 this.user.cargo = this.roles[parseInt(this.guia.Rol)].Tipo;
 
-                if (this.guia) {
+                if (this.guia.FechaNacimiento != undefined) {
                   
                   this.user.edad = this.datePipe.transform(this.guia.FechaNacimiento);
  

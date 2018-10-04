@@ -11,6 +11,11 @@ const Disponibilidad = require('../models/disponibilidad');
 const Rol = require('../models/rol');
 const Administrador = require('../models/administrador');
 const EstadoDisp = require('../models/estado-disp');
+const Direccion = require('../models/direccion');
+const Indice = require('../models/indice');
+const TipoCoordinacion = require('../models/tipo-coordinacion');
+const Coordinacion = require('../models/coordinacion');
+
 
 // Controllers
 const con_User = require('../controllers/user');
@@ -117,11 +122,21 @@ router.post('/marcar-disponibilidad', passport.authenticate('jwt', { session: fa
     });
 });
 
-// Actualiza un los coordis de un evento
+// Actualiza los coordis de un evento
 router.post('/guardar-coordis', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     con_Evento.guardarCoordis(req.body, (err) => {
         if (err)
             res.json({ success: false, msg: 'Se produjo un error al guardar los Coordinadores.' });
+        else
+            res.json({ success: true, msg: 'Se guardo la información exitosamente.' });
+    });
+});
+
+// Actualiza los directores de un evento
+router.post('/guardar-directores', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Evento.guardarDirectores(req.body, (err) => {
+        if (err)
+            res.json({ success: false, msg: 'Se produjo un error al guardar los Directores.' });
         else
             res.json({ success: true, msg: 'Se guardo la información exitosamente.' });
     });
@@ -183,14 +198,17 @@ router.get('/coordis-y-baquianos',passport.authenticate('jwt', { session: false 
     });
 });
 
-// Obtiene todos los coordis y si coordinan ese evento
-router.post('/coordis',passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    con_Guia.getCoordis(req.body, (data, err) => {
+// Obtiene todos el staff de un evento
+router.post('/staff',passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Evento.getStaffEvento(req.body, (data, err) => {
         if (err) throw err;
 
         if (data) {
             res.json({
+                staff: data.staff,
                 coordis: data.coordis,
+                directores: data.directores,
+                guias: data.guias
             });
         }
     });

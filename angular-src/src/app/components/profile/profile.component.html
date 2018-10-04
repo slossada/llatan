@@ -161,22 +161,23 @@
         </div>
     </div>
   </div>
+
+  <div class="container justify-content-center">
+      <div class="col-11 col-md-6 col-lg-4 mx-auto my-auto">
+        <!-- Tarjeta -->
+        <div class="card text-center">
+          <div class="card-header">
+            <h5 *ngIf="completoFormulario()" class="pt-3">Actualiza tus Datos</h5>
+            <h5 *ngIf="!completoFormulario()" class="pt-3">Complete el formulario</h5>
+          </div>
+          <div class="card-body">
+            <p *ngIf="completoFormulario()">Si quieres hacer alguna modificación a sus datos personales puede hacerlo aquí.</p>
+            <p *ngIf="!completoFormulario()">Nos faltan algunos de sus datos personales. Por favor, tómese un momento para llenarlos.</p>
+            <a class="btn btn-primary" [routerLink]="['/form-guia']">Ir al formulario</a>
+          </div>
+        </div>
+      </div>
+    </div>
     
 </div>
 
-<div class="container justify-content-center">
-  <div class="col-11 col-md-6 col-lg-4 mx-auto my-auto">
-    <!-- Tarjeta -->
-    <div class="card text-center">
-      <div class="card-header">
-        <h5 *ngIf="completoFormulario()" class="pt-3">Actualiza tus Datos</h5>
-        <h5 *ngIf="!completoFormulario()" class="pt-3">Complete el formulario</h5>
-      </div>
-      <div class="card-body">
-        <p *ngIf="completoFormulario()">Si quieres hacer alguna modificación a sus datos personales puede hacerlo aquí.</p>
-        <p *ngIf="!completoFormulario()">Nos faltan algunos de sus datos personales. Por favor, tómese un momento para llenarlos.</p>
-        <a class="btn btn-primary" [routerLink]="['/form-guia']">Ir al formulario</a>
-      </div>
-    </div>
-  </div>
-</div>

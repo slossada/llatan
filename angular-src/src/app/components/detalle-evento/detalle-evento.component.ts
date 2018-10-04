@@ -31,6 +31,9 @@ export class DetalleEventoComponent implements OnInit {
   guias: any;
   tipos: any;
   coordis: any;
+  directores: any;
+  baquianos_coordis: any;
+  staff: any;
 
   constructor(
     private http: Http,
@@ -66,12 +69,18 @@ export class DetalleEventoComponent implements OnInit {
     headers.append('Content-Type', 'application/json');
 
     // Hacer la petición, se retorna una promesa
-    this.http.post('http://localhost:3000/users/coordis', data, { headers })
+    this.http.post('http://localhost:3000/users/staff', data, { headers })
       .map(res => res.json())
       .subscribe(data => {
 
+        this.staff = data.staff;
+        localStorage.setItem('staff' ,JSON.stringify(data.staff));
         this.coordis = data.coordis;
         localStorage.setItem('coordis' ,JSON.stringify(data.coordis));
+        this.directores = data.directores;
+        localStorage.setItem('directores' ,JSON.stringify(data.directores));
+        this.guias = data.guias;
+        localStorage.setItem('guias' ,JSON.stringify(data.guias));
 
       }, err => {
         console.log('Error al pedir los coordis: ', err);
@@ -122,13 +131,14 @@ export class DetalleEventoComponent implements OnInit {
     });
   }
 
-  asignar(i){
-    this.encargado = this.guias[i].id;
-    this.nombreEncargado = this.guias[i].Nombre+' '+this.guias[i].Apellido;
+  // Asignar Encargado
+  asignarEncargado(i){
+    this.encargado = this.baquianos_coordis[i].id;
+    this.nombreEncargado = this.baquianos_coordis[i].Nombre+' '+this.baquianos_coordis[i].Apellido;
     this.mostrar_lista = false;
   }
 
-  asignarEncargado(){
+  getBaquianosyCoordis(){
 
     let headers = new Headers();
 
@@ -146,7 +156,7 @@ export class DetalleEventoComponent implements OnInit {
           }
         });
 
-        this.guias = data.guias;
+        this.baquianos_coordis = data.guias;
 
         //localStorage.setItem('guias', JSON.stringify(data.guias));
       }, err => {
@@ -233,6 +243,10 @@ export class DetalleEventoComponent implements OnInit {
 
   asignarCoordis() {
     this.router.navigate(['asignar-coordis']);
+  }
+
+  asignarDirectores() {
+    this.router.navigate(['asignar-directores']);
   }
 
 }
