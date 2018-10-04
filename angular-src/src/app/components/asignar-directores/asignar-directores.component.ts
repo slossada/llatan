@@ -54,12 +54,9 @@ export class AsignarDirectoresComponent implements OnInit {
     headers.append('Authorization', localStorage.getItem('id_token'));
     headers.append('Content-Type', 'application/json');
 
-    for (let i = 0; i < this.directores.length; i++) {
-
         let data = {
           Evento: JSON.parse(localStorage.getItem('detalle-evento')).id,
-          Guia: this.directores[i].id,
-          Tipo: this.directores[i].Direcciona
+          directores: this.directores
         }
         // Hacer la petición, se retorna una promesa
         this.http.post('http://localhost:3000/users/guardar-directores', data, { headers })
@@ -73,7 +70,6 @@ export class AsignarDirectoresComponent implements OnInit {
           document.location.reload();
         });
       
-    }
   }
 
 }
