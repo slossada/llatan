@@ -249,4 +249,8 @@ export class DetalleEventoComponent implements OnInit {
     this.router.navigate(['asignar-directores']);
   }
 
+  asignarStaff() {
+    this.router.navigate(['asignar-staff']);
+  }
+
 }

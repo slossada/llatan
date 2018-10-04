@@ -213,15 +213,6 @@ controller.getStaffEvento = async function (data, callback) {
         guias = [];
 
         for (let i = 0; i < staff.length; i++) {
-            let estado = await Disponibilidad.findOne({
-                where: {
-                    Evento: data.evento,
-                    Guia: staff[i].id
-                }
-            });
-            if (estado) {
-                staff[i].Estado = estado.dataValues.Estado;
-            }
             let respuesta = await Usuario.findOne({
                 where: {id: staff[i].id}
             });
@@ -233,9 +224,18 @@ controller.getStaffEvento = async function (data, callback) {
                 staff[i].Email = respuesta.dataValues.Email;
                 staff[i].Username = respuesta.dataValues.Username;
             }
-            if (staff[i].Rol==1 || staff[i].Rol==2 || staff[i].Rol==3)
-            {
+            let estado = await Disponibilidad.findOne({
+                where: {
+                    Evento: data.evento,
+                    Guia: staff[i].id
+                }
+            });
+            if (estado) {
+                staff[i].Estado = estado.dataValues.Estado;
+                if (staff[i].Rol==1 || staff[i].Rol==2 || staff[i].Rol==3 || staff[i].Rol==4)
+                {
                 guias.push(staff[i]);
+                }
             }
             if (staff[i].Rol==4)
             {
@@ -321,27 +321,29 @@ controller.getEstadosDisponibilidad = async function (callback) {
 // Metodo que guarda los coordis de un evento
 controller.guardarCoordis = async function (data, callback) {
     try {
-        let response = await Coordinacion.findOne({
-          where: {
-            Guia: data.Guia,
-            Evento: data.Evento
-            } 
-        });
-        if (response) {
-            Coordinacion.update({
-                Tipo: data.Tipo,
-            },
-            {where: {
-                Guia: data.Guia,
+        for (let i = 0; i < data.coordis.length; i++) {
+            let response = await Coordinacion.findOne({
+            where: {
+                Guia: data.coordis[i].id,
                 Evento: data.Evento
-            } } );
-        }
-        else {
-            Coordinacion.create({
-                Tipo: data.Tipo,
-                Guia: data.Guia,
-                Evento: data.Evento
+                } 
             });
+            if (response) {
+                Coordinacion.update({
+                    Tipo: data.coordis[i].Coordina,
+                },
+                {where: {
+                    Guia: data.coordis[i].id,
+                    Evento: data.Evento
+                } } );
+            }
+            else {
+                Coordinacion.create({
+                    Tipo: data.coordis[i].Coordina,
+                    Guia: data.coordis[i].id,
+                    Evento: data.Evento
+                });
+            } 
         }
         // let respuesta = await Coordinacion.destroy({
         //     where: {
@@ -358,33 +360,54 @@ controller.guardarCoordis = async function (data, callback) {
 // Metodo que guarda los coordis de un evento
 controller.guardarDirectores = async function (data, callback) {
     try {
-        let response = await Direccion.findOne({
-          where: {
-            Guia: data.Guia,
-            Evento: data.Evento
-            } 
-        });
-        if (response && !data.Tipo) {
-            Direccion.destroy({
-                Guia: data.Guia,
+        for (let i = 0; i < data.directores.length; i++) {
+            let response = await Direccion.findOne({
+            where: {
+                Guia: data.directores[i].id,
                 Evento: data.Evento
-            },
-            {where: {
-                Guia: data.Guia,
-                Evento: data.Evento
-            } } );
-        }
-        if (response == undefined && data.Tipo) {
-            Direccion.create({
-                Guia: data.Guia,
-                Evento: data.Evento
+                } 
             });
+            if (response && !data.directores[i].Direcciona) {
+                Direccion.destroy({
+                    where: {
+                        Guia: data.directores[i].id,
+                        Evento: data.Evento
+                } });
+            }
+            if (response == undefined && data.directores[i].Direcciona) {
+                Direccion.create({
+                    Guia: data.directores[i].id,
+                    Evento: data.Evento
+                });
+            }
         }
-        // let respuesta = await Direccion.destroy({
-        //     where: {
-        //         Tipo: 0
-        //     }
-        // });
+        callback(null);
+    } catch (err) {
+        console.log('Se produjo un error en el controlador del evento: ', err);
+        callback(err);
+    }
+};
+
+// Metodo que guarda los coordis de un evento
+controller.guardarGuias = async function (data, callback) {
+    try {
+        for (let i = 0; i < data.guias.length; i++) {
+            let response = await Disponibilidad.findOne({
+                where: {
+                Guia: data.guias[i].id,
+                Evento: data.Evento
+                } 
+            });
+            if (response) {
+                Disponibilidad.update({
+                    Estado: data.guias[i].Estado,
+                },
+                {where: {
+                    Guia: data.guias[i].id,
+                    Evento: data.Evento
+                } });
+            }
+        }
         callback(null);
     } catch (err) {
         console.log('Se produjo un error en el controlador del evento: ', err);

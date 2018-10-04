@@ -142,6 +142,16 @@ router.post('/guardar-directores', passport.authenticate('jwt', { session: false
     });
 });
 
+// Actualiza los guias de un evento
+router.post('/guardar-guias', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Evento.guardarGuias(req.body, (err) => {
+        if (err)
+            res.json({ success: false, msg: 'Se produjo un error al guardar los Guias.' });
+        else
+            res.json({ success: true, msg: 'Se guardo la información exitosamente.' });
+    });
+});
+
 /* PETICIONES GET */
 // Obtiene todos los datos necesarios para el login
 router.get('/login', passport.authenticate('jwt', { session: false }), (req, res, next) => {

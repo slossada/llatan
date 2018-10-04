@@ -9,16 +9,14 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 @Component({
-  selector: 'app-asignar-coordis',
-  templateUrl: './asignar-coordis.component.html',
-  styleUrls: ['./asignar-coordis.component.css']
+  selector: 'app-asignar-staff',
+  templateUrl: './asignar-staff.component.html',
+  styleUrls: ['./asignar-staff.component.css']
 })
-export class AsignarCoordisComponent implements OnInit {
+export class AsignarStaffComponent implements OnInit {
 
-  coordis: any;
-  area: any;
-  evento: any;
-  tipos: any; 
+  guias: any;
+  roles: any;
 
   constructor(
     private http: Http,
@@ -30,22 +28,19 @@ export class AsignarCoordisComponent implements OnInit {
 
   ngOnInit() {
 
-    this.tipos = JSON.parse(localStorage.getItem('tipos'));
-    this.coordis = JSON.parse(localStorage.getItem('coordis'));
+    this.guias = JSON.parse(localStorage.getItem('guias'));
+    this.roles = JSON.parse(localStorage.getItem('roles'));
 
   }
 
-  asignar(i, coordina) {
-    this.coordis[i].Coordina = coordina;
-    this.coordis[i].Area = this.tipos[coordina].Area;
-    this.coordis[i].Coordinadas = this.coordis[i].Coordinadas+1;
-    localStorage.setItem('coordis',JSON.stringify(this.coordis));
+  asignarGuias(i) {
+    this.guias[i].Estado = 2;
+    localStorage.setItem('guias',JSON.stringify(this.guias));
   }
 
-  quitar(i) {
-    this.coordis[i].Coordina = 0;
-    this.coordis[i].Coordinadas = this.coordis[i].Coordinadas-1;
-    localStorage.setItem('coordis',JSON.stringify(this.coordis));
+  quitarGuias(i) {
+    this.guias[i].Estado = 3;
+    localStorage.setItem('guias',JSON.stringify(this.guias));
   }
 
   regresar() {
@@ -53,7 +48,7 @@ export class AsignarCoordisComponent implements OnInit {
   }
 
   guardar() {
-    localStorage.setItem('coordis',JSON.stringify(this.coordis));
+    localStorage.setItem('guias',JSON.stringify(this.guias));
     let headers = new Headers();
 
     // Settear los encabezados para la petición al API
@@ -62,10 +57,10 @@ export class AsignarCoordisComponent implements OnInit {
 
         let data = {
           Evento: JSON.parse(localStorage.getItem('detalle-evento')).id,
-          coordis: this.coordis
+          guias: this.guias
         }
         // Hacer la petición, se retorna una promesa
-        this.http.post('http://localhost:3000/users/guardar-coordis', data, { headers })
+        this.http.post('http://localhost:3000/users/guardar-guias', data, { headers })
         .map(res => res.json())
         .subscribe(response => {
           if (response.success) {
