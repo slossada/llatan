@@ -61,6 +61,50 @@ const User = connection.define('Usuario',
         validate: {
             notEmpty: true
         }
+    },
+    esAdministrador: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
+    SobreNombre: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null
+    },
+    FechaNacimiento: {
+        type: Sequelize.DATE,
+        defaultValue: null,
+        validate: {
+            isDate: true,
+            isAfter: '1900-01-01'
+        }
+    },
+    AnoIngreso: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: null,
+
+        validate: {
+            min: 1994,
+            notEmpty: true
+        }
+    },
+    Sexo: {
+        type: Sequelize.STRING,
+        defaultValue: null,
+        validate: {
+            isAlpha: true,
+            isIn: [['Masculino', 'Femenino', 'Otro']]
+        }
+    },
+    Rol: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        validate: {
+            isAlphanumeric: true,
+            notEmpty: true
+        }
     }
 },
 {

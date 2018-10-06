@@ -44,7 +44,7 @@ export class FormGuiaComponent implements OnInit {
       return false;
     }
 
-    switch(this.rol) {
+    switch(this.rol) { 
       case 'Senior':
         this.rol=1;
         break;

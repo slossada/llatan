@@ -36,6 +36,7 @@ export class AsignarCoordisComponent implements OnInit {
   }
 
   asignar(i, coordina) {
+    this.coordis[i].Estado = 3;
     this.coordis[i].Coordina = coordina;
     this.coordis[i].Area = this.tipos[coordina].Area;
     this.coordis[i].Coordinadas = this.coordis[i].Coordinadas+1;
@@ -43,6 +44,7 @@ export class AsignarCoordisComponent implements OnInit {
   }
 
   quitar(i) {
+    this.coordis[i].Estado = 1;
     this.coordis[i].Coordina = 0;
     this.coordis[i].Coordinadas = this.coordis[i].Coordinadas-1;
     localStorage.setItem('coordis',JSON.stringify(this.coordis));

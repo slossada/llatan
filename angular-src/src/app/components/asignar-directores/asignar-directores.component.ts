@@ -33,12 +33,14 @@ export class AsignarDirectoresComponent implements OnInit {
   }
 
   asignarDirector(i) {
-    this.directores[i].Direcciona = true;
+    this.directores[i].Estado = 2;
+    this.directores[i].esDirector = true;
     localStorage.setItem('directores',JSON.stringify(this.directores));
   }
 
   quitarDirector(i) {
-    this.directores[i].Direcciona = false;
+    this.directores[i].Estado = 1;
+    this.directores[i].esDirector = false;
     localStorage.setItem('directores',JSON.stringify(this.directores));
   }
 

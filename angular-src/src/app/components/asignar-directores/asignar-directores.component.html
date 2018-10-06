@@ -15,9 +15,9 @@
             </thead>
             <tbody>
               <tr *ngFor="let director of directores; let i=index">
-                <td scope="row" *ngIf = "director.Direcciona">{{director.Nombre}} {{director.Apellido}}</td>
-                <td scope="row" *ngIf = "director.Direcciona">{{director.SobreNombre}}</td>
-                <td scope="row" *ngIf = "director.Direcciona">
+                <td scope="row" *ngIf = "director.esDirector">{{director.Nombre}} {{director.Apellido}}</td>
+                <td scope="row" *ngIf = "director.esDirector">{{director.SobreNombre}}</td>
+                <td scope="row" *ngIf = "director.esDirector">
                   <button (click)="quitarDirector(i)" class="btn btn-sm btn-outline-danger" type="button">Quitar</button>
                 </td>
               </tr>
@@ -55,9 +55,9 @@
               </thead>
               <tbody> 
                 <tr *ngFor="let director of directores; let i=index">
-                  <td scope="row" *ngIf = "!director.Direcciona">{{director.Nombre}} {{director.Apellido}}</td>
-                  <td scope="row" *ngIf = "!director.Direcciona">{{director.SobreNombre}}</td>
-                  <td scope="row" *ngIf = "!director.Direcciona">
+                  <td scope="row" *ngIf = "!director.esDirector">{{director.Nombre}} {{director.Apellido}}</td>
+                  <td scope="row" *ngIf = "!director.esDirector">{{director.SobreNombre}}</td>
+                  <td scope="row" *ngIf = "!director.esDirector">
                     <button (click)="asignarDirector(i)" class="btn btn-sm btn-outline-dark" type="button">Asignar</button>
                   </td>
                 </tr>

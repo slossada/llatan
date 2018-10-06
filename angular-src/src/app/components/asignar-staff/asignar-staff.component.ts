@@ -39,7 +39,7 @@ export class AsignarStaffComponent implements OnInit {
   }
 
   quitarGuias(i) {
-    this.guias[i].Estado = 3;
+    this.guias[i].Estado = 1;
     localStorage.setItem('guias',JSON.stringify(this.guias));
   }
 
