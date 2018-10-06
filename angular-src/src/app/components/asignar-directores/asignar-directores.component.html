@@ -15,9 +15,9 @@
             </thead>
             <tbody>
               <tr *ngFor="let director of directores; let i=index">
-                <td scope="row" *ngIf = "director.Direcciona">{{director.Nombre}} {{director.Apellido}}</td>
-                <td scope="row" *ngIf = "director.Direcciona">{{director.SobreNombre}}</td>
-                <td scope="row" *ngIf = "director.Direcciona">
+                <td scope="row" *ngIf = "director.esDirector">{{director.Nombre}} {{director.Apellido}}</td>
+                <td scope="row" *ngIf = "director.esDirector">{{director.SobreNombre}}</td>
+                <td scope="row" *ngIf = "director.esDirector">
                   <button (click)="quitarDirector(i)" class="btn btn-sm btn-outline-danger" type="button">Quitar</button>
                 </td>
               </tr>
@@ -28,6 +28,10 @@
       <!-- Fin de la Tabla -->
   
       <div class="container">
+        <!-- Alert -->
+        <div *ngIf = "alerta" class="alert alert-warning alert-dismissible fade show rounded" role="alert">
+          <strong>¡Se han realizado cambios!</strong> Recuerda guardar para no perder la asignación.
+        </div>
         <div class="row">
           <div class="col">
             <div class="d-flex justify-content-center mt-3 btn-group" >
@@ -55,9 +59,9 @@
               </thead>
               <tbody> 
                 <tr *ngFor="let director of directores; let i=index">
-                  <td scope="row" *ngIf = "!director.Direcciona">{{director.Nombre}} {{director.Apellido}}</td>
-                  <td scope="row" *ngIf = "!director.Direcciona">{{director.SobreNombre}}</td>
-                  <td scope="row" *ngIf = "!director.Direcciona">
+                  <td scope="row" *ngIf = "!director.esDirector">{{director.Nombre}} {{director.Apellido}}</td>
+                  <td scope="row" *ngIf = "!director.esDirector">{{director.SobreNombre}}</td>
+                  <td scope="row" *ngIf = "!director.esDirector">
                     <button (click)="asignarDirector(i)" class="btn btn-sm btn-outline-dark" type="button">Asignar</button>
                   </td>
                 </tr>

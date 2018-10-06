@@ -19,6 +19,8 @@ export class ListaEventosComponent implements OnInit {
   mostrar_lista: boolean;
   eventos: any;
   estados: any;
+  eliminar: any;
+  alerta: any;
 
   constructor(
     private http: Http,
@@ -61,18 +63,9 @@ export class ListaEventosComponent implements OnInit {
 
   marcarDisponibilidad(i,tipo) {
     let id_Evento = this.eventos[i].id;
-    let aux = false;
-    let id_Estado = 1;
-
-    if (tipo == 1) {
-      aux = true;
-    }
-    if (tipo == 3) {
-      id_Estado = 0;
-    }
+    let id_Estado = tipo;
 
     let data = {
-      new: aux,
       id_Evento: id_Evento,
       id_Guia: this.user.id,
       id_Estado: id_Estado
@@ -105,6 +98,43 @@ export class ListaEventosComponent implements OnInit {
     localStorage.setItem('detalle-evento', JSON.stringify(evento));
     localStorage.setItem('regresar', 'lista-eventos');
     this.router.navigate(['detalle-evento']);
+  }
+
+  finalizarEvento(i) {
+    this.eliminar = this.eventos[i];
+    this.alerta = true;
+  }
+
+  botonesSiNo(i) {
+    this.alerta = false;
+
+    if (i) {
+      let data = {
+        id_Evento: this.eliminar.id,
+      };
+
+      let headers = new Headers();
+
+      // Settear los encabezados para la petición al API
+      headers.append('Authorization', localStorage.getItem('id_token'));
+      headers.append('Content-Type', 'application/json');
+
+      // Hacer la petición, se retorna una promesa
+      this.http.post('http://localhost:3000/users/finalizar-evento', data, { headers })
+        .map(res => res.json())
+        .subscribe(response => {
+          if (response.success) {
+            this.flashMessage.show(response.msg, { cssClass: 'custom-success', timeout: 3000 });
+          } else {
+            this.flashMessage.show(response.msg, { cssClass: 'custom-danger', timeout: 3000 });
+          }
+          document.location.reload();
+      });
+    }
+    else {
+
+    }
+    
   }
 
 }

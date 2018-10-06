@@ -7,7 +7,7 @@
     <form (submit)="onRegisterSubmit()" class="wrapper">
 
       <div class="row">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-4">
           <div class="form-group">
             <label>Nombre
               <span class="required">*</span>
@@ -15,40 +15,25 @@
             <input type="text" [(ngModel)]="nombre" name="nombre" class="form-control">
           </div>
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-4">
           <div class="form-group">
             <label>Segundo Nombre</label>
             <input type="text" [(ngModel)]="seg_nombre" name="seg_nombre" class="form-control">
           </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-4">
           <div class="form-group">
             <label>Apellido <span class="required">*</span></label>
             <input type="text" [(ngModel)]="apellido" name="apellido" class="form-control">
           </div>
         </div>
-        <div class="col-12 col-md-6">
-          <div class="form-group">
-            <label>
-              Cedula
-              <span class="required">*</span>
-            </label>
-            <input type="text" [(ngModel)]="cedula" name="cedula" class="form-control">
-          </div>
-        </div>
       </div>
 
       <div class="row">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-4">
           <div class="form-group">
-            <label>
-              Usuario
-              <span class="required">*</span>
-            </label>
-            <input type="text" [(ngModel)]="username" name="username" class="form-control">
+            <label>Sobrenombre</label>
+            <input type="text" [(ngModel)]="sobreNombre" name="sobreNombre" class="form-control">
           </div>
         </div>
         <div class="col-12 col-md-6">
@@ -63,7 +48,16 @@
       </div>
 
       <div class="row">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-5">
+          <div class="form-group">
+            <label>
+              Usuario
+              <span class="required">*</span>
+            </label>
+            <input type="text" [(ngModel)]="username" name="username" class="form-control">
+          </div>
+        </div>
+        <div class="col-12 col-md-5">
           <div class="form-group">
             <label>
               Contraseña
@@ -74,12 +68,71 @@
         </div>
       </div>
 
+      <div class="row">
+          <div class="col-12 col-md-4">
+            <div class="form-group">
+              <label>
+                Cedula
+                <span class="required">*</span>
+              </label>
+              <input type="text" [(ngModel)]="cedula" name="cedula" class="form-control">
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="form-group">
+              <label>Sexo
+                <span class="required">*</span>
+              </label>
+              <select class="form-control" [(ngModel)]="sexo" name="sexo" id="sexo">
+                <option>Masculino</option>
+                <option>Femenino</option>
+                <option>Otro</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="form-group">
+              <label>
+                Fecha de Nacimiento
+                  <span class="required">*</span>
+              </label>
+              <input type="date" class="form-control" [(ngModel)]="fechaNacimiento" name="fechaNacimiento">
+            </div>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-12 col-md-4">
+            <div class="form-group">
+              <label>
+                Año de Ingreso al Staff
+                  <span class="required">*</span>
+              </label>
+              <input type="text" [(ngModel)]="anoIngreso" name="anoIngreso" class="form-control">
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="form-group">
+              <label>
+                Rol
+                  <span class="required">*</span>
+              </label>
+              <select class="form-control" [(ngModel)]="rol" name="rol" id="rol">
+                <option>Senior</option>
+                <option>Guia</option>
+                <option>Baquiano</option>
+                <option>Coordinador</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
       <!-- Submit Button -->
       <div class="container">
         <div class="row pt-4">
           <div class="col">
             <div class="d-flex justify-content-center">
-              <input type="submit" class="btn btn-primary" value="Submit">
+              <input type="submit" class="btn btn-outline-primary" value="Registrar">
             </div>
           </div>
         </div>

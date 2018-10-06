@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-11 col-md-10 col-lg-9 mx-auto mb-5 mt-3 py-5 px-5 bg-white border rounded">
         <!-- Nombre del Guia -->
-        <h2 class="page-header pb-3">{{user.nombre}} {{user.seg_nombre}} {{user.apellido}}</h2>
+        <h2 class="page-header pb-3">{{user.Nombre}} {{user.Snombre}} {{user.Apellido}}</h2>
 
         <!-- Tabs -->
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -17,10 +17,10 @@
             <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile"
               aria-selected="false"><i class="fas fa-compass pr-1"></i> Actividades</a>
           </li>
-          <li *ngIf = "user.esAdministrador" class="nav-item">
+          <!-- <li *ngIf = "user.esAdministrador" class="nav-item">
             <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact"
               aria-selected="false"><i class="fas fa-file-alt pr-1"></i> Historial</a>
-          </li>
+          </li> -->
         </ul>
 
         <!-- Contenido -->
@@ -34,50 +34,42 @@
                 </div>
                 <div class="col-9">
                   <ul class="list-group list-group-flush">
+                    <li *ngIf="user.SobreNombre != null" class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Sobrenombre: </span>
+                      <p class="lead m-0"><b>{{user.SobreNombre}}</b></p>
+                    </li>
+                    <li *ngIf="user.Rol != null" class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Cargo: </span>
+                      <p class="lead m-0">{{user.Cargo}}</p>
+                    </li>
+                    <li *ngIf="user.AnoIngreso != null" class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Año de Ingreso: </span>
+                      <p class="lead m-0">{{user.AnoIngreso}}</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Correo: </span>
+                      <p class="lead m-0">{{user.Email}}</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Usuario: </span>
+                      <p class="lead m-0">{{user.Username}}</p>
+                    </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Cedula: </span>
-                      <p class="lead m-0">{{user.cedula}}</p>
+                      <p class="lead m-0">{{user.Cedula}}</p>
                     </li>
-                    <li *ngIf="user.sobreNombre != null" class="list-group-item d-flex justify-content-between align-items-center">
-                      <span class="lead">Sobrenombre: </span>
-                      <p class="lead m-0">{{user.sobreNombre}}</p>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                          <span class="lead">Usuario: </span>
-                          <p class="lead m-0">{{user.username}}</p>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                          <span class="lead">Correo: </span>
-                          <p class="lead m-0">{{user.email}}</p>
-                      </li>
-                    <li *ngIf="user.rol != null" class="list-group-item d-flex justify-content-between align-items-center">
-                      <span class="lead">Cargo: </span>
-                      <p class="lead m-0">{{user.cargo}}</p>
-                    </li>
-                    <li *ngIf="user.anoIngreso != null" class="list-group-item d-flex justify-content-between align-items-center">
-                      <span class="lead">Año de Ingreso: </span>
-                      <p class="lead m-0">{{user.anoIngreso}}</p>
-                    </li>
-                    <li *ngIf="user.rol == 4" class="list-group-item d-flex justify-content-between align-items-center">
-                      <span class="lead">Temporadas Coordinadas: </span>
-                      <p class="lead m-0"></p>
-                    </li>
-                    <li *ngIf="user.fechaNacimiento != null" class="list-group-item d-flex justify-content-between align-items-center">
-                      <span class="lead">Fecha de Nacimiento: </span>
-                      <p class="lead m-0">{{user.fechaNacimiento}}</p>
-                    </li>
-                    <li *ngIf="user.fechaNacimiento != null" class="list-group-item d-flex justify-content-between align-items-center">
-                      <span class="lead">Edad: </span>
-                      <p class="lead m-0">{{user.edad | date: 'yyyy'}}</p>
-                    </li>
-                    <li *ngIf="user.sexo != null" class="list-group-item d-flex justify-content-between align-items-center">
+                    <li *ngIf="user.Sexo != null" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Sexo: </span>
-                      <p class="lead m-0">{{user.sexo}}</p>
+                      <p class="lead m-0">{{user.Sexo}}</p>
                     </li>
-                    <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
-                      <span class="lead">¿Tiene evaluaciones pendientes? </span>
-                      <span href="#" class="badge badge-pill badge-danger text-white lead m-0">Si</span>
-                    </li> -->
+                    <li *ngIf="user.FechaNacimiento != null" class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Fecha de Nacimiento: </span>
+                      <p class="lead m-0">{{user.FechaNacimiento}}</p>
+                    </li>
+                    <li *ngIf="user.FechaNacimiento != null" class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Edad: </span>
+                      <p class="lead m-0">{{user.Edad | date: 'yyyy'}}</p>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -97,31 +89,43 @@
                         <tr>
                           <th scope="col">Nombre</th>
                           <th scope="col">Tipo de Evento</th>
-                          <th scope="col">Detalle</th>
-                          <th scope="col">Estado</th>
+                          <th scope="col">Fecha</th>
+                          <th *ngIf="user.esAdministrador" scope="col">Encargado</th>
+                          <th *ngIf="!user.esAdministrador" scope="col">Estado</th>
+                          <th *ngIf="user.esAdministrador" scope="col">Evaluaciones</th>
                           <th scope="col">Acciones</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr *ngFor="let evento of mis_eventos; let i=index">
-                          <td scope="row">{{evento.Nombre}}</td>
-                          <td scope="row">{{evento.Tipo}}</td>
-                          <td class="d-flex justify-content-center">
-                              <button (click)="verDetalle(i)" class="btn btn-sm btn-outline-secondary" type="button">Ver</button>
+                          <td scope="row">
+                            <button (click)="verDetalle(i)" class="btn btn-sm btn-outline-secondary" type="button">{{evento.Nombre}}</button> <span *ngIf="evento.Encargado == user.id" class="badge badge-pill badge-secondary text-white">Encargado</span>
                           </td>
-                          <!-- Estado -->
-                          <td>
+                          <td scope="row">{{evento.Tipo}}</td>
+                          <td scope="row">
+                            <span *ngIf="evento.FechaInicio == evento.FechaFin" scope="row">{{evento.FechaInicio}}</span>
+                            <span *ngIf="evento.FechaInicio != evento.FechaFin" scope="row">{{evento.FechaInicio}} - {{evento.FechaFin}}</span>
+                          </td>
+                          <!-- Nombre Encargado -->
+                          <td *ngIf="user.esAdministrador" scope="row">{{evento.NombreEncargado}} {{evento.ApellidoEncargado}}</td>
+                          <!-- Estado o Evaluaciones -->
+                          <td *ngIf="!user.esAdministrador" scope="row">
                             <span *ngIf="evento.Estado == undefined" class="badge badge-pill badge-warning text-white">Esperando Disponibilidad</span>
                             <span *ngIf="evento.Estado == 0" class="badge badge-pill badge-secondary text-white">{{estados[0].Tipo}}</span>
                             <span *ngIf="evento.Estado == 1" class="badge badge-pill badge-primary text-white">{{estados[1].Tipo}}</span>
                             <span *ngIf="evento.Estado == 2" class="badge badge-pill badge-success text-white">{{estados[2].Tipo}}</span>
                             <span *ngIf="evento.Estado == 3" class="badge badge-pill badge-danger text-white">{{estados[3].Tipo}}</span>
                           </td>
+                          <td *ngIf="user.esAdministrador" scope="row">
+                            <span *ngIf="evento.Evaluacion != undefined" class="badge badge-pill badge-info text-white">{{evento.Evaluacion}}</span>
+                          </td>
                           <!-- Acciones -->
                           <td class="d-flex justify-content-center">
-                            <button *ngIf="evento.Estado == undefined" (click)="marcarDisponibilidad(i,1)" class="btn btn-sm btn-outline-success" type="button">Disponible</button>
-                            <button *ngIf="evento.Estado == 0" (click)="marcarDisponibilidad(i,2)" class="btn btn-sm btn-outline-success" type="button">Cambiar a Disponible</button>
-                            <button *ngIf="evento.Estado == 1 || evento.Estado == 2 || evento.Estado == 3" (click)="marcarDisponibilidad(i,3)" class="btn btn-sm btn-outline-danger" type="button">Quitar Disponibilidad</button>
+                              <div class="btn-group">
+                                <button *ngIf="user.esAdministrador" (click)="finalizarEvento(i)" class="btn btn-sm btn-outline-danger" type="button">Finalizar</button>
+                                <button *ngIf="!user.esAdministrador" (click)="marcarDisponibilidad(i,1)" class="btn btn-sm btn-outline-success" type="button">Cambiar a Disponible</button>
+                                <button *ngIf="!user.esAdministrador" (click)="marcarDisponibilidad(i,0)" class="btn btn-sm btn-outline-danger" type="button">Quitar Disponibilidad</button>
+                              </div>
                           </td>
                         </tr>
                       </tbody>
@@ -167,13 +171,11 @@
         <!-- Tarjeta -->
         <div class="card text-center">
           <div class="card-header">
-            <h5 *ngIf="completoFormulario()" class="pt-3">Actualiza tus Datos</h5>
-            <h5 *ngIf="!completoFormulario()" class="pt-3">Complete el formulario</h5>
+            <h5 class="pt-3">Actualiza tus Datos</h5>
           </div>
           <div class="card-body">
-            <p *ngIf="completoFormulario()">Si quieres hacer alguna modificación a sus datos personales puede hacerlo aquí.</p>
-            <p *ngIf="!completoFormulario()">Nos faltan algunos de sus datos personales. Por favor, tómese un momento para llenarlos.</p>
-            <a class="btn btn-primary" [routerLink]="['/form-guia']">Ir al formulario</a>
+            <p>Si quieres hacer alguna modificación a sus datos personales puede hacerlo aquí.</p>
+            <a class="btn btn-outline-primary" [routerLink]="['/form-guia']">Ir al formulario</a>
           </div>
         </div>
       </div>

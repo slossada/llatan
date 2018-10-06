@@ -20,6 +20,11 @@ export class RegisterComponent implements OnInit {
   email: String;
   username: String;
   password: String;
+  sexo: string;
+  fechaNacimiento: string;
+  anoIngreso: string;
+  sobreNombre: string;
+  rol: any;
 
   constructor(
     private flashMessage: FlashMessagesService,
@@ -31,25 +36,49 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit(){
+
+    switch(this.rol) {
+      case 'Senior':
+        this.rol=1;
+        break;
+      case 'Guia':
+        this.rol=2;
+        break;
+      case 'Baquiano':
+        this.rol=3;
+        break;
+      case 'Coordinador':
+        this.rol=4;
+        break;
+      default:
+          true;
+    }
     const user = {
-      nombre: this.nombre,
-      seg_nombre: this.seg_nombre,
-      apellido: this.apellido,
-      cedula: this.cedula,
-      email: this.email,
-      username: this.username,
-      password: this.password
+      Nombre: this.nombre,
+      Snombre: this.seg_nombre,
+      Apellido: this.apellido,
+      Cedula: this.cedula,
+      Email: this.email,
+      Username: this.username,
+      Password: this.password,
+      Sexo: this.sexo,
+      FechaNacimiento: this.fechaNacimiento,
+      AnoIngreso: this.anoIngreso,
+      Rol: this.rol,
+      SobreNombre: this.sobreNombre
     }
 
+    console.log(user);
+
     // Require all fields
-    if (user.nombre == undefined || user.apellido == undefined || user.cedula == undefined || user.email == undefined || user.username == undefined || user.password == undefined) {
+    if (user.Nombre == undefined || user.Apellido == undefined || user.Cedula == undefined || user.Email == undefined || user.Username == undefined || user.Password == undefined || user.Sexo == undefined || user.FechaNacimiento == undefined || user.AnoIngreso == undefined || user.Rol == undefined) {
       this.flashMessage.show('Por favor llene todas las casillas.', { cssClass: 'custom-danger', timeout: 3000 });
       return false;
     }
 
     // Validate Email
     const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!regex.test(user.email.toLowerCase())) {
+    if (!regex.test(user.Email.toLowerCase())) {
       this.flashMessage.show('Por favor ingrese una dirección de correo válida.', { cssClass: 'custom-danger', timeout: 5000 });
       return false;
     }

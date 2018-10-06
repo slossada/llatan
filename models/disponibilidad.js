@@ -15,6 +15,16 @@ const Disponibilidad = connection.define('Disponibilidad',
         Estado: {
             type: Sequelize.INTEGER,
             allowNull: false
+        },
+        Coordina: {
+            type: Sequelize.INTEGER,
+            defaultValue: 0,
+            allowNull: false
+        },
+        esDirector: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false,
+            allowNull: false
         }
     },
     {

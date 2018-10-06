@@ -2,6 +2,15 @@
   <!-- Lista de Eventos -->          
   <div class="container py-5 mt-3 mb-5">
     <h2 class="mb-3">Lista de Eventos</h2>
+    <!-- Alert -->
+    <div class="container">
+        <div *ngIf = "alerta" class="alert alert-danger alert-dismissible fade show rounded" role="alert">
+            <strong>¡Alerta!</strong> Quiere finalizar el Evento <b>{{eliminar.Nombre}}</b>. ¿Está seguro?
+            <div class="btn-group">
+              <button (click)="botonesSiNo(true)" class="btn btn-sm btn-outline-danger" type="button">Si.</button> <button (click)="botonesSiNo(false)" class="btn btn-sm btn-outline-warning" type="button">No!</button>
+            </div>
+        </div>
+    </div>
     <!-- Table -->
     <div class="container">
       <div class="table-responsive">
@@ -10,22 +19,20 @@
             <tr>
               <th scope="col">Nombre</th>
               <th scope="col">Tipo de Evento</th>
-              <th scope="col">Detalle</th>
               <th scope="col">Fecha</th>
-              <th *ngIf="user.rol!=5" scope="col">Cupos</th>
-              <th *ngIf="user.rol==5" scope="col">Encargado</th>
-              <th *ngIf="user.rol!=5" scope="col">Estado</th>
-              <th *ngIf="user.rol==5" scope="col">Evaluaciones</th>
+              <th *ngIf="!user.esAdministrador" scope="col">Cupos</th>
+              <th *ngIf="user.esAdministrador" scope="col">Encargado</th>
+              <th *ngIf="!user.esAdministrador" scope="col">Estado</th>
+              <th *ngIf="user.esAdministrador" scope="col">Evaluaciones</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let evento of eventos; let i=index">
-              <td scope="row">{{evento.Nombre}}</td>
-              <td scope="row">{{evento.Tipo}}</td>
               <td scope="row">
-                  <button (click)="verDetalle(i)" class="btn btn-sm btn-outline-secondary" type="button">Ver</button>
+                  <button (click)="verDetalle(i)" class="btn btn-sm btn-outline-secondary" type="button">{{evento.Nombre}}</button> <span *ngIf="evento.Encargado == user.id" class="badge badge-pill badge-secondary text-white">Encargado</span>
               </td>
+              <td scope="row">{{evento.Tipo}}</td>
               <td scope="row">
                   <span *ngIf="evento.FechaInicio == evento.FechaFin" scope="row">{{evento.FechaInicio}}</span>
                   <span *ngIf="evento.FechaInicio != evento.FechaFin" scope="row">{{evento.FechaInicio}} - {{evento.FechaFin}}</span>
@@ -40,18 +47,17 @@
                 <span *ngIf="evento.Estado == 1" class="badge badge-pill badge-primary text-white">{{estados[1].Tipo}}</span>
                 <span *ngIf="evento.Estado == 2" class="badge badge-pill badge-success text-white">{{estados[2].Tipo}}</span>
                 <span *ngIf="evento.Estado == 3" class="badge badge-pill badge-danger text-white">{{estados[3].Tipo}}</span>
-                <span *ngIf="evento.esCoordinador" class="badge badge-pill badge-info text-white">Coordinador</span>
-                <span *ngIf="evento.Encargado == user.id" class="badge badge-pill badge-secondary text-white">Encargado</span>
               </td>
               <td *ngIf="user.esAdministrador" scope="row">
                 <span *ngIf="evento.Evaluacion != undefined" class="badge badge-pill badge-info text-white">{{evento.Evaluacion}}</span>
               </td>
               <!-- Acciones -->
               <td scope="row">
-                <button *ngIf="user.esAdministrador" (click)="finalizarEvento(i)" class="btn btn-sm btn-outline-danger" type="button">Finalizar</button>
-                <button *ngIf="!user.esAdministrador && evento.Estado == undefined" (click)="marcarDisponibilidad(i,1)" class="btn btn-sm btn-outline-info" type="button">Disponible</button>
-                <button *ngIf="!user.esAdministrador && evento.Estado == 0" (click)="marcarDisponibilidad(i,2)" class="btn btn-sm btn-outline-success" type="button">Cambiar a Disponible</button>
-                <button *ngIf="!user.esAdministrador && evento.Estado == 1 || evento.Estado == 2 || evento.Estado == 3" (click)="marcarDisponibilidad(i,3)" class="btn btn-sm btn-outline-danger" type="button">Quitar Disponibilidad</button>
+                <div class="btn-group">
+                  <button *ngIf="user.esAdministrador" (click)="finalizarEvento(i)" class="btn btn-sm btn-outline-danger" type="button">Finalizar</button>
+                  <button *ngIf="!user.esAdministrador" (click)="marcarDisponibilidad(i,1)" class="btn btn-sm btn-outline-success" type="button">Cambiar a Disponible</button>
+                  <button *ngIf="!user.esAdministrador" (click)="marcarDisponibilidad(i,0)" class="btn btn-sm btn-outline-danger" type="button">Quitar Disponibilidad</button>
+                </div>
               </td>
 
             </tr>

@@ -70,46 +70,29 @@ export class LoginComponent implements OnInit {
                 localStorage.setItem('estados', JSON.stringify(data.estados));
                 localStorage.setItem('tipos', JSON.stringify(data.tipos));
 
-                this.guia = data.guia;
-                if (this.guia.esAdministrador)
-                {
-                  this.user.esAdministrador = true;
+                // Corrige error en el formato de la fecha
+                let fecha = this.user.FechaNacimiento;
+                let day = Number(fecha.slice(8, 10)) + 1;
+                let dayString = day.toString();
+
+                if (day < 10) {
+                  dayString = '0' + day;
                 }
 
-                this.user.rol = this.guia.Rol;
-                this.user.cargo = this.roles[parseInt(this.guia.Rol)].Tipo;
-
-                if (this.guia.FechaNacimiento != undefined) {
-                  
-                  this.user.edad = this.datePipe.transform(this.guia.FechaNacimiento);
- 
-                  // Corrige error en el formato de la fecha
-                  let fecha = this.guia.FechaNacimiento;
-                  let day = Number(fecha.slice(8, 10)) + 1;
-                  let dayString = day.toString();
-
-                  if (day < 10) {
-                    dayString = '0' + day;
-                  }
-
-                  this.user.fechaNacimiento = this.datePipe.transform(fecha.slice(0, 8) + dayString + fecha.slice(10));
-                  this.user.sexo = this.guia.Sexo;
-                  this.user.sobreNombre = this.guia.SobreNombre;
-                  this.user.anoIngreso = this.guia.AnoIngreso;
-                  
-                }
+                this.user.FechaNacimiento = this.datePipe.transform(fecha.slice(0, 8) + dayString + fecha.slice(10));
+                this.user.Cargo = this.roles[parseInt(this.user.Rol)].Tipo;
+                this.user.Edad = this.datePipe.transform(this.user.FechaNacimiento);
 
                 localStorage.setItem('user', JSON.stringify(this.user));
 
                 location.reload();
-
               }, err => {
                 console.log('Error al pedir los datos de login: ', err);
                 return false;
               });
 
           // Flash Message
-          this.flashMessage.show(`¡Bienvenido, ${data.user.nombre}!`, { cssClass: 'custom-success', timeout: 6000 });
+          this.flashMessage.show(`¡Bienvenido, ${data.user.Nombre}!`, { cssClass: 'custom-success', timeout: 6000 });
           this.router.navigate(['dashboard']);
         } else {
           this.flashMessage.show(data.msg, { cssClass: 'custom-danger', timeout: 3000 });

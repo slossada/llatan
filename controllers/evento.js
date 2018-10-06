@@ -8,11 +8,7 @@ const Evento = require('../models/evento');
 const Disponibilidad = require('../models/disponibilidad')
 const EstadoDisp = require('../models/estado-disp')
 const Usuario = require('../models/user');
-const Guia = require('../models/guia');
-const Indice = require('../models/indice');
 const TipoCoordinacion = require('../models/tipo-coordinacion');
-const Coordinacion = require('../models/coordinacion');
-const Direccion = require('../models/direccion');
 
 const controller = {};
 
@@ -60,10 +56,31 @@ controller.actualizarEvento = async function (data, callback) {
     }
 };
 
+// Metodo que actualiza un evento
+controller.finalizarEvento = async function (data, callback) {
+    try {
+        Evento.update({
+            Activa: false
+        }, 
+        { where: {id: data.id_Evento} } );
+
+        callback(null);
+    } catch (err) {
+        console.log('Se produjo un error en el controlador del evento: ', err);
+        callback(err);
+    }
+};
+
 // Metodo que actuliza la disponibilidad
 controller.actualizarDisp = async function (data, callback) {
     try {
-        if (data.new) {
+        let respuesta = await Disponibilidad.findOne({
+            where: {
+                Evento: data.id_Evento, 
+                Guia: data.id_Guia,
+            }
+        })
+        if (!respuesta) {
             Disponibilidad.create({
                 Evento: data.id_Evento, 
                 Guia: data.id_Guia,
@@ -102,6 +119,8 @@ controller.getEventos = async function (idGuia, callback) {
 
         // Agrega la disponibilidad, en caso de tenerla
         for (let i = 0; i < eventos.length; i++) {
+            eventos[i].Coordina = 0;
+            eventos[i].esDirector = false;
             let respuesta = await Disponibilidad.findOne({
                 where: {
                     Evento: eventos[i].id,
@@ -110,16 +129,8 @@ controller.getEventos = async function (idGuia, callback) {
             });
             if (respuesta) {
                 eventos[i].Estado = respuesta.dataValues.Estado;
-            }
-
-            let respuesta1 = await Coordinacion.findOne({
-                where: {
-                    Evento: eventos[i].id,
-                    Guia: idGuia
-                }
-            });
-            if (respuesta1) {
-                eventos[i].esCoordi = true;
+                eventos[i].Coordina = respuesta.dataValues.Coordina;
+                eventos[i].esDirector = respuesta.dataValues.esDirector;
             }
 
             let respuesta2 = await Usuario.findOne({
@@ -129,17 +140,6 @@ controller.getEventos = async function (idGuia, callback) {
                 eventos[i].NombreEncargado = respuesta2.dataValues.Nombre;
                 eventos[i].SnombreEncargado = respuesta2.dataValues.Snombre;
                 eventos[i].ApellidoEncargado = respuesta2.dataValues.Apellido;
-            }
-
-            let respuesta3 = await Coordinacion.findOne({
-                where: {
-                    Evento: eventos[i].id,
-                    Guia: idGuia
-                }
-            });
-            if (respuesta3) {
-                eventos[i].esCoordinador = true;
-                eventos[i].TipoCoordinador = respuesta3.dataValues.Tipo;
             }
 
         }
@@ -162,7 +162,7 @@ controller.getMisEventos = async function (idGuia, callback) {
                 Sequelize.or(
                     { Estado: 1},
                     { Estado: 2},
-                    { Estado: 3}
+                    { Estado: 3},
                 )
             )
         });
@@ -204,13 +204,17 @@ controller.getMisEventos = async function (idGuia, callback) {
 // Metodo que retorna un arreglo de todo el Staff del Evento
 controller.getStaffEvento = async function (data, callback) {
     try {
-        let response = await Guia.findAll();
+        let response = await Usuario.findAll();
 
         // Construye un arreglo todos los guias
         let staff = response.map(resultado => resultado.dataValues);
         coordis = [];
         directores = [];
         guias = [];
+
+        // Retorna un arreglo con todos los tipos de coordinacion
+        let temp = await TipoCoordinacion.findAll();
+        let tipos = temp.map(response => response.dataValues);
 
         for (let i = 0; i < staff.length; i++) {
             let respuesta = await Usuario.findOne({
@@ -223,78 +227,60 @@ controller.getStaffEvento = async function (data, callback) {
                 staff[i].Cedula = respuesta.dataValues.Cedula;
                 staff[i].Email = respuesta.dataValues.Email;
                 staff[i].Username = respuesta.dataValues.Username;
+                staff[i].SobreNombre = respuesta.dataValues.SobreNombre;
+                staff[i].FechaNacimiento = respuesta.dataValues.FechaNacimiento;
+                staff[i].AnoIngreso = respuesta.dataValues.AnoIngreso;
+                staff[i].Sexo = respuesta.dataValues.Sexo;
+                staff[i].Rol = respuesta.dataValues.Rol;
             }
             let estado = await Disponibilidad.findOne({
-                where: {
-                    Evento: data.evento,
-                    Guia: staff[i].id
-                }
+                where: Sequelize.and(
+                    {Evento: data.evento,
+                    Guia: staff[i].id,},
+                    Sequelize.or(
+                        { Estado: 1},
+                        { Estado: 2},
+                        { Estado: 3}
+                    ))
             });
             if (estado) {
                 staff[i].Estado = estado.dataValues.Estado;
+                staff[i].Coordina = estado.dataValues.Coordina;
+                staff[i].esDirector = estado.dataValues.esDirector;
                 if (staff[i].Rol==1 || staff[i].Rol==2 || staff[i].Rol==3 || staff[i].Rol==4)
                 {
                 guias.push(staff[i]);
                 }
-            }
-            if (staff[i].Rol==4)
-            {
-                staff[i].Coordinadas = 0;
-                staff[i].Coordina = 0;
-                coordis.push(staff[i]);
+                if (staff[i].Rol==4)
+                {
+                    staff[i].Coordinadas = 0;
+                    staff[i].Area = tipos[staff[i].Coordina].Area;
+
+                    let aux2 = await Disponibilidad.findAll({
+                        where: Sequelize.and(
+                            {Guia: staff[i].id,
+                            Evento: data.evento},
+                            Sequelize.or(
+                                { Coordina: 1},
+                                { Coordina: 2},
+                                { Coordina: 3},
+                                { Coordina: 4},
+                                { Coordina: 5},
+                            )
+                        )
+                    });
+                    if (aux2) {
+                        let coordinadas = aux2.map(resultado => resultado.dataValues);
+                        staff[i].Coordinadas = coordinadas.length;
+                    }
+                    coordis.push(staff[i]);
+                }
             }
             if (staff[i].Rol==5)
             {
-                staff[i].Direcciona = false;
                 directores.push(staff[i]);
             }
         }
-
-        // Retorna un arreglo con todos los tipos de coordinacion
-        let temp = await TipoCoordinacion.findAll();
-        let tipos = temp.map(response => response.dataValues);
-
-        for (let j = 0; j < coordis.length; j++) {
-            let aux1 = await Coordinacion.findOne({
-                where: {
-                    Guia: coordis[j].id,
-                    Evento: data.evento
-                }
-            });
-            if (aux1) {
-                coordis[j].Coordina = aux1.dataValues.Tipo;
-                coordis[j].Area = tipos[aux1.dataValues.Tipo].Area;
-            }
-            
-            let aux2 = await Coordinacion.findAll({
-                where: Sequelize.and(
-                    {Guia: coordis[j].id},
-                    Sequelize.or(
-                        { Tipo: 1},
-                        { Tipo: 2},
-                        { Tipo: 3},
-                        { Tipo: 4},
-                        { Tipo: 5},
-                    )
-                )
-            });
-            if (aux2) {
-                let coordinadas = aux2.map(resultado => resultado.dataValues);
-                coordis[j].Coordinadas = coordinadas.length;
-            }
-        } 
-
-        for (let k = 0; k < directores.length; k++) {
-            let aux1 = await Direccion.findOne({
-                where: {
-                    Guia: directores[k].id,
-                    Evento: data.evento
-                }
-            });
-            if (aux1) {
-                directores[k].Direcciona = true;
-            }
-        } 
 
         // Retorna el arreglo
         callback({staff, directores, coordis, guias}, null);
@@ -322,34 +308,23 @@ controller.getEstadosDisponibilidad = async function (callback) {
 controller.guardarCoordis = async function (data, callback) {
     try {
         for (let i = 0; i < data.coordis.length; i++) {
-            let response = await Coordinacion.findOne({
+            let response = await Disponibilidad.findOne({
             where: {
                 Guia: data.coordis[i].id,
                 Evento: data.Evento
                 } 
             });
             if (response) {
-                Coordinacion.update({
-                    Tipo: data.coordis[i].Coordina,
+                Disponibilidad.update({
+                    Coordina: data.coordis[i].Coordina,
+                    Estado: data.coordis[i].Estado
                 },
                 {where: {
                     Guia: data.coordis[i].id,
                     Evento: data.Evento
                 } } );
             }
-            else {
-                Coordinacion.create({
-                    Tipo: data.coordis[i].Coordina,
-                    Guia: data.coordis[i].id,
-                    Evento: data.Evento
-                });
-            } 
         }
-        // let respuesta = await Coordinacion.destroy({
-        //     where: {
-        //         Tipo: 0
-        //     }
-        // });
         callback(null);
     } catch (err) {
         console.log('Se produjo un error en el controlador del evento: ', err);
@@ -361,23 +336,27 @@ controller.guardarCoordis = async function (data, callback) {
 controller.guardarDirectores = async function (data, callback) {
     try {
         for (let i = 0; i < data.directores.length; i++) {
-            let response = await Direccion.findOne({
+            let response = await Disponibilidad.findOne({
             where: {
                 Guia: data.directores[i].id,
                 Evento: data.Evento
                 } 
             });
-            if (response && !data.directores[i].Direcciona) {
-                Direccion.destroy({
-                    where: {
+            if (response && !data.directores[i].esDirector) {
+                Disponibilidad.update({
+                    esDirector: false,
+                    Estado: directores[i].Estado},
+                    { where: {
                         Guia: data.directores[i].id,
                         Evento: data.Evento
                 } });
             }
-            if (response == undefined && data.directores[i].Direcciona) {
-                Direccion.create({
+            if (response == undefined && data.directores[i].esDirector) {
+                Disponibilidad.create({
                     Guia: data.directores[i].id,
-                    Evento: data.Evento
+                    Evento: data.Evento,
+                    Estado: directores[i].Estado,
+                    esDirector: true
                 });
             }
         }

@@ -19,6 +19,7 @@ export class AsignarCoordisComponent implements OnInit {
   area: any;
   evento: any;
   tipos: any; 
+  alerta: any;
 
   constructor(
     private http: Http,
@@ -36,6 +37,8 @@ export class AsignarCoordisComponent implements OnInit {
   }
 
   asignar(i, coordina) {
+    this.alerta = true;
+    this.coordis[i].Estado = 3;
     this.coordis[i].Coordina = coordina;
     this.coordis[i].Area = this.tipos[coordina].Area;
     this.coordis[i].Coordinadas = this.coordis[i].Coordinadas+1;
@@ -43,6 +46,8 @@ export class AsignarCoordisComponent implements OnInit {
   }
 
   quitar(i) {
+    this.alerta = true;
+    this.coordis[i].Estado = 1;
     this.coordis[i].Coordina = 0;
     this.coordis[i].Coordinadas = this.coordis[i].Coordinadas-1;
     localStorage.setItem('coordis',JSON.stringify(this.coordis));
@@ -53,6 +58,7 @@ export class AsignarCoordisComponent implements OnInit {
   }
 
   guardar() {
+    this.alerta=false;
     localStorage.setItem('coordis',JSON.stringify(this.coordis));
     let headers = new Headers();
 

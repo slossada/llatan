@@ -4,19 +4,16 @@ const bcrypt = require('bcryptjs');
 
 // Modelos Utilizados
 const Usuario = require('../models/user');
-const Guia = require('../models/guia');
 const Rol = require('../models/rol');
 const Disponibilidad = require('../models/disponibilidad');
-const Indice = require('../models/indice');
 const TipoCoordinacion = require('../models/tipo-coordinacion');
-const Coordinacion = require('../models/coordinacion');
 
 const controller = {};
 
 // Medoto que actualiza los datos de un guia
 controller.actualizarDatos = async function (data, callback) {
     try {
-        const response = await Guia.update(
+        const response = await Usuario.update(
             {
                 SobreNombre: data.sobreNombre,
                 FechaNacimiento: data.fechaNacimiento,
@@ -52,7 +49,7 @@ controller.getRoles = async function (callback) {
 // Metodo que retorna un arreglo de coordis y baquianos
 controller.getCoordisyBaquianos = async function (callback) {
     try {
-        let response = await Guia.findAll({ 
+        let response = await Usuario.findAll({ 
             where: 
                 Sequelize.or({Rol: 5}, {Rol: 4}, {Rol: 3})
         });

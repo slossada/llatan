@@ -40,40 +40,6 @@ export class ProfileComponent implements OnInit {
     headers.append('Authorization', localStorage.getItem('id_token'));
     headers.append('Content-Type', 'application/json');
 
-    // Metodo que se jala la información del guia
-    this.http.get('http://localhost:3000/users/profile', { headers })
-    .map(res => res.json())
-    .subscribe(profile => {
-      let user = JSON.parse(localStorage.getItem('user'));
-
-      if (profile.user.sexo != undefined && profile.user.fechaNacimiento != undefined && profile.user.sobreNombre != undefined && profile.user.anoIngreso != undefined && profile.user.rol != undefined) {
-
-        user.edad = this.datePipe.transform(profile.user.fechaNacimiento);
-
-        // Corrige error en el formato de la fecha
-        let fecha = profile.user.fechaNacimiento;
-        let day = Number(fecha.slice(8, 10)) + 1;
-        let dayString = day.toString();
-
-        if (day < 10) {
-          dayString = '0' + day;
-        }
-
-        user.fechaNacimiento = this.datePipe.transform(fecha.slice(0, 8) + dayString + fecha.slice(10));
-        user.sexo = profile.user.sexo;
-        user.sobreNombre = profile.user.sobreNombre;
-        user.anoIngreso = profile.user.anoIngreso;
-        user.rol = profile.user.rol;
-        user.cargo = this.roles[parseInt(profile.user.rol)].Tipo;
-
-        localStorage.setItem('user', JSON.stringify(user));
-      }
-
-    }, err => {
-      console.log('Error while getting the profile in ProfileComponent: ', err);
-      return false;
-    });
-
     this.http.get('http://localhost:3000/users/mis-eventos', { headers })
     .map(res => res.json())
     .subscribe(data => {
@@ -96,25 +62,16 @@ export class ProfileComponent implements OnInit {
 
   marcarDisponibilidad(i,tipo) {
     let id_Evento = this.mis_eventos[i].id;
-    let aux = false;
-    let id_Estado = 1;
-
-    if (tipo == 1) {
-      aux = true;
-    }
-    if (tipo == 3) {
-      id_Estado = 0;
-    }
+    let id_Estado = tipo;
 
     let data = {
-      new: aux,
       id_Evento: id_Evento,
-      id_Guia: JSON.parse(localStorage.getItem('user')).id,
+      id_Guia: this.user.id,
       id_Estado: id_Estado
     };
 
     this.mis_eventos[i].Estado = id_Estado;
-    localStorage.setItem('mis-eventos', JSON.stringify(this.mis_eventos));
+    localStorage.setItem('eventos', JSON.stringify(this.mis_eventos));
 
     let headers = new Headers();
 
@@ -140,9 +97,5 @@ export class ProfileComponent implements OnInit {
     localStorage.setItem('detalle-evento', JSON.stringify(evento));
     localStorage.setItem('regresar', 'profile');
     this.router.navigate(['detalle-evento']);
-  }
-
-  completoFormulario() {
-    return this.user.fechaNacimiento && this.user.sexo && this.user.anoIngreso && this.user.rol;
   }
 }

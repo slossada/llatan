@@ -6,15 +6,10 @@ const jwt = require('jsonwebtoken');
 // Models
 const User = require('../models/user');
 const Evento = require('../models/evento');
-const Guia = require('../models/guia');
 const Disponibilidad = require('../models/disponibilidad');
 const Rol = require('../models/rol');
-const Administrador = require('../models/administrador');
 const EstadoDisp = require('../models/estado-disp');
-const Direccion = require('../models/direccion');
-const Indice = require('../models/indice');
 const TipoCoordinacion = require('../models/tipo-coordinacion');
-const Coordinacion = require('../models/coordinacion');
 
 
 // Controllers
@@ -59,12 +54,18 @@ router.post('/authenticate', (req, res, next) => {
                     token: 'Bearer '+token,
                     user: {
                         id: user.id,
-                        nombre: user.Nombre,
-                        seg_nombre: user.Snombre,
-                        apellido: user.Apellido,
-                        cedula: user.Cedula,
-                        email: user.Email,
-                        username: user.Username
+                        Nombre: user.Nombre,
+                        Snombre: user.Snombre,
+                        Apellido: user.Apellido,
+                        Cedula: user.Cedula,
+                        Email: user.Email,
+                        Username: user.Username,
+                        esAdministrador: user.esAdministrador,
+                        SobreNombre: user.SobreNombre,
+                        FechaNacimiento: user.FechaNacimiento,
+                        AnoIngreso: user.AnoIngreso,
+                        Sexo: user.Sexo,
+                        Rol: user.Rol
                     }
                 });
             
@@ -122,6 +123,16 @@ router.post('/marcar-disponibilidad', passport.authenticate('jwt', { session: fa
     });
 });
 
+// Finaliza un evento
+router.post('/finalizar-evento', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Evento.finalizarEvento(req.body, (err) => {
+        if (err) 
+            res.json({ success: false, msg: 'Se produjo un error al finalizar el evento.' });
+        else 
+            res.json({ success: true, msg: 'Se finalizó el evento exitosamente.' });
+    });
+});
+
 // Actualiza los coordis de un evento
 router.post('/guardar-coordis', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     con_Evento.guardarCoordis(req.body, (err) => {
@@ -155,14 +166,13 @@ router.post('/guardar-guias', passport.authenticate('jwt', { session: false }), 
 /* PETICIONES GET */
 // Obtiene todos los datos necesarios para el login
 router.get('/login', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    con_User.getLogin(req.user.id, (data, err) => {
+    con_User.getLogin((data, err) => {
         if (err) throw err;
-        
+
         if (data) {
             res.json({
                 roles: data.roles,
                 estados: data.estados,
-                guia: data.guia,
                 tipos: data.tipos
             });
         }
