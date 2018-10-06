@@ -17,6 +17,7 @@ export class AsignarStaffComponent implements OnInit {
 
   guias: any;
   roles: any;
+  alerta: any;
 
   constructor(
     private http: Http,
@@ -34,11 +35,13 @@ export class AsignarStaffComponent implements OnInit {
   }
 
   asignarGuias(i) {
+    this.alerta=true;
     this.guias[i].Estado = 2;
     localStorage.setItem('guias',JSON.stringify(this.guias));
   }
 
   quitarGuias(i) {
+    this.alerta=true;
     this.guias[i].Estado = 1;
     localStorage.setItem('guias',JSON.stringify(this.guias));
   }
@@ -48,6 +51,7 @@ export class AsignarStaffComponent implements OnInit {
   }
 
   guardar() {
+    this.alerta=false;
     localStorage.setItem('guias',JSON.stringify(this.guias));
     let headers = new Headers();
 

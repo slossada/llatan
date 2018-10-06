@@ -17,6 +17,7 @@ export class AsignarDirectoresComponent implements OnInit {
 
   directores: any;
   evento: any;
+  alerta: any;
 
   constructor(
     private http: Http,
@@ -33,12 +34,14 @@ export class AsignarDirectoresComponent implements OnInit {
   }
 
   asignarDirector(i) {
+    this.alerta=true;
     this.directores[i].Estado = 2;
     this.directores[i].esDirector = true;
     localStorage.setItem('directores',JSON.stringify(this.directores));
   }
 
   quitarDirector(i) {
+    this.alerta=true;
     this.directores[i].Estado = 1;
     this.directores[i].esDirector = false;
     localStorage.setItem('directores',JSON.stringify(this.directores));
@@ -49,6 +52,7 @@ export class AsignarDirectoresComponent implements OnInit {
   }
 
   guardar() {
+    this.alerta=false;
     localStorage.setItem('directores',JSON.stringify(this.directores));
     let headers = new Headers();
 

@@ -42,6 +42,10 @@
       <!-- Fin de la Tabla -->
   
       <div class="container">
+        <!-- Alert -->
+        <div *ngIf = "alerta" class="alert alert-warning alert-dismissible fade show rounded" role="alert">
+          <strong>¡Se han realizado cambios!</strong> Recuerda guardar para no perder la asignación.
+        </div>
         <div class="row">
           <div class="col">
             <div class="d-flex justify-content-center mt-3 btn-group" >
@@ -73,19 +77,19 @@
               </thead>
               <tbody> 
                 <tr *ngFor="let guia of guias; let i=index">
-                  <td scope="row" *ngIf = "guia.Estado == 1 || guia.Estado == 3">{{guia.Nombre}} {{guia.Apellido}}</td>
-                  <td scope="row" *ngIf = "guia.Estado == 1 || guia.Estado == 3"><i>{{guia.SobreNombre}}</i></td>
-                  <td scope="row" *ngIf = "guia.Estado == 1 || guia.Estado == 3">
+                  <td scope="row" *ngIf = "guia.Estado == 1">{{guia.Nombre}} {{guia.Apellido}}</td>
+                  <td scope="row" *ngIf = "guia.Estado == 1"><i>{{guia.SobreNombre}}</i></td>
+                  <td scope="row" *ngIf = "guia.Estado == 1">
                     <span *ngIf="guia.Rol == 0" class="badge badge-pill badge-warning text-white">{{roles[0].Tipo}}</span>
                     <span *ngIf="guia.Rol == 1" class="badge badge-pill badge-secondary text-white">{{roles[1].Tipo}}</span>
                     <span *ngIf="guia.Rol == 2" class="badge badge-pill badge-primary text-white">{{roles[2].Tipo}}</span>
                     <span *ngIf="guia.Rol == 3" class="badge badge-pill badge-success text-white">{{roles[3].Tipo}}</span>
                     <span *ngIf="guia.Rol == 4" class="badge badge-pill badge-info text-white">{{roles[4].Tipo}}</span>
                   </td>
-                  <td scope="row" *ngIf = "guia.Estado == 1 || guia.Estado == 3">{{guia.AnoIngreso}}</td>
-                  <td scope="row" *ngIf = "guia.Estado == 1 || guia.Estado == 3">{{guia.FechaNacimiento | date: 'yyyy'}}</td>
-                  <td scope="row" *ngIf = "guia.Estado == 1 || guia.Estado == 3">{{guia.Sexo}}</td>
-                  <td scope="row" *ngIf = "guia.Estado == 1 || guia.Estado == 3">
+                  <td scope="row" *ngIf = "guia.Estado == 1">{{guia.AnoIngreso}}</td>
+                  <td scope="row" *ngIf = "guia.Estado == 1">{{guia.FechaNacimiento | date: 'yyyy'}}</td>
+                  <td scope="row" *ngIf = "guia.Estado == 1">{{guia.Sexo}}</td>
+                  <td scope="row" *ngIf = "guia.Estado == 1">
                     <button (click)="asignarGuias(i)" class="btn btn-sm btn-outline-success" type="button">Asignar</button>
                   </td>
                 </tr>

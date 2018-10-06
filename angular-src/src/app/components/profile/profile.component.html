@@ -34,22 +34,10 @@
                 </div>
                 <div class="col-9">
                   <ul class="list-group list-group-flush">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      <span class="lead">Cedula: </span>
-                      <p class="lead m-0">{{user.Cedula}}</p>
-                    </li>
                     <li *ngIf="user.SobreNombre != null" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Sobrenombre: </span>
-                      <p class="lead m-0">{{user.SobreNombre}}</p>
+                      <p class="lead m-0"><b>{{user.SobreNombre}}</b></p>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                          <span class="lead">Usuario: </span>
-                          <p class="lead m-0">{{user.Username}}</p>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                          <span class="lead">Correo: </span>
-                          <p class="lead m-0">{{user.Email}}</p>
-                      </li>
                     <li *ngIf="user.Rol != null" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Cargo: </span>
                       <p class="lead m-0">{{user.Cargo}}</p>
@@ -58,6 +46,22 @@
                       <span class="lead">Año de Ingreso: </span>
                       <p class="lead m-0">{{user.AnoIngreso}}</p>
                     </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Correo: </span>
+                      <p class="lead m-0">{{user.Email}}</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Usuario: </span>
+                      <p class="lead m-0">{{user.Username}}</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Cedula: </span>
+                      <p class="lead m-0">{{user.Cedula}}</p>
+                    </li>
+                    <li *ngIf="user.Sexo != null" class="list-group-item d-flex justify-content-between align-items-center">
+                      <span class="lead">Sexo: </span>
+                      <p class="lead m-0">{{user.Sexo}}</p>
+                    </li>
                     <li *ngIf="user.FechaNacimiento != null" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Fecha de Nacimiento: </span>
                       <p class="lead m-0">{{user.FechaNacimiento}}</p>
@@ -65,10 +69,6 @@
                     <li *ngIf="user.FechaNacimiento != null" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Edad: </span>
                       <p class="lead m-0">{{user.Edad | date: 'yyyy'}}</p>
-                    </li>
-                    <li *ngIf="user.Sexo != null" class="list-group-item d-flex justify-content-between align-items-center">
-                      <span class="lead">Sexo: </span>
-                      <p class="lead m-0">{{user.Sexo}}</p>
                     </li>
                   </ul>
                 </div>

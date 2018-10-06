@@ -32,6 +32,10 @@
     <!-- Fin de la Tabla -->
 
     <div class="container">
+      <!-- Alert -->
+      <div *ngIf = "alerta" class="alert alert-warning alert-dismissible fade show rounded" role="alert">
+        <strong>¡Se han realizado cambios!</strong> Recuerda guardar para no perder la asignación.
+      </div>
       <div class="row">
         <div class="col">
           <div class="d-flex justify-content-center mt-3 btn-group" >
