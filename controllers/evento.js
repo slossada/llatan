@@ -179,7 +179,7 @@ controller.getMisEventos = async function (idGuia, callback) {
                 }
             });
             let eventos = respuesta.map(respuesta => respuesta.dataValues);
-            if (eventos) {
+            if (eventos[0]) {
                 disponibilidades[i].Tipo = eventos[0].Tipo;
                 disponibilidades[i].Nombre = eventos[0].Nombre;
                 disponibilidades[i].Detalle = eventos[0].Detalle;
@@ -339,27 +339,28 @@ controller.guardarDirectores = async function (data, callback) {
             let response = await Disponibilidad.findOne({
             where: {
                 Guia: data.directores[i].id,
-                Evento: data.Evento
+                Evento: data.Evento 
                 } 
             });
-            if (response && !data.directores[i].esDirector) {
+            if (response) {
                 Disponibilidad.update({
-                    esDirector: false,
-                    Estado: directores[i].Estado},
+                    esDirector: data.directores[i].esDirector,
+                    Estado: data.directores[i].Estado},
                     { where: {
                         Guia: data.directores[i].id,
                         Evento: data.Evento
                 } });
             }
-            if (response == undefined && data.directores[i].esDirector) {
+            else {
                 Disponibilidad.create({
                     Guia: data.directores[i].id,
                     Evento: data.Evento,
-                    Estado: directores[i].Estado,
-                    esDirector: true
+                    Estado: data.directores[i].Estado,
+                    esDirector: data.directores[i].esDirector
                 });
             }
         }
+
         callback(null);
     } catch (err) {
         console.log('Se produjo un error en el controlador del evento: ', err);

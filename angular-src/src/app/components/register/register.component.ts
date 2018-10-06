@@ -68,8 +68,6 @@ export class RegisterComponent implements OnInit {
       SobreNombre: this.sobreNombre
     }
 
-    console.log(user);
-
     // Require all fields
     if (user.Nombre == undefined || user.Apellido == undefined || user.Cedula == undefined || user.Email == undefined || user.Username == undefined || user.Password == undefined || user.Sexo == undefined || user.FechaNacimiento == undefined || user.AnoIngreso == undefined || user.Rol == undefined) {
       this.flashMessage.show('Por favor llene todas las casillas.', { cssClass: 'custom-danger', timeout: 3000 });

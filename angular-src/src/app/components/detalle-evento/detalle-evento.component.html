@@ -239,7 +239,7 @@
                       <div class="btn-group">
                           <button *ngIf = "user.esAdministrador || this.evento.Encargado == user.id" (click)="asignarDirectores()" class="btn btn-sm btn-outline-dark" type="button">Asignar Directores</button>
                           <button *ngIf = "user.esAdministrador || this.evento.Encargado == user.id" (click)="asignarCoordis()" class="btn btn-sm btn-outline-info" type="button">Asignar Coordinadores</button>
-                          <button *ngIf = "user.esAdministrador || this.evento.Encargado == user.id || this.evento.Coordina != null" (click)="asignarStaff()" class="btn btn-sm btn-outline-success" type="button">Asignar Staff</button>
+                          <button *ngIf = "user.esAdministrador || this.evento.Encargado == user.id || this.evento.Coordina != 0" (click)="asignarStaff()" class="btn btn-sm btn-outline-success" type="button">Asignar Staff</button>
                           <!-- <button *ngIf = "user.esAdministrador || this.evento.Encargado == user.id || this.evento.Coordina != null" (click)="verEvaluaciones()" class="btn btn-sm btn-outline-primary" type="button">Ver Evaluaciones</button>
                           <button *ngIf = "user.esAdministrador || this.evento.Encargado == user.id || this.evento.Coordina != null" (click)="asignarDestacados()" class="btn btn-sm btn-outline-secondary" type="button">Asignar Destacados</button> -->
                       </div>

@@ -79,7 +79,6 @@ export class AsignarCoordisComponent implements OnInit {
           } else {
             this.flashMessage.show(response.msg, { cssClass: 'custom-danger', timeout: 3000 });
           }
-          document.location.reload();
         });
 
   }
