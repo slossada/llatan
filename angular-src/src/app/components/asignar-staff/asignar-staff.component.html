@@ -29,7 +29,7 @@
                   <span *ngIf="guia.Rol == 4" class="badge badge-pill badge-info text-white">{{roles[4].Tipo}}</span>
                 </td>
                 <td scope="row" *ngIf = "guia.Estado == 2">{{guia.AnoIngreso}}</td>
-                <td scope="row" *ngIf = "guia.Estado == 2">{{guia.FechaNacimiento | date: 'yyyy'}}</td>
+                <td scope="row" *ngIf = "guia.Estado == 2">{{guia.Edad}}</td>
                 <td scope="row" *ngIf = "guia.Estado == 2">{{guia.Sexo}}</td>
                 <td scope="row" *ngIf = "guia.Estado == 2">
                   <button (click)="quitarGuias(i)" class="btn btn-sm btn-outline-danger" type="button">Quitar</button>
@@ -87,7 +87,7 @@
                     <span *ngIf="guia.Rol == 4" class="badge badge-pill badge-info text-white">{{roles[4].Tipo}}</span>
                   </td>
                   <td scope="row" *ngIf = "guia.Estado == 1">{{guia.AnoIngreso}}</td>
-                  <td scope="row" *ngIf = "guia.Estado == 1">{{guia.FechaNacimiento | date: 'yyyy'}}</td>
+                  <td scope="row" *ngIf = "guia.Estado == 1">{{guia.Edad}}</td>
                   <td scope="row" *ngIf = "guia.Estado == 1">{{guia.Sexo}}</td>
                   <td scope="row" *ngIf = "guia.Estado == 1">
                     <button (click)="asignarGuias(i)" class="btn btn-sm btn-outline-success" type="button">Asignar</button>

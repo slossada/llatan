@@ -30,7 +30,7 @@ export class AsignarStaffComponent implements OnInit {
   ngOnInit() {
 
     this.guias = JSON.parse(localStorage.getItem('guias'));
-    this.roles = JSON.parse(localStorage.getItem('roles'));
+    this.roles = JSON.parse(localStorage.getItem('roles'));    
 
   }
 

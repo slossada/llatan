@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 // Http Requests
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-detalle-evento',
@@ -80,6 +81,21 @@ export class DetalleEventoComponent implements OnInit {
         this.directores = data.directores;
         localStorage.setItem('directores' ,JSON.stringify(data.directores));
         this.guias = data.guias;
+
+        for (let i = 0; i < this.guias.length; i++) {
+          var date = this.guias[i].FechaNacimiento.slice(0,10);
+          var dateArray = date.split("-");
+          var rightNow = new Date();
+          var res = rightNow.toISOString().slice(0,10).split("-");
+          var edad =  parseInt(res[0]) - dateArray[0] -1;
+          
+          if ((parseInt(res[1]) > dateArray[1]) || (parseInt(res[1]) == dateArray[1] && parseInt(res[2]) >= dateArray[2])) {
+            edad++;
+          }
+    
+          this.guias[i].Edad = edad;
+        }
+
         localStorage.setItem('guias' ,JSON.stringify(data.guias));
 
       }, err => {
@@ -87,30 +103,20 @@ export class DetalleEventoComponent implements OnInit {
         return false;
       });
 
-
   }
 
   marcarDisponibilidad(i,tipo) {
     let id_Evento = this.evento.id;
-    let aux = false;
-    let id_Estado = 1;
-
-    if (tipo == 1) {
-      aux = true;
-    }
-    if (tipo == 3) {
-      id_Estado = 0;
-    }
+    let id_Estado = tipo;
 
     let data = {
-      new: aux,
       id_Evento: id_Evento,
-      id_Guia: JSON.parse(localStorage.getItem('user')).id,
+      id_Guia: this.user.id,
       id_Estado: id_Estado
     };
 
     this.evento.Estado = id_Estado;
-    localStorage.setItem('detalle-evento', JSON.stringify(this.evento));
+    localStorage.setItem('dellate-evento', JSON.stringify(this.evento));
 
     let headers = new Headers();
 

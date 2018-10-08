@@ -20,11 +20,13 @@ export class RegisterComponent implements OnInit {
   email: String;
   username: String;
   password: String;
+  password2: String;
   sexo: string;
   fechaNacimiento: string;
   anoIngreso: string;
   sobreNombre: string;
   rol: any;
+  alerta: any;
 
   constructor(
     private flashMessage: FlashMessagesService,
@@ -36,6 +38,8 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit(){
+    
+    this.alerta = false;
 
     switch(this.rol) {
       case 'Senior':
@@ -66,6 +70,13 @@ export class RegisterComponent implements OnInit {
       AnoIngreso: this.anoIngreso,
       Rol: this.rol,
       SobreNombre: this.sobreNombre
+    }
+
+    // Check Password
+    if ( this.password != this.password2) {
+      this.flashMessage.show('Las contraseñas no coinciden.', { cssClass: 'custom-danger', timeout: 3000 });
+      this.alerta = true;
+      return false;
     }
 
     // Require all fields

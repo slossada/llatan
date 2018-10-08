@@ -47,7 +47,7 @@
                           <p *ngIf="evento.FechaInicio == evento.FechaFin" class="lead m-0">{{this.evento.FechaInicio}}</p>
                           <p *ngIf="evento.FechaInicio != evento.FechaFin" class="lead m-0">{{this.evento.FechaInicio}} - {{this.evento.FechaFin}}</p>
                       </li>
-                      <li *ngIf="evento.Coordina==null && !user.esAdministrador && !user.id == evento.Encargado" class="list-group-item d-flex justify-content-between align-items-center">
+                      <li *ngIf="evento.Coordina==null && !user.esAdministrador && user.id != evento.Encargado" class="list-group-item d-flex justify-content-between align-items-center">
                           <span class="lead">Cupos Disponibles: </span>
                           <p class="lead m-0">{{this.evento.Cupos}}</p>
                       </li>
@@ -59,7 +59,7 @@
                       <span class="lead">Evaluaciones: </span>
                       <p class="lead m-0">{{this.evento.Evaluacion}}</p>
                     </li>
-                    <li *ngIf="evento.Coordina == 0 && !user.esAdministrador && !user.id == evento.Encargado" class="list-group-item d-flex justify-content-between align-items-center">
+                    <li *ngIf="evento.Coordina == 0 && !user.esAdministrador && user.id != evento.Encargado" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Mi Estado: </span>
                       <p *ngIf="this.evento.Estado == undefined" class="badge badge-pill badge-warning text-white">Esperando Disponibilidad</p>
                       <p *ngIf="this.evento.Estado == 0" class="badge badge-pill badge-secondary text-white">{{estados[0].Tipo}}</p>
@@ -67,12 +67,13 @@
                       <p *ngIf="this.evento.Estado == 2" class="badge badge-pill badge-success text-white">{{estados[2].Tipo}}</p>
                       <p *ngIf="this.evento.Estado == 3" class="badge badge-pill badge-danger text-white">{{estados[3].Tipo}}</p>
                     </li>
-                    <li *ngIf="evento.Coordina == 0 && !user.esAdministrador && !user.id == evento.Encargado" class="list-group-item d-flex justify-content-between align-items-center">
+                    <li *ngIf="!user.esAdministrador && user.id != evento.Encargado" class="list-group-item d-flex justify-content-between align-items-center">
                       <span class="lead">Acciones: </span>
-                      <button *ngIf="evento.Estado == undefined" (click)="marcarDisponibilidad(i,1)" class="btn btn-sm btn-outline-success" type="button">Disponible</button>
-                      <button *ngIf="evento.Estado == 0" (click)="marcarDisponibilidad(i,2)" class="btn btn-sm btn-outline-success" type="button">Cambiar a Disponible</button>
-                      <button *ngIf="evento.Estado == 1 || evento.Estado == 2 || evento.Estado == 3" (click)="marcarDisponibilidad(i,3)" class="btn btn-sm btn-outline-danger" type="button">Quitar Disponibilidad</button>
-                      <button *ngIf="evento.Estado == 4" (click)="funcion(i)" class="btn btn-sm btn-outline-success" type="button">Staff</button>
+                      <div class="btn-group">
+                        <button *ngIf="user.esAdministrador" (click)="finalizarEvento(i)" class="btn btn-sm btn-outline-danger" type="button">Finalizar</button>
+                        <button *ngIf="!user.esAdministrador" (click)="marcarDisponibilidad(i,1)" class="btn btn-sm btn-outline-success" type="button">Cambiar a Disponible</button>
+                        <button *ngIf="!user.esAdministrador" (click)="marcarDisponibilidad(i,0)" class="btn btn-sm btn-outline-danger" type="button">Quitar Disponibilidad</button>
+                      </div>
                     </li>
                   </ul>
                 </div>

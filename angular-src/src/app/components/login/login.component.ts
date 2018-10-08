@@ -70,6 +70,18 @@ export class LoginComponent implements OnInit {
                 localStorage.setItem('estados', JSON.stringify(data.estados));
                 localStorage.setItem('tipos', JSON.stringify(data.tipos));
 
+                var date = this.user.FechaNacimiento.slice(0,10);
+                var dateArray = date.split("-");
+                var rightNow = new Date();
+                var res = rightNow.toISOString().slice(0,10).split("-");
+                var edad =  parseInt(res[0]) - dateArray[0] -1;
+                
+                if ((parseInt(res[1]) > dateArray[1]) || (parseInt(res[1]) == dateArray[1] && parseInt(res[2]) >= dateArray[2])) {
+                  edad++;
+                }
+
+                this.user.Edad = edad;
+
                 // Corrige error en el formato de la fecha
                 let fecha = this.user.FechaNacimiento;
                 let day = Number(fecha.slice(8, 10)) + 1;
@@ -81,11 +93,10 @@ export class LoginComponent implements OnInit {
 
                 this.user.FechaNacimiento = this.datePipe.transform(fecha.slice(0, 8) + dayString + fecha.slice(10));
                 this.user.Cargo = this.roles[parseInt(this.user.Rol)].Tipo;
-                this.user.Edad = this.datePipe.transform(this.user.FechaNacimiento);
+                
 
                 localStorage.setItem('user', JSON.stringify(this.user));
 
-                location.reload();
               }, err => {
                 console.log('Error al pedir los datos de login: ', err);
                 return false;

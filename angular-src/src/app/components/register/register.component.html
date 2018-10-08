@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-8 col-md-8 col-lg-6 mx-auto my-auto">
     <!-- Title -->
-    <h2 class="mt-4 pt-5 pb-4">Registro</h2>
+    <h2 class="mt-4 pt-5 pb-4">Datos de Registro</h2>
 
     <!-- Form -->
     <form (submit)="onRegisterSubmit()" class="wrapper">
@@ -48,7 +48,7 @@
       </div>
 
       <div class="row">
-        <div class="col-12 col-md-5">
+        <div class="col-12 col-md-4">
           <div class="form-group">
             <label>
               Usuario
@@ -57,7 +57,7 @@
             <input type="text" [(ngModel)]="username" name="username" class="form-control">
           </div>
         </div>
-        <div class="col-12 col-md-5">
+        <div class="col-12 col-md-4">
           <div class="form-group">
             <label>
               Contraseña
@@ -66,8 +66,21 @@
             <input type="password" [(ngModel)]="password" name="password" class="form-control">
           </div>
         </div>
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <label>
+              Repite Contraseña
+              <span class="required">*</span>
+            </label>
+            <input type="password" [(ngModel)]="password2" name="password2" class="form-control">
+          </div>
+        </div>
       </div>
-
+      <!-- Alert -->
+      <div *ngIf = "alerta" class="alert alert-warning alert-dismissible fade show rounded" role="alert">
+        <strong>¡Las contraseñas no coinciden!</strong> Vuelva a escribirlas de nuevo.
+      </div>
+      <h2 class="mt-4 pb-4">Información Adicional</h2>
       <div class="row">
           <div class="col-12 col-md-4">
             <div class="form-group">
@@ -93,27 +106,6 @@
           <div class="col-12 col-md-4">
             <div class="form-group">
               <label>
-                Fecha de Nacimiento
-                  <span class="required">*</span>
-              </label>
-              <input type="date" class="form-control" [(ngModel)]="fechaNacimiento" name="fechaNacimiento">
-            </div>
-          </div>
-        </div>
-  
-        <div class="row">
-          <div class="col-12 col-md-4">
-            <div class="form-group">
-              <label>
-                Año de Ingreso al Staff
-                  <span class="required">*</span>
-              </label>
-              <input type="text" [(ngModel)]="anoIngreso" name="anoIngreso" class="form-control">
-            </div>
-          </div>
-          <div class="col-12 col-md-4">
-            <div class="form-group">
-              <label>
                 Rol
                   <span class="required">*</span>
               </label>
@@ -126,10 +118,30 @@
             </div>
           </div>
         </div>
+  
+        <div class="row">
+          <div class="col-12 col-md-5">
+            <div class="form-group">
+              <label>Fecha de Nacimiento
+                  <span class="required">*</span>
+              </label>
+              <input type="date" class="form-control" [(ngModel)]="fechaNacimiento" name="fechaNacimiento">
+            </div>
+          </div>
+          <div class="col-12 col-md-5">
+            <div class="form-group">
+              <label>
+                Año de Ingreso al Staff
+                  <span class="required">*</span>
+              </label>
+              <input type="text" [(ngModel)]="anoIngreso" name="anoIngreso" class="form-control">
+            </div>
+          </div>
+        </div>
 
       <!-- Submit Button -->
-      <div class="container">
-        <div class="row pt-4">
+      <div class="container pb-4">
+        <div class="row">
           <div class="col">
             <div class="d-flex justify-content-center">
               <input type="submit" class="btn btn-outline-primary" value="Registrar">
