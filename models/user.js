@@ -87,6 +87,7 @@ const User = connection.define('Usuario',
 
         validate: {
             min: 1994,
+            max: 2019,
             notEmpty: true
         }
     },

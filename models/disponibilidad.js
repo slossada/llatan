@@ -6,11 +6,13 @@ const Disponibilidad = connection.define('Disponibilidad',
     {
         Evento: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: false,
+            primaryKey: true
         },
         Guia: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: false,
+            primaryKey: true
         },
         Estado: {
             type: Sequelize.INTEGER,
