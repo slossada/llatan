@@ -18,6 +18,8 @@ export class AsignarStaffComponent implements OnInit {
   guias: any;
   roles: any;
   alerta: any;
+  evento: any;
+  user: any;
 
   constructor(
     private http: Http,
@@ -31,6 +33,8 @@ export class AsignarStaffComponent implements OnInit {
 
     this.guias = JSON.parse(localStorage.getItem('guias'));
     this.roles = JSON.parse(localStorage.getItem('roles'));    
+    this.evento = JSON.parse(localStorage.getItem('detalle-evento'));
+    this.user = JSON.parse(localStorage.getItem('user'));
 
   }
 

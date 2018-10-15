@@ -27,6 +27,7 @@ export class FormEventosComponent implements OnInit {
   mostrar_lista: boolean;
   guias: any;
   roles: any;
+  user: any;
 
   constructor(
     private http: Http,
@@ -37,6 +38,7 @@ export class FormEventosComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('user'));
 
     this.roles = JSON.parse(localStorage.getItem('roles'));
 

@@ -18,6 +18,7 @@ export class AsignarDirectoresComponent implements OnInit {
   directores: any;
   evento: any;
   alerta: any;
+  user: any;
 
   constructor(
     private http: Http,
@@ -30,6 +31,8 @@ export class AsignarDirectoresComponent implements OnInit {
   ngOnInit() {
 
     this.directores = JSON.parse(localStorage.getItem('directores'));
+    this.evento = JSON.parse(localStorage.getItem('detalle-evento'));
+    this.user = JSON.parse(localStorage.getItem('user'));
 
   }
 

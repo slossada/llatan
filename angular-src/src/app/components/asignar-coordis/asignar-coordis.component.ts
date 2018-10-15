@@ -20,6 +20,7 @@ export class AsignarCoordisComponent implements OnInit {
   evento: any;
   tipos: any; 
   alerta: any;
+  user: any;
 
   constructor(
     private http: Http,
@@ -33,6 +34,8 @@ export class AsignarCoordisComponent implements OnInit {
 
     this.tipos = JSON.parse(localStorage.getItem('tipos'));
     this.coordis = JSON.parse(localStorage.getItem('coordis'));
+    this.evento = JSON.parse(localStorage.getItem('detalle-evento'));
+    this.user = JSON.parse(localStorage.getItem('user'));
 
   }
 

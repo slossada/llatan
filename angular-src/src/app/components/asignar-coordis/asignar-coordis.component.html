@@ -1,4 +1,4 @@
-<div class="row main p-4 p-md-3">
+<div *ngIf = "user.id == evento.Encargado || user.esAdministrador" class="row main p-4 p-md-3">
   <!-- Coordinadores -->          
   <div class="container py-5 mt-3 mb-5">
     <h2 class="mb-3">Coordinadores Asignados</h2>
