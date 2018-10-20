@@ -80,5 +80,11 @@ export class AsignarDirectoresComponent implements OnInit {
       
   }
 
+  verPerfil(i) {
+    localStorage.setItem('regresar' ,'asignar-directores')
+    localStorage.setItem('perfil-guia', this.directores[i].id);
+    this.router.navigate(['perfil-guia']);
+  }
+
 }
  

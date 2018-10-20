@@ -27,6 +27,11 @@ const Disponibilidad = connection.define('Disponibilidad',
             type: Sequelize.BOOLEAN,
             defaultValue: false,
             allowNull: false
+        },
+        SugeridoPor: {
+            type: Sequelize.INTEGER,
+            defaultValue: 0,
+            allowNull: true
         }
     },
     {

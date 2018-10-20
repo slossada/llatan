@@ -9,17 +9,15 @@
           <thead class="thead-light">
             <tr>
               <th scope="col">Nombre</th>
-              <th scope="col">Sobre Nombre</th>
-              <th scope="col">Coordinadas</th>
               <th scope="col">Coordina</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let coordi of coordis; let i=index">
-              <td scope="row" *ngIf = "coordi.Coordina != 0">{{coordi.Nombre}} {{coordi.Apellido}}</td>
-              <td scope="row" *ngIf = "coordi.Coordina != 0">{{coordi.SobreNombre}}</td>
-              <td scope="row" *ngIf = "coordi.Coordina != 0">{{coordi.Coordinadas}} Temporadas</td>
+              <td scope="row" *ngIf = "coordi.Coordina != 0">
+                <button (click)="verPerfil(i)" class="btn btn-sm btn-outline-secondary" type="button">{{coordi.Nombre}} {{coordi.Apellido}} (<i>{{coordi.SobreNombre}}</i>)</button>
+              </td>
               <td scope="row" *ngIf = "coordi.Coordina != 0">{{coordi.Area}}</td>
               <td scope="row" *ngIf = "coordi.Coordina != 0">
                 <button (click)="quitar(i)" class="btn btn-sm btn-outline-danger" type="button">Quitar</button>
@@ -46,9 +44,7 @@
       </div>
     </div>
 
-<div class="row main p-4 p-md-3">
     <!-- Lista de Coordinadores -->          
-    <div class="container py-5 mt-3 mb-5">
       <h2 class="mb-3">Lista de Coordinadores</h2>
       <!-- Table -->
       <div class="container">
@@ -57,7 +53,6 @@
             <thead class="thead-light">
               <tr>
                 <th scope="col">Nombre</th>
-                <th scope="col">Sobre Nombre</th>
                 <th scope="col">Coordinadas</th>
                 <th scope="col">Bosque</th>
                 <th scope="col">Sabana</th>
@@ -68,8 +63,9 @@
             </thead>
             <tbody> 
               <tr *ngFor="let coordi of coordis; let i=index">
-                <td scope="row" *ngIf = "coordi.Coordina == 0">{{coordi.Nombre}} {{coordi.Apellido}}</td>
-                <td scope="row" *ngIf = "coordi.Coordina == 0">{{coordi.SobreNombre}}</td>
+                <td scope="row" *ngIf = "coordi.Coordina == 0">
+                  <button (click)="verPerfil(i)" class="btn btn-sm btn-outline-secondary" type="button">{{coordi.Nombre}} {{coordi.Apellido}} (<i>{{coordi.SobreNombre}}</i>)</button>
+                </td>
                 <td scope="row" *ngIf = "coordi.Coordina == 0">{{coordi.Coordinadas}} Temporadas</td>
                 <td scope="row" *ngIf = "coordi.Coordina == 0">
                   <button (click)="asignar(i,1)" class="btn btn-sm btn-outline-primary" type="button">Asignar</button>

@@ -22,6 +22,7 @@ import { DetalleEventoComponent } from './components/detalle-evento/detalle-even
 import { AsignarCoordisComponent } from './components/asignar-coordis/asignar-coordis.component';
 import { AsignarDirectoresComponent } from './components/asignar-directores/asignar-directores.component';
 import { AsignarStaffComponent } from './components/asignar-staff/asignar-staff.component';
+import { PerfilGuiaComponent } from './components/perfil-guia/perfil-guia.component';
 
 // Servicios
 import { AuthService } from './services/auth.service';
@@ -42,6 +43,7 @@ const appRoutes: Routes = [
 
   // Guia
   {path: 'form-guia', component: FormGuiaComponent, canActivate: [AuthGuard]},
+  {path: 'perfil-guia', component: PerfilGuiaComponent, canActivate: [AuthGuard]},
 
   // Eventos (Falta autentificar solo encargados o administrador)
   {path: 'form-eventos', component: FormEventosComponent, canActivate: [AuthGuard]},
@@ -70,7 +72,8 @@ const appRoutes: Routes = [
     DetalleEventoComponent,
     AsignarCoordisComponent,
     AsignarDirectoresComponent,
-    AsignarStaffComponent
+    AsignarStaffComponent,
+    PerfilGuiaComponent
   ],
   imports: [
     BrowserModule,

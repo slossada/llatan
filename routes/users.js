@@ -234,6 +234,20 @@ router.post('/staff',passport.authenticate('jwt', { session: false }), (req, res
     });
 });
 
+// Obtiene toda la informacion del guia
+router.post('/perfil-guia',passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    con_Guia.getPerfil(req.body, (data, err) => {
+        if (err) throw err;
+
+        if (data) {
+            res.json({
+                user: data.user,
+                eventos: data.eventos,
+            });
+        }
+    });
+});
+
 // Obtiene todos los eventos
 router.get('/eventos', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     con_Evento.getEventos(req.user.id, (data, err) => {

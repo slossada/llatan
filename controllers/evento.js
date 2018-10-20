@@ -170,7 +170,7 @@ controller.getMisEventos = async function (idGuia, callback) {
         // Construye un arreglo unicamente con los datos necesarios
         let disponibilidades = response.map(resultado => resultado.dataValues);
 
-        // Agrega la disponibilidad, en caso de tenerla
+        // Agrega la informacion del evento
         for (let i = 0; i < disponibilidades.length; i++) {
             let respuesta = await Evento.findAll({
                 where: {
@@ -180,6 +180,7 @@ controller.getMisEventos = async function (idGuia, callback) {
             });
             let eventos = respuesta.map(respuesta => respuesta.dataValues);
             if (eventos[0]) {
+                disponibilidades[i].id = eventos[0].id;
                 disponibilidades[i].Tipo = eventos[0].Tipo;
                 disponibilidades[i].Nombre = eventos[0].Nombre;
                 disponibilidades[i].Detalle = eventos[0].Detalle;
@@ -189,6 +190,14 @@ controller.getMisEventos = async function (idGuia, callback) {
                 disponibilidades[i].Encargado = eventos[0].Encargado;
                 disponibilidades[i].Evaluacion = eventos[0].Evaluacion;
                 disponibilidades[i].FechaCreacion = eventos[0].FechaCreacion;
+            }
+            let respuesta2 = await Usuario.findOne({
+                where: {id: eventos[i].Encargado}
+            });
+            if (respuesta2) {
+                disponibilidades[i].NombreEncargado = respuesta2.dataValues.Nombre;
+                disponibilidades[i].SnombreEncargado = respuesta2.dataValues.Snombre;
+                disponibilidades[i].ApellidoEncargado = respuesta2.dataValues.Apellido;
             }
         }
 
@@ -232,50 +241,60 @@ controller.getStaffEvento = async function (data, callback) {
                 staff[i].AnoIngreso = respuesta.dataValues.AnoIngreso;
                 staff[i].Sexo = respuesta.dataValues.Sexo;
                 staff[i].Rol = respuesta.dataValues.Rol;
+
+                staff[i].Estado = 4;
+                staff[i].Coordina = 0;
+                staff[i].esDirector = 0;
+                staff[i].SugeridoPor = 0;
             }
             let estado = await Disponibilidad.findOne({
-                where: Sequelize.and(
-                    {Evento: data.evento,
-                    Guia: staff[i].id,},
-                    Sequelize.or(
-                        { Estado: 1},
-                        { Estado: 2},
-                        { Estado: 3}
-                    ))
+                where: {
+                    Evento: data.evento,
+                    Guia: staff[i].id
+                }
             });
             if (estado) {
                 staff[i].Estado = estado.dataValues.Estado;
                 staff[i].Coordina = estado.dataValues.Coordina;
                 staff[i].esDirector = estado.dataValues.esDirector;
-                if (staff[i].Rol==1 || staff[i].Rol==2 || staff[i].Rol==3 || staff[i].Rol==4)
-                {
-                guias.push(staff[i]);
-                }
-                if (staff[i].Rol==4)
-                {
-                    staff[i].Coordinadas = 0;
-                    staff[i].Area = tipos[staff[i].Coordina].Area;
+                staff[i].SugeridoPor = estado.dataValues.SugeridoPor;
 
-                    let aux2 = await Disponibilidad.findAll({
-                        where: Sequelize.and(
-                            {Guia: staff[i].id,
-                            Evento: data.evento},
-                            Sequelize.or(
-                                { Coordina: 1},
-                                { Coordina: 2},
-                                { Coordina: 3},
-                                { Coordina: 4},
-                                { Coordina: 5},
-                            )
-                        )
+                if (staff[i].SugeridoPor != 0){
+                    let temp = await Usuario.findOne({
+                        where: { id: staff[i].SugeridoPor }
                     });
-                    if (aux2) {
-                        let coordinadas = aux2.map(resultado => resultado.dataValues);
-                        staff[i].Coordinadas = coordinadas.length;
-                    }
-                    coordis.push(staff[i]);
+                    staff[i].SugeridoPorNombre = temp.dataValues.Nombre + temp.dataValues.Apellido +'('+ temp.dataValues.SobreNombre +')';
                 }
             }
+            if (staff[i].Rol==1 || staff[i].Rol==2 || staff[i].Rol==3 || staff[i].Rol==4)
+            {
+            guias.push(staff[i]);
+            }
+            if (staff[i].Rol==4)
+            {
+                staff[i].Coordinadas = 0;
+                staff[i].Area = tipos[staff[i].Coordina].Area;
+
+                let aux2 = await Disponibilidad.findAll({
+                    where: Sequelize.and(
+                        {Guia: staff[i].id,
+                        Evento: data.evento},
+                        Sequelize.or(
+                            { Coordina: 1},
+                            { Coordina: 2},
+                            { Coordina: 3},
+                            { Coordina: 4},
+                            { Coordina: 5},
+                        )
+                    )
+                });
+                if (aux2) {
+                    let coordinadas = aux2.map(resultado => resultado.dataValues);
+                    staff[i].Coordinadas = coordinadas.length;
+                }
+                coordis.push(staff[i]);
+            }
+            
             if (staff[i].Rol==5)
             {
                 directores.push(staff[i]);
@@ -381,11 +400,20 @@ controller.guardarGuias = async function (data, callback) {
             if (response) {
                 Disponibilidad.update({
                     Estado: data.guias[i].Estado,
+                    SugeridoPor: data.guias[i].SugeridoPor
                 },
                 {where: {
                     Guia: data.guias[i].id,
                     Evento: data.Evento
                 } });
+            }
+            else {
+                let response2 = await Disponibilidad.create({
+                    Estado: data.guias[i].Estado,
+                    SugeridoPor: data.guias[i].SugeridoPor,
+                    Guia: data.guias[i].id,
+                    Evento: data.Evento,
+                })
             }
         }
         callback(null);

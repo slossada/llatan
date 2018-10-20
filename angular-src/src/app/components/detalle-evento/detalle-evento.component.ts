@@ -241,9 +241,7 @@ export class DetalleEventoComponent implements OnInit {
   }
 
   botonRegresar() {
-    localStorage.removeItem('detalle-evento');
-    this.router.navigate([localStorage.getItem('regresar')]);
-    localStorage.removeItem('regresar');
+    this.router.navigate(['lista-eventos']);
   }
 
   asignarCoordis() {

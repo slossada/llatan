@@ -1,5 +1,5 @@
 <div *ngIf = "evento.Coordina != 0 || user.id == evento.Encargado || user.esAdministrador" class="row main p-4 p-md-3">
-    <!-- Directores -->          
+    <!-- Staff Asignado -->          
     <div class="container py-5 mt-3 mb-5">
       <h2 class="mb-3">Staff Asignado</h2>
       <!-- Table -->
@@ -9,18 +9,18 @@
             <thead class="thead-light">
               <tr>
                 <th scope="col">Nombre</th>
-                <th scope="col">Sobre Nombre</th>
                 <th scope="col">Cargo</th>
                 <th scope="col">Año Ingreso</th>
                 <th scope="col">Edad</th>
                 <th scope="col">Sexo</th>
-                <th scope="col">Acciones</th>
+                <th *ngIf = "user.esAdministrador || this.evento.Encargado == user.id" scope="col">Acciones</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let guia of guias; let i=index">
-                <td scope="row" *ngIf = "guia.Estado == 2">{{guia.Nombre}} {{guia.Apellido}}</td>
-                <td scope="row" *ngIf = "guia.Estado == 2"><i>{{guia.SobreNombre}}</i></td>
+                <td scope="row" *ngIf = "guia.Estado == 2">
+                    <button (click)="verPerfil(i)" class="btn btn-sm btn-outline-secondary" type="button">{{guia.Nombre}} {{guia.Apellido}} (<i>{{guia.SobreNombre}}</i>)</button>
+                </td>
                 <td scope="row" *ngIf = "guia.Estado == 2">
                   <span *ngIf="guia.Rol == 0" class="badge badge-pill badge-warning text-white">{{roles[0].Tipo}}</span>
                   <span *ngIf="guia.Rol == 1" class="badge badge-pill badge-secondary text-white">{{roles[1].Tipo}}</span>
@@ -31,7 +31,7 @@
                 <td scope="row" *ngIf = "guia.Estado == 2">{{guia.AnoIngreso}}</td>
                 <td scope="row" *ngIf = "guia.Estado == 2">{{guia.Edad}}</td>
                 <td scope="row" *ngIf = "guia.Estado == 2">{{guia.Sexo}}</td>
-                <td scope="row" *ngIf = "guia.Estado == 2">
+                <td scope="row" *ngIf = "guia.Estado == 2 && (user.esAdministrador || this.evento.Encargado == user.id)">
                   <button (click)="quitarGuias(i)" class="btn btn-sm btn-outline-danger" type="button">Quitar</button>
                 </td>
               </tr>
@@ -55,11 +55,10 @@
           </div>
         </div>
       </div>
-  
-  <div class="row main p-4 p-md-3">
-      <!-- Lista de Staff -->          
-      <div class="container py-5 mt-3 mb-5">
-        <h2 class="mb-3">Lista de Staff</h2>
+
+    <div class="row main p-4 p-md-3">
+      <!-- Lista de Staff Sugerido -->          
+        <h2 class="mb-3">Sugeridos</h2>
         <!-- Table -->
         <div class="container">
           <div class="table-responsive">
@@ -67,30 +66,42 @@
               <thead class="thead-light">
                 <tr>
                   <th scope="col">Nombre</th>
-                  <th scope="col">Sobre Nombre</th>
                   <th scope="col">Cargo</th>
                   <th scope="col">Año Ingreso</th>
                   <th scope="col">Edad</th>
                   <th scope="col">Sexo</th>
+                  <th scope="col">Estado</th>
                   <th scope="col">Acciones</th>
                 </tr>
               </thead>
               <tbody> 
                 <tr *ngFor="let guia of guias; let i=index">
-                  <td scope="row" *ngIf = "guia.Estado == 1">{{guia.Nombre}} {{guia.Apellido}}</td>
-                  <td scope="row" *ngIf = "guia.Estado == 1"><i>{{guia.SobreNombre}}</i></td>
-                  <td scope="row" *ngIf = "guia.Estado == 1">
+                  <td scope="row" *ngIf = "guia.Estado != 2 && guia.SugeridoPor != 0">
+                      <button (click)="verPerfil(i)" class="btn btn-sm btn-outline-secondary" type="button">{{guia.Nombre}} {{guia.Apellido}} (<i>{{guia.SobreNombre}}</i>)</button>
+                  </td>
+                  <td scope="row" *ngIf = "guia.Estado != 2 && guia.SugeridoPor != 0">
                     <span *ngIf="guia.Rol == 0" class="badge badge-pill badge-warning text-white">{{roles[0].Tipo}}</span>
                     <span *ngIf="guia.Rol == 1" class="badge badge-pill badge-secondary text-white">{{roles[1].Tipo}}</span>
                     <span *ngIf="guia.Rol == 2" class="badge badge-pill badge-primary text-white">{{roles[2].Tipo}}</span>
                     <span *ngIf="guia.Rol == 3" class="badge badge-pill badge-success text-white">{{roles[3].Tipo}}</span>
                     <span *ngIf="guia.Rol == 4" class="badge badge-pill badge-info text-white">{{roles[4].Tipo}}</span>
                   </td>
-                  <td scope="row" *ngIf = "guia.Estado == 1">{{guia.AnoIngreso}}</td>
-                  <td scope="row" *ngIf = "guia.Estado == 1">{{guia.Edad}}</td>
-                  <td scope="row" *ngIf = "guia.Estado == 1">{{guia.Sexo}}</td>
-                  <td scope="row" *ngIf = "guia.Estado == 1">
-                    <button (click)="asignarGuias(i)" class="btn btn-sm btn-outline-success" type="button">Asignar</button>
+                  <td scope="row" *ngIf = "guia.Estado != 2 && guia.SugeridoPor != 0">{{guia.AnoIngreso}}</td>
+                  <td scope="row" *ngIf = "guia.Estado != 2 && guia.SugeridoPor != 0">{{guia.Edad}}</td>
+                  <td scope="row" *ngIf = "guia.Estado != 2 && guia.SugeridoPor != 0">{{guia.Sexo}}</td>
+                  <td scope="row" *ngIf = "guia.Estado != 2 && guia.SugeridoPor != 0">
+                    <span *ngIf="guia.Estado == 0" class="badge badge-pill badge-secondary text-white">{{estados[0].Tipo}}</span>
+                    <span *ngIf="guia.Estado == 1" class="badge badge-pill badge-primary text-white">{{estados[1].Tipo}}</span>
+                    <span *ngIf="guia.Estado == 2" class="badge badge-pill badge-success text-white">{{estados[2].Tipo}}</span>
+                    <span *ngIf="guia.Estado == 3" class="badge badge-pill badge-danger text-white">{{estados[3].Tipo}}</span>
+                    <span *ngIf="guia.Estado == 4" class="badge badge-pill badge-warning text-white">{{estados[4].Tipo}}</span>
+                  </td>
+                  <td scope="row" *ngIf = "guia.Estado != 2 && guia.SugeridoPor != 0">
+                    <div class="btn-group">
+                      <button *ngIf = "user.esAdministrador || this.evento.Encargado == user.id" (click)="asignarGuias(i)" class="btn btn-sm btn-outline-success" type="button">Asignar</button>
+                      <button *ngIf = "user.id == guia.SugeridoPor || user.esAdministrador || this.evento.Encargado == user.id" (click)="quitarSugeridos(i)" class="btn btn-sm btn-outline-danger" type="button">Quitar</button>
+                      <button *ngIf = "user.id != guia.SugeridoPor" class="btn btn-sm btn-outline-danger" type="button" disabled>{{guia.SugeridoPorNombre}}</button>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -98,3 +109,107 @@
           </div>
         </div>
         <!-- Fin de la Tabla -->
+  
+  <div class="row main p-4 p-md-3">
+    <!-- Lista de Staff Disponible-->          
+      <h2 class="mb-3">Disponibles</h2>
+      <!-- Table -->
+      <div class="container">
+        <div class="table-responsive">
+          <table class="table table-hover bg-light text-dark">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">Año Ingreso</th>
+                <th scope="col">Edad</th>
+                <th scope="col">Sexo</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody> 
+              <tr *ngFor="let guia of guias; let i=index">
+                <td scope="row" *ngIf = "guia.Estado == 1 && guia.SugeridoPor == 0">
+                    <button (click)="verPerfil(i)" class="btn btn-sm btn-outline-secondary" type="button">{{guia.Nombre}} {{guia.Apellido}} (<i>{{guia.SobreNombre}}</i>)</button>
+                </td>
+                <td scope="row" *ngIf = "guia.Estado == 1 && guia.SugeridoPor == 0">
+                  <span *ngIf="guia.Rol == 0" class="badge badge-pill badge-warning text-white">{{roles[0].Tipo}}</span>
+                  <span *ngIf="guia.Rol == 1" class="badge badge-pill badge-secondary text-white">{{roles[1].Tipo}}</span>
+                  <span *ngIf="guia.Rol == 2" class="badge badge-pill badge-primary text-white">{{roles[2].Tipo}}</span>
+                  <span *ngIf="guia.Rol == 3" class="badge badge-pill badge-success text-white">{{roles[3].Tipo}}</span>
+                  <span *ngIf="guia.Rol == 4" class="badge badge-pill badge-info text-white">{{roles[4].Tipo}}</span>
+                </td>
+                <td scope="row" *ngIf = "guia.Estado == 1 && guia.SugeridoPor == 0">{{guia.AnoIngreso}}</td>
+                <td scope="row" *ngIf = "guia.Estado == 1 && guia.SugeridoPor == 0">{{guia.Edad}}</td>
+                <td scope="row" *ngIf = "guia.Estado == 1 && guia.SugeridoPor == 0">{{guia.Sexo}}</td>
+                <td scope="row" *ngIf = "guia.Estado == 1 && guia.SugeridoPor == 0">
+                  <span *ngIf="guia.Estado == 0" class="badge badge-pill badge-secondary text-white">{{estados[0].Tipo}}</span>
+                  <span *ngIf="guia.Estado == 1" class="badge badge-pill badge-primary text-white">{{estados[1].Tipo}}</span>
+                  <span *ngIf="guia.Estado == 2" class="badge badge-pill badge-success text-white">{{estados[2].Tipo}}</span>
+                  <span *ngIf="guia.Estado == 3" class="badge badge-pill badge-danger text-white">{{estados[3].Tipo}}</span>
+                  <span *ngIf="guia.Estado == 4" class="badge badge-pill badge-warning text-white">{{estados[4].Tipo}}</span>
+                </td>
+                <td scope="row" *ngIf = "guia.Estado == 1 && guia.SugeridoPor == 0">
+                  <div class="btn-group">
+                    <button *ngIf = "user.esAdministrador || this.evento.Encargado == user.id" (click)="asignarGuias(i)" class="btn btn-sm btn-outline-success" type="button">Asignar</button>
+                    <button (click)="sugerirGuias(i)" class="btn btn-sm btn-outline-primary" type="button">Sugerir</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Fin de la Tabla -->
+    <!-- Lista de Staff -->
+    <h2 class="mb-3">Lista de Staff <i>(Sin Estado o No Disponible)</i></h2>
+      <!-- Table -->
+      <div class="container">
+        <div class="table-responsive">
+          <table class="table table-hover bg-light text-dark">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">Año Ingreso</th>
+                <th scope="col">Edad</th>
+                <th scope="col">Sexo</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody> 
+              <tr *ngFor="let guia of guias; let i=index">
+                <td scope="row" *ngIf = "guia.Estado == 0 || guia.Estado == 4">
+                    <button (click)="verPerfil(i)" class="btn btn-sm btn-outline-secondary" type="button">{{guia.Nombre}} {{guia.Apellido}} (<i>{{guia.SobreNombre}}</i>)</button>
+                </td>
+                <td scope="row" *ngIf = "guia.Estado == 0 || guia.Estado == 4">
+                  <span *ngIf="guia.Rol == 0" class="badge badge-pill badge-warning text-white">{{roles[0].Tipo}}</span>
+                  <span *ngIf="guia.Rol == 1" class="badge badge-pill badge-secondary text-white">{{roles[1].Tipo}}</span>
+                  <span *ngIf="guia.Rol == 2" class="badge badge-pill badge-primary text-white">{{roles[2].Tipo}}</span>
+                  <span *ngIf="guia.Rol == 3" class="badge badge-pill badge-success text-white">{{roles[3].Tipo}}</span>
+                  <span *ngIf="guia.Rol == 4" class="badge badge-pill badge-info text-white">{{roles[4].Tipo}}</span>
+                </td>
+                <td scope="row" *ngIf = "guia.Estado == 0 || guia.Estado == 4">{{guia.AnoIngreso}}</td>
+                <td scope="row" *ngIf = "guia.Estado == 0 || guia.Estado == 4">{{guia.Edad}}</td>
+                <td scope="row" *ngIf = "guia.Estado == 0 || guia.Estado == 4">{{guia.Sexo}}</td>
+                <td scope="row" *ngIf = "guia.Estado == 0 || guia.Estado == 4">
+                  <span *ngIf="guia.Estado == 0" class="badge badge-pill badge-secondary text-white">{{estados[0].Tipo}}</span>
+                  <span *ngIf="guia.Estado == 1" class="badge badge-pill badge-primary text-white">{{estados[1].Tipo}}</span>
+                  <span *ngIf="guia.Estado == 2" class="badge badge-pill badge-success text-white">{{estados[2].Tipo}}</span>
+                  <span *ngIf="guia.Estado == 3" class="badge badge-pill badge-danger text-white">{{estados[3].Tipo}}</span>
+                  <span *ngIf="guia.Estado == 4" class="badge badge-pill badge-warning text-white">{{estados[4].Tipo}}</span>
+                </td>
+                <td scope="row" *ngIf = "guia.Estado == 0 || guia.Estado == 4">
+                  <div class="btn-group">
+                    <button *ngIf = "user.esAdministrador || this.evento.Encargado == user.id" (click)="asignarGuias(i)" class="btn btn-sm btn-outline-success" type="button">Asignar</button>
+                    <button (click)="sugerirGuias(i)" class="btn btn-sm btn-outline-primary" type="button">Sugerir</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Fin de la Tabla -->

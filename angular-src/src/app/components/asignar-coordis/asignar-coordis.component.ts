@@ -60,6 +60,12 @@ export class AsignarCoordisComponent implements OnInit {
     this.router.navigate(['detalle-evento']);
   }
 
+  verPerfil(i) {
+    localStorage.setItem('regresar' ,'asignar-coordis')
+    localStorage.setItem('perfil-guia', this.coordis[i].id);
+    this.router.navigate(['perfil-guia']);
+  }
+
   guardar() {
     this.alerta=false;
     localStorage.setItem('coordis',JSON.stringify(this.coordis));

@@ -1,0 +1,126 @@
+<!-- Main -->
+
+<!-- Chequea si ya cargo el Usuario -->
+<div *ngIf="user != undefined" class="main">
+    <div class="row">
+      <div class="col-11 col-md-10 col-lg-9 mx-auto mb-5 mt-3 py-5 px-5 bg-white border rounded">
+          
+          <button (click)="botonRegresar()" class="btn btn-sm btn-outline-secondary" type="button">Regresar</button>
+
+          <!-- Nombre del Guia -->
+          <h2 class="page-header pb-3">{{user.Nombre}} {{user.Snombre}} {{user.Apellido}}</h2>
+  
+          <!-- Tabs -->
+          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
+                aria-selected="true"><i class="fas fa-user-circle pr-1"></i> Datos Personales</a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile"
+                aria-selected="false"><i class="fas fa-compass pr-1"></i> Actividades</a>
+            </li>
+          </ul>
+  
+          <!-- Contenido -->
+          <div class="tab-content" id="pills-tabContent">
+            <!-- Info del Guia -->
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+              <div class="container">
+                <div class="row">
+                  <div class="col-3 d-flex align-items-center">
+                    <img class="img-responsive rounded mx-auto mt-4 mb-2" src="assets/profile/man.png" alt="Foto Guia" width="130" height="140">
+                  </div>
+                  <div class="col-9">
+                    <ul class="list-group list-group-flush">
+                      <li *ngIf="user.SobreNombre != null" class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="lead">Sobrenombre: </span>
+                        <p class="lead m-0"><b>{{user.SobreNombre}}</b></p>
+                      </li>
+                      <li *ngIf="user.Rol != null" class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="lead">Cargo: </span>
+                        <p class="lead m-0">{{user.Cargo}}</p>
+                      </li>
+                      <li *ngIf="user.AnoIngreso != null" class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="lead">Año de Ingreso: </span>
+                        <p class="lead m-0">{{user.AnoIngreso}}</p>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="lead">Correo: </span>
+                        <p class="lead m-0">{{user.Email}}</p>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="lead">Usuario: </span>
+                        <p class="lead m-0">{{user.Username}}</p>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="lead">Cedula: </span>
+                        <p class="lead m-0">{{user.Cedula}}</p>
+                      </li>
+                      <li *ngIf="user.Sexo != null" class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="lead">Sexo: </span>
+                        <p class="lead m-0">{{user.Sexo}}</p>
+                      </li>
+                      <li *ngIf="user.FechaNacimiento != null" class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="lead">Fecha de Nacimiento: </span>
+                        <p class="lead m-0">{{user.FechaNacimiento}}</p>
+                      </li>
+                      <li *ngIf="user.FechaNacimiento != null" class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="lead">Edad: </span>
+                        <p class="lead m-0">{{user.Edad}}</p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Actividades -->
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+              <div class="container">
+          
+                <!-- Lista de Eventos -->          
+                  <!-- Table -->
+                  <div class="container">
+                    <div class="table-responsive">
+                      <table class="table table-hover bg-light text-dark">
+                        <thead class="thead-light">
+                          <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Tipo de Evento</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Estado</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let evento of eventos; let i=index">
+                            <td scope="row">{{evento.Nombre}}</td>
+                            <td scope="row">{{evento.Tipo}}</td>
+                            <td scope="row">
+                              <span *ngIf="evento.FechaInicio == evento.FechaFin" scope="row">{{evento.FechaInicio}}</span>
+                              <span *ngIf="evento.FechaInicio != evento.FechaFin" scope="row">{{evento.FechaInicio}} - {{evento.FechaFin}}</span>
+                            </td>
+                            <!-- Estado -->
+                            <td scope="row">
+                              <span *ngIf="evento.Estado == undefined" class="badge badge-pill badge-warning text-white">Esperando Disponibilidad</span>
+                              <span *ngIf="evento.Estado == 0" class="badge badge-pill badge-secondary text-white">{{estados[0].Tipo}}</span>
+                              <span *ngIf="evento.Estado == 1" class="badge badge-pill badge-primary text-white">{{estados[1].Tipo}}</span>
+                              <span *ngIf="evento.Estado == 2" class="badge badge-pill badge-success text-white">{{estados[2].Tipo}}</span>
+                              <span *ngIf="evento.Estado == 3" class="badge badge-pill badge-danger text-white">{{estados[3].Tipo}}</span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <!-- Fin de la Tabla -->
+              </div>
+            </div>
+  
+          </div>
+      </div>
+    </div>
+      
+  </div>
+  
+  

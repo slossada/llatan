@@ -20,6 +20,7 @@ export class AsignarStaffComponent implements OnInit {
   alerta: any;
   evento: any;
   user: any;
+  estados: any;
 
   constructor(
     private http: Http,
@@ -35,6 +36,7 @@ export class AsignarStaffComponent implements OnInit {
     this.roles = JSON.parse(localStorage.getItem('roles'));    
     this.evento = JSON.parse(localStorage.getItem('detalle-evento'));
     this.user = JSON.parse(localStorage.getItem('user'));
+    this.estados = JSON.parse(localStorage.getItem('estados'));
 
   }
 
@@ -48,6 +50,24 @@ export class AsignarStaffComponent implements OnInit {
     this.alerta=true;
     this.guias[i].Estado = 1;
     localStorage.setItem('guias',JSON.stringify(this.guias));
+  }
+
+  sugerirGuias(i) {
+    this.alerta=true;
+    this.guias[i].SugeridoPor = this.user.id;
+    localStorage.setItem('guias',JSON.stringify(this.guias));
+  }
+
+  quitarSugeridos(i) {
+    this.alerta=true;
+    this.guias[i].SugeridoPor = 0;
+    localStorage.setItem('guias',JSON.stringify(this.guias));
+  }
+
+  verPerfil(i) {
+    localStorage.setItem('regresar' ,'asignar-staff')
+    localStorage.setItem('perfil-guia', this.guias[i].id);
+    this.router.navigate(['perfil-guia']);
   }
 
   regresar() {

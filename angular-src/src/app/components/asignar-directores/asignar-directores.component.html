@@ -9,14 +9,14 @@
             <thead class="thead-light">
               <tr>
                 <th scope="col">Nombre</th>
-                <th scope="col">Sobre Nombre</th>
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let director of directores; let i=index">
-                <td scope="row" *ngIf = "director.esDirector">{{director.Nombre}} {{director.Apellido}}</td>
-                <td scope="row" *ngIf = "director.esDirector">{{director.SobreNombre}}</td>
+                <td scope="row" *ngIf = "director.esDirector">
+                  <button (click)="verPerfil(i)" class="btn btn-sm btn-outline-secondary" type="button">{{director.Nombre}} {{director.Apellido}} (<i>{{director.SobreNombre}}</i>)</button>
+                </td>
                 <td scope="row" *ngIf = "director.esDirector">
                   <button (click)="quitarDirector(i)" class="btn btn-sm btn-outline-danger" type="button">Quitar</button>
                 </td>
@@ -53,14 +53,14 @@
               <thead class="thead-light">
                 <tr>
                   <th scope="col">Nombre</th>
-                  <th scope="col">Sobre Nombre</th>
                   <th scope="col">Acciones</th>
                 </tr>
               </thead>
               <tbody> 
                 <tr *ngFor="let director of directores; let i=index">
-                  <td scope="row" *ngIf = "!director.esDirector">{{director.Nombre}} {{director.Apellido}}</td>
-                  <td scope="row" *ngIf = "!director.esDirector">{{director.SobreNombre}}</td>
+                  <td scope="row" *ngIf = "!director.esDirector">
+                    <button (click)="verPerfil(i)" class="btn btn-sm btn-outline-secondary" type="button">{{director.Nombre}} {{director.Apellido}} (<i>{{director.SobreNombre}}</i>)</button>
+                  </td>
                   <td scope="row" *ngIf = "!director.esDirector">
                     <button (click)="asignarDirector(i)" class="btn btn-sm btn-outline-dark" type="button">Asignar</button>
                   </td>
