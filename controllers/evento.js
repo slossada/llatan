@@ -192,7 +192,7 @@ controller.getMisEventos = async function (idGuia, callback) {
                 disponibilidades[i].FechaCreacion = eventos[0].FechaCreacion;
             }
             let respuesta2 = await Usuario.findOne({
-                where: {id: eventos[i].Encargado}
+                where: {id: disponibilidades[i].Encargado}
             });
             if (respuesta2) {
                 disponibilidades[i].NombreEncargado = respuesta2.dataValues.Nombre;
