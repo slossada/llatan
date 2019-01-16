@@ -48,7 +48,7 @@ export class FormEventosComponent implements OnInit {
     headers.append('Authorization', localStorage.getItem('id_token'));
     headers.append('Content-Type', 'application/json');
 
-    this.http.get('http://localhost:3000/users/coordis-y-baquianos', { headers })
+    this.http.get('users/coordis-y-baquianos', { headers })
       .map(res => res.json())
       .subscribe(data => {
         data.guias.map(guia => {
@@ -94,7 +94,7 @@ export class FormEventosComponent implements OnInit {
     headers.append('Content-Type', 'application/json');
 
     // Hacer la petición, se retorna una promesa
-    this.http.post('http://localhost:3000/users/crear-evento', data, { headers })
+    this.http.post('users/crear-evento', data, { headers })
       .map(res => res.json())
       .subscribe(response => {
         if (response.success) {

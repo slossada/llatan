@@ -40,7 +40,7 @@ export class ProfileComponent implements OnInit {
     headers.append('Authorization', localStorage.getItem('id_token'));
     headers.append('Content-Type', 'application/json');
 
-    this.http.get('http://localhost:3000/users/mis-eventos', { headers })
+    this.http.get('users/mis-eventos', { headers })
     .map(res => res.json())
     .subscribe(data => {
       data.eventos.map(evento => {
@@ -80,7 +80,7 @@ export class ProfileComponent implements OnInit {
     headers.append('Content-Type', 'application/json');
 
     // Hacer la petición, se retorna una promesa
-    this.http.post('http://localhost:3000/users/marcar-disponibilidad', data, { headers })
+    this.http.post('users/marcar-disponibilidad', data, { headers })
       .map(res => res.json())
       .subscribe(response => {
         if (response.success) {

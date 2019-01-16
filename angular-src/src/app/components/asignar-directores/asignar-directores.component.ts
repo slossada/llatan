@@ -68,7 +68,7 @@ export class AsignarDirectoresComponent implements OnInit {
           directores: this.directores
         }
         // Hacer la petición, se retorna una promesa
-        this.http.post('http://localhost:3000/users/guardar-directores', data, { headers })
+        this.http.post('users/guardar-directores', data, { headers })
         .map(res => res.json())
         .subscribe(response => {
           if (response.success) {
