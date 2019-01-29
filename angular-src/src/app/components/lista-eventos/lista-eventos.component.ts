@@ -41,7 +41,7 @@ export class ListaEventosComponent implements OnInit {
     headers.append('Authorization', localStorage.getItem('id_token'));
     headers.append('Content-Type', 'application/json');
 
-    this.http.get('users/eventos', { headers })
+    this.http.get('http://localhost:3000/users/eventos', { headers })
       .map(res => res.json())
       .subscribe(data => {
         data.eventos.map(evento => {
@@ -81,7 +81,7 @@ export class ListaEventosComponent implements OnInit {
     headers.append('Content-Type', 'application/json');
 
     // Hacer la petición, se retorna una promesa
-    this.http.post('users/marcar-disponibilidad', data, { headers })
+    this.http.post('http://localhost:3000/users/marcar-disponibilidad', data, { headers })
       .map(res => res.json())
       .subscribe(response => {
         if (response.success) {
@@ -119,7 +119,7 @@ export class ListaEventosComponent implements OnInit {
       headers.append('Content-Type', 'application/json');
 
       // Hacer la petición, se retorna una promesa
-      this.http.post('users/finalizar-evento', data, { headers })
+      this.http.post('http://localhost:3000/users/finalizar-evento', data, { headers })
         .map(res => res.json())
         .subscribe(response => {
           if (response.success) {

@@ -77,7 +77,7 @@ export class FormGuiaComponent implements OnInit {
     headers.append('Content-Type', 'application/json');
 
     // Hacer la petición, se retorna una promesa
-    this.http.post('users/datos-guia', data, { headers })
+    this.http.post('http://localhost:3000/users/datos-guia', data, { headers })
       .map(res => res.json())
       .subscribe(response => {
         if (response.success) {

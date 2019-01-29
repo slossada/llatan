@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
 
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    this.http.post('users/authenticate', user, { headers })
+    this.http.post('http://localhost:3000/users/authenticate', user, { headers })
       .map(res => res.json())
       .subscribe(data => {
         if (data.success) {
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
             headers.append('Content-Type', 'application/json');
 
             //Metodo que busca los Roles, Estados e Informacion del Guia en la BD y los agrega al local storage         
-              this.http.get('users/login', { headers })
+              this.http.get('http://localhost:3000/users/login', { headers })
               .map(res => res.json())
               .subscribe(data => {
         

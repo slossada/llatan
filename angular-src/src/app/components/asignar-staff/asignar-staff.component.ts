@@ -88,7 +88,7 @@ export class AsignarStaffComponent implements OnInit {
           guias: this.guias
         }
         // Hacer la petición, se retorna una promesa
-        this.http.post('users/guardar-guias', data, { headers })
+        this.http.post('http://localhost:3000/users/guardar-guias', data, { headers })
         .map(res => res.json())
         .subscribe(response => {
           if (response.success) {

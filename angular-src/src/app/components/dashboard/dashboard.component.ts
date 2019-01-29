@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
     // headers.append('Content-Type', 'application/json');
 
     // // Metodo que se jala la información del guia
-    // this.http.get('users/profile', { headers })
+    // this.http.get('http://localhost:3000/users/profile', { headers })
     // .map(res => res.json())
     // .subscribe(profile => {
     //   let user = JSON.parse(localStorage.getItem('user'));

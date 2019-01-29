@@ -80,7 +80,7 @@ export class AsignarCoordisComponent implements OnInit {
           coordis: this.coordis
         }
         // Hacer la petición, se retorna una promesa
-        this.http.post('users/guardar-coordis', data, { headers })
+        this.http.post('http://localhost:3000/users/guardar-coordis', data, { headers })
         .map(res => res.json())
         .subscribe(response => {
           if (response.success) {

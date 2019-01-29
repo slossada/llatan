@@ -44,7 +44,7 @@ export class PerfilGuiaComponent implements OnInit {
     headers.append('Content-Type', 'application/json');
 
     // Hacer la petición, se retorna una promesa
-    this.http.post('users/perfil-guia', data, { headers })
+    this.http.post('http://localhost:3000/users/perfil-guia', data, { headers })
       .map(res => res.json())
       .subscribe(data => {
 

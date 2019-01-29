@@ -70,7 +70,7 @@ export class DetalleEventoComponent implements OnInit {
     headers.append('Content-Type', 'application/json');
 
     // Hacer la petición, se retorna una promesa
-    this.http.post('users/staff', data, { headers })
+    this.http.post('http://localhost:3000/users/staff', data, { headers })
       .map(res => res.json())
       .subscribe(data => {
 
@@ -125,7 +125,7 @@ export class DetalleEventoComponent implements OnInit {
     headers.append('Content-Type', 'application/json');
 
     // Hacer la petición, se retorna una promesa
-    this.http.post('users/marcar-disponibilidad', data, { headers })
+    this.http.post('http://localhost:3000/users/marcar-disponibilidad', data, { headers })
       .map(res => res.json())
       .subscribe(response => {
         if (response.success) {
@@ -151,7 +151,7 @@ export class DetalleEventoComponent implements OnInit {
     headers.append('Authorization', localStorage.getItem('id_token'));
     headers.append('Content-Type', 'application/json');
 
-    this.http.get('users/coordis-y-baquianos', { headers })
+    this.http.get('http://localhost:3000/users/coordis-y-baquianos', { headers })
       .map(res => res.json())
       .subscribe(data => {
         data.guias.map(guia => {
@@ -201,7 +201,7 @@ export class DetalleEventoComponent implements OnInit {
     headers.append('Content-Type', 'application/json');
 
     // Hacer la petición, se retorna una promesa
-    this.http.post('users/actualizar-evento', data, { headers })
+    this.http.post('http://localhost:3000/users/actualizar-evento', data, { headers })
       .map(res => res.json())
       .subscribe(response => {
         if (response.success) {
