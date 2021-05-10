@@ -16,7 +16,7 @@
     "jsonwebtoken": "*",
     "mysql": "*",
     "mysql2": "^1.5.1",
-    "nodemailer": "^4.6.2",
+    "nodemailer": ">=6.4.16",
     "passport": "*",
     "passport-jwt": "*",
     "sequelize": "^4.31.0"
